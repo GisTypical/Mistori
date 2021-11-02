@@ -1,4 +1,3 @@
-from controllers.user import user_bp
 import os
 
 from flask import Flask, session
@@ -25,21 +24,21 @@ db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
 
+from controllers.user import user_bp
 
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
 
 
-@app.route('/', methods=['GET'])
-def index():
-    return app.send_static_file('index.html')
+# @app.route('/', methods=['GET'])
+# def index():
+#     return app.send_static_file('index.html')
 
 
-@app.route('/uploads/<path:name>', methods=['GET'])
-def send_img(name):
-    return send_from_directory(os.path.join(app.root_path, 'server', 'uploads'), name, as_attachment=False)
-
+# @app.route('/uploads/<path:name>', methods=['GET'])
+# def send_img(name):
+#     return send_from_directory(os.path.join(app.root_path, 'server', 'uploads'), name, as_attachment=False)
 
 # Blueprints que permiten separar el server en componentes
 app.register_blueprint(user_bp)
