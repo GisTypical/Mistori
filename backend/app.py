@@ -4,6 +4,8 @@ from flask import Flask, session
 from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 
+from flask_cors import CORS
+
 from Config import *
 
 # from dotenv import load_dotenv
@@ -23,6 +25,9 @@ app.config.from_object(DevelopmentConfig)
 db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
+
+# Enabling CORS
+CORS(app)
 
 from controllers.user import user_bp
 

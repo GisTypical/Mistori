@@ -12,5 +12,5 @@
       [(ngModel)]="password"
     ></ion-input>
   </ion-item>
-  <ion-button type="submit" expand="block">Iniciar Sesión</ion-button>
+  <ion-button type="submit" expand="block" [disabled]="isSubmitted">Iniciar Sesión</ion-button>
 </form>
