@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>signup</ion-title>
+    <ion-title>Registrarse</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <app-signup-form></app-signup-form>
+  <p class="center">¿Ya tiene una cuenta? 
+    <a [routerLink]="['/login']">Iniciar sesión</a>
+  </p>
 </ion-content>

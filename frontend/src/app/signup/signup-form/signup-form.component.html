@@ -1,0 +1,24 @@
+<form (ngSubmit)="onSubmit()">
+  <ion-item>
+    <ion-label position="floating">Nombre de usuario</ion-label>
+    <ion-input name="username" id="username" [(ngModel)]="username"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Nombre completo</ion-label>
+    <ion-input
+      name="fullName"
+      id="fullName"
+      [(ngModel)]="fullName"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input
+      type="password"
+      name="password"
+      id="password"
+      [(ngModel)]="password"
+    ></ion-input>
+  </ion-item>
+  <ion-button type="submit" expand="block" [disabled]="isSubmitted">Iniciar Sesión</ion-button>
+</form>

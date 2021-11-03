@@ -18,11 +18,12 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
+    // Estas validaciones son una shit lo sé
     if (!this.username || !this.password) {
       return;
     }
     const user = {
-      username: this.username,
+      username: this.username.toLowerCase(),
       password: this.password,
     };
     this.isSubmitted = !this.isSubmitted;

@@ -16,7 +16,7 @@ def user_signup():
 
     hashed_pass = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
     user = User_account(
-        username=data['username'], full_name=data['full_name'], password=hashed_pass.decode())
+        username=data['username'], full_name=data['fullName'], password=hashed_pass.decode())
     db.session.add(user)
     db.session.commit()
     return {'message': 'User created'}, 201
