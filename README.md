@@ -5,6 +5,6 @@
   Contains:
   - Controllers
   - Models
-- Frontend (Ionic - Angular) 
+- Frontend (TypeScript - Ionic - Angular) 
   - `npm install`
   - `ionic serve`
