@@ -1,4 +1,10 @@
 # MangaReader
 
-- backend (Python)
-- frontend (Ionic - Angular)
+- Backend (Python `venv`)
+
+  Contains:
+  - Controllers
+  - Models
+- Frontend (Ionic - Angular) 
+  - `npm install`
+  - `ionic serve`
