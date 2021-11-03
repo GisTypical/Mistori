@@ -1,10 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { User } from '../_shared/User';
 
 const httpOptions = {
@@ -17,10 +14,14 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class SignupService {
+export class AuthService {
   url = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {}
+
+  userLogin(user: User): Observable<User> {
+    return this.http.post<User>(`${this.url}/api/login`, user, httpOptions);
+  }
 
   userSignup(user: User): Observable<User> {
     return this.http.post<User>(`${this.url}/api/signup`, user, httpOptions);

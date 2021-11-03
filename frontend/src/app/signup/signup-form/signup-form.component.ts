@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SignupService } from '../signup.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -14,7 +14,7 @@ export class SignupFormComponent implements OnInit {
 
   isSubmitted: false;
 
-  constructor(private signupService: SignupService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -27,7 +27,7 @@ export class SignupFormComponent implements OnInit {
       fullName: this.fullName.toLowerCase(),
       password: this.password,
     };
-    this.signupService.userSignup(user).subscribe(
+    this.authService.userSignup(user).subscribe(
       (resp) => {
         // TODO: Pensando en si llevarlo de una a Home
         this.router.navigate(['/login']);

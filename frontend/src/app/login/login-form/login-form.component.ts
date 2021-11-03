@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +13,7 @@ export class LoginFormComponent implements OnInit {
 
   isSubmitted = false;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -27,7 +27,7 @@ export class LoginFormComponent implements OnInit {
       password: this.password,
     };
     this.isSubmitted = !this.isSubmitted;
-    this.loginService.userLogin(user).subscribe(
+    this.authService.userLogin(user).subscribe(
       (data) => {
         this.isSubmitted = !this.isSubmitted;
         this.router.navigate(['/home']);
