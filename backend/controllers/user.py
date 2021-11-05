@@ -1,4 +1,5 @@
 import bcrypt
+from flask_jwt_extended.utils import create_refresh_token
 from app import db
 from flask import Blueprint, request, session
 from flask_jwt_extended import create_access_token
@@ -38,8 +39,20 @@ def user_login():
 
     session['username'] = db_user.username
     accessToken = create_access_token(identity=db_user.username)
+    refreshToken = create_refresh_token(identity=db_user.username)
 
-    return {'message': 'Autentication successful', 'accessToken': accessToken}, 200
+    return {
+        'message': 'Autentication successful', 
+        'accessToken': accessToken, 
+        'refreshToken': refreshToken
+    }, 200
+
+@user_bp.route('/api/refresh-token', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh_token():
+    username_jwt = get_jwt_identity()
+    accessToken = create_access_token(identity=username_jwt)
+    return { 'accessToken': accessToken }
 
 
 @user_bp.route('/api/loggedin', methods=['GET'])
