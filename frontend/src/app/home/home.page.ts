@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    this.authService.isLogged().subscribe((data) => {
+      console.log(data);
+      if (!data) {
+        this.router.navigate(['/login']);
+      }
+    });
   }
-
 }

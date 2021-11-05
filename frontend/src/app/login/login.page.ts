@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { User } from '../_shared/User';
 
 @Component({
   selector: 'app-login',
@@ -6,7 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.isLogged().subscribe((data) => {
+      if (data) {
+        console.log(data);
+        this.router.navigate(['/home']);
+      }
+    });
+  }
+
+  loginUser(user: User) {
+    this.authService.userLogin(user).subscribe((data) => {
+      localStorage.setItem('access_token', data.accessToken);
+      this.router.navigate(['/home']);
+    });
+  }
 }

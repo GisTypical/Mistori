@@ -1,10 +1,11 @@
 import os
 
-from flask import Flask, session
+from flask import Flask
 from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_cors import CORS
+
+# from flask_jwt_extended import JWTManager
 
 from Config import *
 
@@ -25,9 +26,11 @@ app.config.from_object(DevelopmentConfig)
 db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
+app.config["JWT_SECRET_KEY"] = "super-secret"
+# jwt = JWTManager(app)
 
 # Enabling CORS
-CORS(app)
+cors = CORS(app, supports_credentials=True)
 
 from controllers.user import user_bp
 
