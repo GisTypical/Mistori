@@ -22,7 +22,7 @@ app.config.from_object(DevelopmentConfig)
 db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
-app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_SECRET_KEY"] = os.environ['JWT_SECRET_KEY']
 jwt = JWTManager(app)
     
 # Enabling CORS
