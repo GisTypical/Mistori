@@ -29,7 +29,7 @@ db = SQLAlchemy(app)
 app.secret_key = os.environ['SECRET_KEY']
 app.config["JWT_SECRET_KEY"] = "super-secret"
 # jwt = JWTManager(app)
-session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
+# session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
 
     
 # Enabling CORS
@@ -37,11 +37,11 @@ cors = CORS(app, supports_credentials=True)
 
 from controllers.user import user_bp
 
-@app.after_request
-def cookies(response):
-    same_cookie = session_cookie.dumps(dict(session))
-    response.headers.add("Set-Cookie", f"session={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
-    return response
+# @app.after_request
+# def cookies(response):
+#     same_cookie = session_cookie.dumps(dict(session))
+#     response.headers.add("Set-Cookie", f"co={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
+#     return response
 
 @app.errorhandler(404)
 def not_found(e):
