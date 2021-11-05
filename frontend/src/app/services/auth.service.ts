@@ -14,7 +14,7 @@ interface Message {
   providedIn: 'root',
 })
 export class AuthService {
-  url = 'http://localhost:5000';
+  url = 'https://mistori.herokuapp.com';
 
   constructor(private http: HttpClient) {}
 
