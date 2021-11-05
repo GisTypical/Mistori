@@ -45,10 +45,9 @@ def user_login():
 @user_bp.route('/api/loggedin', methods=['GET'])
 @jwt_required()
 def user_loggedin():
-    print(get_jwt_identity())
-    if 'username' in session:
-        return {'loggedin_as': session.get('username')}, 200
-    return '', 200
+    username_jwt = get_jwt_identity()
+    print(username_jwt)
+    return {'loggedin_as': username_jwt}, 200
 
 @user_bp.route('/api/user', methods=['GET'])
 def user_fullname():

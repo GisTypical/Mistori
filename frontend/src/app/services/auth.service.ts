@@ -10,16 +10,6 @@ interface Message {
   refreshToken: string;
 }
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    'Content-Type': 'application/json',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  }),
-  withCredentials: true,
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -29,15 +19,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   userLogin(user: User): Observable<Message> {
-    console.log(httpOptions);
-    return this.http.post<Message>(`${this.url}/api/login`, user, httpOptions);
+    return this.http.post<Message>(`${this.url}/api/login`, user);
   }
 
   userSignup(user: User): Observable<Message> {
-    return this.http.post<Message>(`${this.url}/api/signup`, user, httpOptions);
+    return this.http.post<Message>(`${this.url}/api/signup`, user);
   }
 
   isLogged(): Observable<Message> {
-    return this.http.get<Message>(`${this.url}/api/loggedin`, httpOptions);
+    return this.http.get<Message>(`${this.url}/api/loggedin`);
   }
 }
