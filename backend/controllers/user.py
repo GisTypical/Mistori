@@ -21,11 +21,13 @@ def user_signup():
     if duplicate:
         return {'message': 'Username already exists'}, 409
 
+    # Signup successful
     hashed_pass = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
     user = User_account(
         username=data['username'], full_name=data['fullName'], password=hashed_pass.decode())
     db.session.add(user)
     db.session.commit()
+
     return {'message': 'User created'}, 201
 
 
@@ -37,6 +39,7 @@ def user_login():
     if not db_user or not bcrypt.checkpw(data['password'].encode(), db_user.password.encode()):
         return {'message': 'Wrong credentials'}, 401
 
+    # Login successful
     session['username'] = db_user.username
     accessToken = create_access_token(identity=db_user.username)
     refreshToken = create_refresh_token(identity=db_user.username)
@@ -47,20 +50,19 @@ def user_login():
         'refreshToken': refreshToken
     }, 200
 
+# Check if user sends a token, if so it's logged in
+@user_bp.route('/api/loggedin', methods=['GET'])
+@jwt_required()
+def user_loggedin():
+    username_jwt = get_jwt_identity()
+    return {'loggedin_as': username_jwt}, 200
+
 @user_bp.route('/api/refresh-token', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh_token():
     username_jwt = get_jwt_identity()
     accessToken = create_access_token(identity=username_jwt)
     return { 'accessToken': accessToken }
-
-
-@user_bp.route('/api/loggedin', methods=['GET'])
-@jwt_required()
-def user_loggedin():
-    username_jwt = get_jwt_identity()
-    print(username_jwt)
-    return {'loggedin_as': username_jwt}, 200
 
 @user_bp.route('/api/user', methods=['GET'])
 def user_fullname():
