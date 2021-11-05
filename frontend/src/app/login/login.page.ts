@@ -14,7 +14,6 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.authService.isLogged().subscribe((data) => {
       if (data) {
-        console.log(data);
         this.router.navigate(['/home']);
       }
     });
@@ -22,7 +21,7 @@ export class LoginPage implements OnInit {
 
   loginUser(user: User) {
     this.authService.userLogin(user).subscribe((data) => {
-      localStorage.setItem('access_token', data.accessToken);
+      localStorage.setItem('accessToken', data.accessToken);
       this.router.navigate(['/home']);
     });
   }

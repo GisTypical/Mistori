@@ -11,11 +11,11 @@ export class HomePage implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.isLogged().subscribe((data) => {
-      console.log(data);
-      if (!data) {
+    this.authService.isLogged().subscribe(
+      () => {},
+      () => {
         this.router.navigate(['/login']);
       }
-    });
+    );
   }
 }

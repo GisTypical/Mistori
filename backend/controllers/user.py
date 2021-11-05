@@ -1,9 +1,9 @@
 import bcrypt
 from app import db
 from flask import Blueprint, request, session
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 from models.user import User_account
 
@@ -37,16 +37,15 @@ def user_login():
         return {'message': 'Wrong credentials'}, 401
 
     session['username'] = db_user.username
-    # access_token = create_access_token(identity=db_user.username)
+    accessToken = create_access_token(identity=db_user.username)
 
-    return {'message': 'Autentication successful', 'accessToken': None}, 200
+    return {'message': 'Autentication successful', 'accessToken': accessToken}, 200
 
 
 @user_bp.route('/api/loggedin', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def user_loggedin():
-    print(session.get('username'))
-    # print(get_jwt_identity())
+    print(get_jwt_identity())
     if 'username' in session:
         return {'loggedin_as': session.get('username')}, 200
     return '', 200
