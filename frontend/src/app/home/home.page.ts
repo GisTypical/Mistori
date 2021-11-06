@@ -11,14 +11,8 @@ export class HomePage implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.refreshToken().subscribe(
-      (data) => {
-        localStorage.setItem('accessToken', data.accessToken);
-      },
-      (err) => {
-        console.error(err);
-        this.router.navigate(['/login']);
-      }
-    );
+    this.authService.refreshToken().subscribe((data) => {
+      localStorage.setItem('accessToken', data.accessToken);
+    });
   }
 }
