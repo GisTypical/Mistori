@@ -29,4 +29,8 @@ export class AuthService {
   isLogged(): Observable<Message> {
     return this.http.get<Message>(`${this.url}/api/loggedin`);
   }
+
+  refreshToken(): Observable<Message> {
+    return this.http.post<Message>(`${this.url}/api/refresh-token`, {});
+  }
 }

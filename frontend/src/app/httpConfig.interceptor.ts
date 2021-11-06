@@ -17,9 +17,22 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('accessToken');
+    const token: string = localStorage.getItem('accessToken');
+    const refreshToken: string = localStorage.getItem('refreshToken');
 
-    if (token) {
+    const isRouteRefresh: boolean = request.url.includes('refresh-token');
+
+    // If it is refresh route, set refresh token in authZ
+    if (isRouteRefresh) {
+      request = request.clone({
+        setHeaders: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+    }
+
+    if (token && !isRouteRefresh) {
       request = request.clone({
         setHeaders: {
           // eslint-disable-next-line @typescript-eslint/naming-convention

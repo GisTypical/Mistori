@@ -22,6 +22,7 @@ export class LoginPage implements OnInit {
   loginUser(user: User) {
     this.authService.userLogin(user).subscribe((data) => {
       localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
       this.router.navigate(['/home']);
     });
   }
