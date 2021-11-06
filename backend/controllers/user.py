@@ -57,6 +57,7 @@ def user_loggedin():
     username_jwt = get_jwt_identity()
     return {'loggedin_as': username_jwt}, 200
 
+# Refresh token
 @user_bp.route('/api/refresh-token', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh_token():
