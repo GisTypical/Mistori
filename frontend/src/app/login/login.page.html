@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <app-login-form></app-login-form>
+  <app-login-form (newLoginEvent)="loginUser($event)"></app-login-form>
   <p class="center">¿No tiene una cuenta? 
     <a [routerLink]="['/signup']">Registrarse</a>
   </p>

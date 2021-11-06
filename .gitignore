@@ -32,6 +32,7 @@ frontend/dist
 frontend/platforms
 frontend/plugins
 frontend/www
+frontend/android
 
 ### Python
 

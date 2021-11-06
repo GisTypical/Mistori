@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../login.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/_shared/User';
 
 @Component({
   selector: 'app-login-form',
@@ -8,16 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
+  @Output() newLoginEvent = new EventEmitter<User>();
+
   username: string;
   password: string;
 
   isSubmitted = false;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
   onSubmit() {
+    this.isSubmitted = !this.isSubmitted;
     // Estas validaciones son una shit lo sé
     if (!this.username || !this.password) {
       return;
@@ -26,16 +30,6 @@ export class LoginFormComponent implements OnInit {
       username: this.username.toLowerCase(),
       password: this.password,
     };
-    this.isSubmitted = !this.isSubmitted;
-    this.loginService.userLogin(user).subscribe(
-      (data) => {
-        this.isSubmitted = !this.isSubmitted;
-        this.router.navigate(['/home']);
-      },
-      (err) => {
-        console.error(err);
-        this.isSubmitted = !this.isSubmitted;
-      }
-    );
+    this.newLoginEvent.emit(user);
   }
 }

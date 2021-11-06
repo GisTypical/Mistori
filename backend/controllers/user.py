@@ -1,11 +1,18 @@
 import bcrypt
+from flask_jwt_extended.utils import create_refresh_token
 from app import db
 from flask import Blueprint, request, session
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 from models.user import User_account
 
 user_bp = Blueprint('user_bp', __name__)
 
-
+"""
+User auth
+"""
 @user_bp.route('/api/signup', methods=['POST'])
 def user_signup():
     data = request.json
@@ -14,11 +21,13 @@ def user_signup():
     if duplicate:
         return {'message': 'Username already exists'}, 409
 
+    # Signup successful
     hashed_pass = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
     user = User_account(
         username=data['username'], full_name=data['fullName'], password=hashed_pass.decode())
     db.session.add(user)
     db.session.commit()
+
     return {'message': 'User created'}, 201
 
 
@@ -30,16 +39,31 @@ def user_login():
     if not db_user or not bcrypt.checkpw(data['password'].encode(), db_user.password.encode()):
         return {'message': 'Wrong credentials'}, 401
 
+    # Login successful
     session['username'] = db_user.username
+    accessToken = create_access_token(identity=db_user.username)
+    refreshToken = create_refresh_token(identity=db_user.username)
 
-    return {'message': 'Autentication successful'}, 200
+    return {
+        'message': 'Autentication successful', 
+        'accessToken': accessToken, 
+        'refreshToken': refreshToken
+    }, 200
 
-
+# Check if user sends a token, if so it's logged in
 @user_bp.route('/api/loggedin', methods=['GET'])
+@jwt_required()
 def user_loggedin():
-    if 'username' in session:
-        return session['username'], 200
-    return '', 200
+    username_jwt = get_jwt_identity()
+    return {'loggedin_as': username_jwt}, 200
+
+# Refresh token
+@user_bp.route('/api/refresh-token', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh_token():
+    username_jwt = get_jwt_identity()
+    accessToken = create_access_token(identity=username_jwt)
+    return { 'accessToken': accessToken }
 
 @user_bp.route('/api/user', methods=['GET'])
 def user_fullname():
@@ -76,10 +100,12 @@ def update_user():
 @user_bp.route('/api/user', methods=['DELETE'])
 def user_delete():
     db_user = User_account.query.filter_by(username=session['username']).first()
+    if(not db_user):
+        return {'message': 'No user found'}, 400
     db.session.delete(db_user)
     db.session.commit()
     session.pop('username')
-    return {'message': 'User deleted'}
+    return {'message': 'User deleted'}, 200
 
 
 @user_bp.route('/api/logout', methods=['DELETE'])

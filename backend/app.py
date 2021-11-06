@@ -3,13 +3,10 @@ import os
 from flask import Flask, session
 from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 
 from Config import *
-
-# from dotenv import load_dotenv
-# load_dotenv()
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
@@ -26,20 +23,20 @@ db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
 
+# JWT Configuration
+app.config["JWT_SECRET_KEY"] = os.environ['JWT_SECRET_KEY']
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+jwt = JWTManager(app)
+    
 # Enabling CORS
-CORS(app)
+cors = CORS(app, supports_credentials=True)
 
 from controllers.user import user_bp
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
-
-
-# @app.route('/', methods=['GET'])
-# def index():
-#     return app.send_static_file('index.html')
-
+    return {'message': '404 Not Found'}
 
 # @app.route('/uploads/<path:name>', methods=['GET'])
 # def send_img(name):
