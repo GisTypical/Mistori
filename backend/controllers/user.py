@@ -100,10 +100,12 @@ def update_user():
 @user_bp.route('/api/user', methods=['DELETE'])
 def user_delete():
     db_user = User_account.query.filter_by(username=session['username']).first()
+    if(not db_user):
+        return {'message': 'No user found'}, 400
     db.session.delete(db_user)
     db.session.commit()
     session.pop('username')
-    return {'message': 'User deleted'}
+    return {'message': 'User deleted'}, 200
 
 
 @user_bp.route('/api/logout', methods=['DELETE'])
