@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-user *ngIf="isLogged;else elseNotLogged"></app-user>
+  <ng-template #elseNotLogged>
+    <p *ngIf="!isLogged">You're not logged in</p>
+  </ng-template>
+</ion-content>
