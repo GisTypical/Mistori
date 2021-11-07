@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +8,18 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.authService.refreshToken().subscribe((data) => {
-      localStorage.setItem('accessToken', data.accessToken);
-    });
+    this.authService.refreshToken().subscribe(
+      (data) => {
+        localStorage.setItem('accessToken', data.accessToken);
+        this.userService.setLogged(true);
+      },
+      () => {}
+    );
   }
 }

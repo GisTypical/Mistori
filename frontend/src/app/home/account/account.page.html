@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <app-user></app-user>
-  <p>You're Loggedin as "user"</p>
+  <app-user *ngIf="isLogged;else elseNotLogged"></app-user>
+  <ng-template #elseNotLogged>
+    <p *ngIf="!isLogged">You're not logged in</p>
+  </ng-template>
 </ion-content>
