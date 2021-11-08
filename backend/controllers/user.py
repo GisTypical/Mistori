@@ -62,7 +62,7 @@ def refresh_token():
 def get_user_data():
     username_jwt = get_jwt_identity()
     user_db = User_account.query.filter_by(username=username_jwt).first()
-    return { 'username': user_db.username, 'full_name': user_db.full_name }, 200
+    return { 'username': user_db.username, 'fullName': user_db.full_name }, 200
 
 
 """
