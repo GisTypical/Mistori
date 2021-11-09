@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
         localStorage.setItem('accessToken', data.accessToken);
         this.authService.setLogged('logged');
       },
-      (err) => {
+      () => {
         this.authService.setLogged('notLogged');
       }
     );
