@@ -1,9 +1,7 @@
-<ion-content>
-  <div class="center" *ngIf="isLoading | async;else loadUser">
-    <ion-spinner></ion-spinner>
-  </div>
-  <ng-template #loadUser>
-    <p>Welcome "{{ user.username }}"!</p>
-    <p>Happy to see you "{{ user.fullName }}"!</p>
-  </ng-template>
-</ion-content>
+<div class="center" *ngIf="isLoading | async; else loadUser">
+  <ion-spinner></ion-spinner>
+</div>
+<ng-template #loadUser>
+  <p>Welcome "{{ user.username }}"!</p>
+  <p>Happy to see you "{{ user.fullName }}"!</p>
+</ng-template>
