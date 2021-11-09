@@ -15,8 +15,6 @@ export class MangaCreatePage implements OnInit {
   }
 
   submitManga(manga: Manga) {
-    // console.log('Manga Create')
-    // console.table([manga.name, manga.author, manga.date, manga.status, manga.description])
     this.mangaService.submitManga(manga)
   }
 
