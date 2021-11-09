@@ -1,18 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { User } from '../shared/User';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = environment.apiUrl;
+  isLogged: Observable<boolean>;
+  private initialLogged = new BehaviorSubject(false);
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    this.isLogged = this.initialLogged.asObservable();
+  }
 
-  userData(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/api/user`);
+  setLogged(b: boolean) {
+    this.initialLogged.next(b);
   }
 }

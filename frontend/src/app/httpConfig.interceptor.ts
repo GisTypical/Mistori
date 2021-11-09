@@ -1,30 +1,29 @@
 import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
   HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { LoadingService } from './services/loading.service';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-  constructor(private loadingService: LoadingService) {}
+  constructor() {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.loadingService.loading();
     const token: string = localStorage.getItem('accessToken');
     const refreshToken: string = localStorage.getItem('refreshToken');
 
     const isRouteRefresh: boolean = request.url.includes('refresh-token');
 
     // If it is refresh route, set refresh token in authZ
-    if (refreshToken && isRouteRefresh) {
+    if (isRouteRefresh) {
       request = request.clone({
         setHeaders: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -33,7 +32,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       });
     }
 
-    // If it is another route, set access token
     if (token && !isRouteRefresh) {
       request = request.clone({
         setHeaders: {
@@ -55,10 +53,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       headers: request.headers.set('Accept', 'application/json'),
     });
 
-    return next.handle(request).pipe(
-      finalize(() => {
-        this.loadingService.done();
-      })
-    );
+    return next.handle(request);
   }
 }

@@ -11,7 +11,13 @@ import { User } from '../shared/User';
 export class LoginPage implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.isLogged().subscribe((data) => {
+      if (data) {
+        this.router.navigate(['/home']);
+      }
+    });
+  }
 
   loginUser(user: User) {
     this.authService.userLogin(user).subscribe((data) => {

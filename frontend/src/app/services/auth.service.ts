@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 import { User } from '../shared/User';
 
@@ -15,27 +14,23 @@ interface Message {
   providedIn: 'root',
 })
 export class AuthService {
-  isLogged: Observable<string>;
-  private initialLogged = new BehaviorSubject('unknown');
-  private apiUrl = environment.apiUrl;
+  url = 'https://mistori.herokuapp.com';
 
-  constructor(private http: HttpClient) {
-    this.isLogged = this.initialLogged.asObservable();
-  }
+  constructor(private http: HttpClient) {}
 
   userLogin(user: User): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/api/login`, user);
+    return this.http.post<Message>(`${this.url}/api/login`, user);
   }
 
   userSignup(user: User): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/api/signup`, user);
+    return this.http.post<Message>(`${this.url}/api/signup`, user);
+  }
+
+  isLogged(): Observable<Message> {
+    return this.http.get<Message>(`${this.url}/api/loggedin`);
   }
 
   refreshToken(): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/api/refresh-token`, {});
-  }
-
-  setLogged(s: string) {
-    this.initialLogged.next(s);
+    return this.http.post<Message>(`${this.url}/api/refresh-token`, {});
   }
 }

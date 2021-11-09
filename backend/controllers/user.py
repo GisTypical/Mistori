@@ -1,7 +1,7 @@
 import bcrypt
 from flask_jwt_extended.utils import create_refresh_token
 from app import db
-from flask import Blueprint, request
+from flask import Blueprint, request, session
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -40,6 +40,7 @@ def user_login():
         return {'message': 'Wrong credentials'}, 401
 
     # Login successful
+    session['username'] = db_user.username
     accessToken = create_access_token(identity=db_user.username)
     refreshToken = create_refresh_token(identity=db_user.username)
 
@@ -48,6 +49,13 @@ def user_login():
         'accessToken': accessToken, 
         'refreshToken': refreshToken
     }, 200
+
+# Check if user sends a token, if so it's logged in
+@user_bp.route('/api/loggedin', methods=['GET'])
+@jwt_required()
+def user_loggedin():
+    username_jwt = get_jwt_identity()
+    return {'loggedin_as': username_jwt}, 200
 
 # Refresh token
 @user_bp.route('/api/refresh-token', methods=['POST'])
@@ -58,11 +66,9 @@ def refresh_token():
     return { 'accessToken': accessToken }
 
 @user_bp.route('/api/user', methods=['GET'])
-@jwt_required()
-def get_user_data():
-    username_jwt = get_jwt_identity()
-    user_db = User_account.query.filter_by(username=username_jwt).first()
-    return { 'username': user_db.username, 'fullName': user_db.full_name }, 200
+def user_fullname():
+    user_db = User_account.query.filter_by(username=session['username']).first()
+    return {'full_name': user_db.full_name}, 200
 
 
 """
@@ -70,12 +76,11 @@ User actions
 """
 
 @user_bp.route('/api/user', methods=['PUT'])
-@jwt_required()
 def update_user():
-    username_jwt = get_jwt_identity()
-    
     data = request.json
-    db_user = User_account.query.filter_by(username=username_jwt).first()
+
+    # Tomar username del session
+    db_user = User_account.query.filter_by(username=session['username']).first()
 
     if not data['full_name'] and not data['password']:
         return {'message': 'No changes were made'}, 400
@@ -93,20 +98,17 @@ def update_user():
 
 
 @user_bp.route('/api/user', methods=['DELETE'])
-@jwt_required()
 def user_delete():
-    username_jwt = get_jwt_identity()
-    
-    db_user = User_account.query.filter_by(username=username_jwt).first()
+    db_user = User_account.query.filter_by(username=session['username']).first()
     if(not db_user):
         return {'message': 'No user found'}, 400
     db.session.delete(db_user)
     db.session.commit()
+    session.pop('username')
     return {'message': 'User deleted'}, 200
 
 
 @user_bp.route('/api/logout', methods=['DELETE'])
-@jwt_required()
 def user_logout():
-    # session.pop('username')
+    session.pop('username')
     return {'message': 'Logged out'}, 200
