@@ -16,6 +16,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./signup/signup.module').then((m) => m.SignupPageModule),
   },
+  {
+    path: '',
+    children: [
+      {
+        path: 'manga/create',
+        loadChildren: () => import('./home/manga-create/manga-create.module').then(m => m.MangaCreatePageModule)
+      }
+    ]
+  },
   { path: '**', redirectTo: 'home/library', pathMatch: 'full' },
 ];
 

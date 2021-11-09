@@ -32,9 +32,14 @@ const routes: Routes = [
         path: 'account',
         loadChildren: () =>
           import('./account/account.module').then((m) => m.AccountPageModule),
-      },
+      }
     ],
   },
+  {
+    path: 'manga-create',
+    loadChildren: () => import('./manga-create/manga-create.module').then( m => m.MangaCreatePageModule)
+  },
+
 ];
 
 @NgModule({

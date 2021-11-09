@@ -8,19 +8,6 @@ const routes: Routes = [
     path: '',
     component: AccountPage
   },
-  {
-    path: 'create-manga',
-    loadChildren: () => import('./create-manga/create-manga.module').then( m => m.CreateMangaPageModule)
-  },
-  {
-    path: '',
-    children: [
-      {
-        path: 'manga/create',
-        loadChildren: () => import('./create-manga/create-manga.module').then(m => m.CreateMangaPageModule)
-      }
-    ]
-  }
 
 ];
 
