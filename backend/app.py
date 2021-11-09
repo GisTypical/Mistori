@@ -36,7 +36,7 @@ from controllers.user import user_bp
 
 @app.errorhandler(404)
 def not_found(e):
-    return {'message': '404 Not Found'}
+    return {'message': 'No existing route'}, 404
 
 # @app.route('/uploads/<path:name>', methods=['GET'])
 # def send_img(name):

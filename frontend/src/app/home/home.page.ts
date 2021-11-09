@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +9,19 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private userService: UserService
-  ) {}
+  isLoading: boolean;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.authService.refreshToken().subscribe(
       (data) => {
         localStorage.setItem('accessToken', data.accessToken);
-        this.userService.setLogged(true);
+        this.authService.setLogged('logged');
       },
-      () => {}
+      (err) => {
+        this.authService.setLogged('notLogged');
+      }
     );
   }
 }
