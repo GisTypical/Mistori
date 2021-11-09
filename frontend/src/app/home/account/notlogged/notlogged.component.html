@@ -1,3 +1,11 @@
-<p>
-  notlogged works!
-</p>
+<div class="center">
+  <div>
+    <ion-text>
+      <p>You're not logged in</p>
+    </ion-text>
+    <ion-button [routerLink]="['/login']" color="medium" expand="block">
+      <ion-icon slot="start" name="log-in-outline"></ion-icon>
+      Login
+    </ion-button>
+  </div>
+</div>
