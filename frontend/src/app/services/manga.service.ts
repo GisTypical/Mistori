@@ -24,6 +24,5 @@ export class MangaService {
     console.log(formData.get('description'))
     console.log(formData.get('date'))
     console.log(formData.get('status'))
-
   }
 }
