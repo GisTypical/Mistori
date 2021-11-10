@@ -24,7 +24,7 @@ def user_signup():
     # Signup successful
     hashed_pass = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
     user = User_account(
-        username=data['username'], full_name=data['fullName'], password=hashed_pass.decode())
+        username=data['username'], full_name=data['fullName'], password=hashed_pass.decode(), admin=False)
     db.session.add(user)
     db.session.commit()
 

@@ -3,11 +3,13 @@ import uuid
 from app import db
 from sqlalchemy.dialects.postgresql.base import UUID
 from models.manga import Manga
+
+# This imports have to be deleted, these just helps creating all the tables
 from models.chapter import Chapter
 from models.comment import Comment
 
 follower = db.Table('follower', 
-    db.Column('user_id', UUID(as_uuid=True), db.ForeignKey('user_account.id', ondelete='cascade'), primary_key=True),
+    db.Column('user_id', UUID(as_uuid=True), db.ForeignKey('user_follow.id', ondelete='cascade'), primary_key=True),
     db.Column('manga_id', UUID(as_uuid=True), db.ForeignKey(Manga.id, ondelete='cascade'), primary_key=True)
 )
 
@@ -20,5 +22,5 @@ class User_account(db.Model):
     admin = db.Column(db.Boolean, nullable=False)
     mangas = db.relationship('Manga', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
     comments = db.relationship('Comment', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
-    follows = db.relationship('Manga', secondary=follower, cascade='all, delete', lazy='subquery', backref=db.backref('user_account', lazy=True))
+    # follows = db.relationship('Manga', secondary=follower, cascade='all, delete', lazy='subquery', backref=db.backref('user_follow', lazy=True))
 
