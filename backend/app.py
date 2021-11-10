@@ -44,6 +44,8 @@ def not_found(e):
 # Blueprints que permiten separar el server en componentes
 from controllers.user import user_bp
 from controllers.chapter import chapter_bp
+from controllers.manga import manga_bp
 
 app.register_blueprint(user_bp)
 app.register_blueprint(chapter_bp)
+app.register_blueprint(manga_bp)
