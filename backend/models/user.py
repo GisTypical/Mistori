@@ -9,8 +9,8 @@ from models.chapter import Chapter
 from models.comment import Comment
 
 follower = db.Table('follower', 
-    db.Column('user_id', UUID(as_uuid=True), db.ForeignKey('user_account.id', ondelete='cascade'), primary_key=True),
-    db.Column('manga_id', UUID(as_uuid=True), db.ForeignKey(Manga.id, ondelete='cascade'), primary_key=True)
+    db.Column('manga_id', UUID(as_uuid=True), db.ForeignKey(Manga.id), primary_key=True),
+    db.Column('user_id', UUID(as_uuid=True), db.ForeignKey('user_account.id'), primary_key=True)
 )
 
 class User_account(db.Model):
@@ -23,4 +23,3 @@ class User_account(db.Model):
     mangas = db.relationship('Manga', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
     comments = db.relationship('Comment', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
     follows = db.relationship('Manga', secondary=follower, cascade='all, delete', backref=db.backref('user_follow', lazy=True), primaryjoin=follower.c.manga_id == id)
-
