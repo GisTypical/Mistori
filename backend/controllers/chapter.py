@@ -7,7 +7,7 @@ chapter_bp = Blueprint('chapter_bp', __name__)
 
 @chapter_bp.route('/chapter', methods=['POST'])
 @jwt_required()
-def create_manga():
+def create_chapter():
     print(request.form['chapterName'])
 
     for uploaded_img in request.files.getlist('pagesImgs'):
