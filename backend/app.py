@@ -32,7 +32,6 @@ jwt = JWTManager(app)
 # Enabling CORS
 cors = CORS(app, supports_credentials=True)
 
-from controllers.user import user_bp
 
 @app.errorhandler(404)
 def not_found(e):
@@ -43,4 +42,8 @@ def not_found(e):
 #     return send_from_directory(os.path.join(app.root_path, 'server', 'uploads'), name, as_attachment=False)
 
 # Blueprints que permiten separar el server en componentes
+from controllers.user import user_bp
+from controllers.chapter import chapter_bp
+
 app.register_blueprint(user_bp)
+app.register_blueprint(chapter_bp)
