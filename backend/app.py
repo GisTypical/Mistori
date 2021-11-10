@@ -5,6 +5,7 @@ from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from cloudinary import config
 
 from Config import *
 
@@ -31,6 +32,9 @@ jwt = JWTManager(app)
     
 # Enabling CORS
 cors = CORS(app, supports_credentials=True)
+
+# Cloudinary
+config(cloud_name = os.getenv('CLOUD_NAME'), api_key = os.getenv('API_KEY'), api_secret = os.getenv('API_SECRET'))
 
 
 @app.errorhandler(404)
