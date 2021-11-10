@@ -8,9 +8,9 @@ from flask_jwt_extended import jwt_required
 manga_bp = Blueprint('manga_bp', __name__)
 
 @manga_bp.route('/manga', methods=['POST'])
-@jwt_required
+@jwt_required()
 def createManga():
-    print(request.form)
+    print(request.json)
 
     return {
         'status': 200

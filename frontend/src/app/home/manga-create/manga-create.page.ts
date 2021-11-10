@@ -15,7 +15,7 @@ export class MangaCreatePage implements OnInit {
   }
 
   submitManga(manga: Manga) {
-    this.mangaService.submitManga(manga)
+    this.mangaService.submitManga(manga).subscribe((value) => (console.log(value)))
   }
 
 }
