@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Account</ion-title>
+    <ion-buttons slot="end">
+      <ion-button disabled="true">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -8,6 +13,8 @@
   <div class="center" *ngIf="isLogged === 'unknown'">
     <ion-spinner></ion-spinner>
   </div>
-  <app-user *ngIf="isLogged === 'logged'"></app-user>
+  <app-user *ngIf="isLogged === 'logged'">
+    <app-add-manga></app-add-manga>
+  </app-user>
   <app-notlogged *ngIf="isLogged === 'notLogged'"></app-notlogged>
 </ion-content>
