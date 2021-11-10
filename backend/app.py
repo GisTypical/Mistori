@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
+from cloudinary import config
+
 from Config import *
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
@@ -32,6 +34,8 @@ jwt = JWTManager(app)
 # Enabling CORS
 cors = CORS(app, supports_credentials=True)
 
+# Cloudinary
+config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'), api_secret=os.getenv('API_SECRET'))
 
 @app.errorhandler(404)
 def not_found(e):
