@@ -32,4 +32,8 @@ export class MangaService {
 
     return this.http.post<Message>(`${this.apiURL}/manga`, formData)
   }
+
+  getUploadedMangas(): Observable<Manga[]> {
+    return this.http.get<Manga[]>(`${this.apiURL}/manga`)
+  }
 }
