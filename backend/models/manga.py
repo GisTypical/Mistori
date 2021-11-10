@@ -9,7 +9,7 @@ class Manga(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
-    description = db.Column(db.Text)
+    description = db.Column(db.Text, nullable=False)
     cover = db.Column(db.String, nullable=False)
     status = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now, nullable=False)
