@@ -42,10 +42,10 @@ def chapter_pages(pic_id):
     pages = api.resources(type="upload", prefix=chapter.pages)
     return pages, 200
 
-@chapter_bp.route('/chapter/<string:pic_id>', methods=['DELETE'])
+@chapter_bp.route('/chapter/<string:chapter_id>', methods=['DELETE'])
 @jwt_required()
-def delete_chapter(pic_id):
-    chapter = Chapter.query.filter_by(id=pic_id).first()
+def delete_chapter(chapter_id):
+    chapter = Chapter.query.filter_by(id=chapter_id).first()
     if (not chapter):
         return {'message': 'Chapter not found'}, 400
 
