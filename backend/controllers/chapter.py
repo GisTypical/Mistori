@@ -34,7 +34,6 @@ def create_chapter():
 
 
 @chapter_bp.route('/chapter/<string:pic_id>', methods=['GET'])
-@jwt_required()
 def chapter_pages(pic_id):
     chapter = Chapter.query.filter_by(id=pic_id).first()
     if (not chapter):
