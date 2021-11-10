@@ -25,6 +25,7 @@ export class MangaFormComponent implements OnInit {
       author: this.author,
       description: this.description,
       date: this.date,
+      cover: this.cover,
       status: this.status
     }
     this.onSubmitManga.emit(newManga)
