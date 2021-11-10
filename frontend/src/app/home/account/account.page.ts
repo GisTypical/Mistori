@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -7,10 +7,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  isLogged: boolean;
+  isLogged: string;
+  isLoading: boolean;
 
-  constructor(private userService: UserService) {
-    this.userService.isLogged.subscribe((b) => (this.isLogged = b));
+  constructor(private authService: AuthService) {
+    this.authService.isLogged.subscribe((s) => (this.isLogged = s));
   }
 
   ngOnInit() {}

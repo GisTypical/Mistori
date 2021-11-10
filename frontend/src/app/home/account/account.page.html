@@ -10,10 +10,11 @@
 </ion-header>
 
 <ion-content>
-  <app-user *ngIf="isLogged;else elseNotLogged"></app-user>
-  <ng-template #elseNotLogged>
-    <p *ngIf="!isLogged">You're not logged in</p>
-  </ng-template>
-
-  <app-add-manga></app-add-manga>
+  <div class="center" *ngIf="isLogged === 'unknown'">
+    <ion-spinner></ion-spinner>
+  </div>
+  <app-user *ngIf="isLogged === 'logged'">
+    <app-add-manga></app-add-manga>
+  </app-user>
+  <app-notlogged *ngIf="isLogged === 'notLogged'"></app-notlogged>
 </ion-content>

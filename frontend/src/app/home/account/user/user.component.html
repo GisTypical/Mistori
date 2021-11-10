@@ -1,5 +1,9 @@
-<ion-card>
-  <ion-card-content>
+<div class="center" *ngIf="isLoading | async; else loadUser">
+  <ion-spinner></ion-spinner>
+</div>
+<ng-template #loadUser>
+  <ion-card>
+   <ion-card-content>
     <ion-grid fixed>
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <ion-col size="6" class="ion-no-margin ion-no-padding ion-justify-content-center ion-align-items-center">
@@ -10,14 +14,14 @@
             <ion-row class="ion-no-margin">
               <ion-col>
                 <ion-text color="primary">
-                  <h2>Username</h2>
+                  <h2>{{ user.username }}</h2>
                 </ion-text>
               </ion-col>
             </ion-row>
             <ion-row class="ion-no-margin">
               <ion-col>
                 <ion-text color="tertiary">
-                  <p>Name Lastname</p>
+                  <p>{{ user.fullName }}</p>
                 </ion-text>
               </ion-col>
             </ion-row>
@@ -27,3 +31,4 @@
     </ion-grid>
   </ion-card-content>
 </ion-card>
+</ng-template>

@@ -1,12 +1,21 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/account"></ion-back-button>
+    </ion-buttons>
     <ion-title>Iniciar sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <app-login-form (newLoginEvent)="loginUser($event)"></app-login-form>
-  <p class="center">¿No tiene una cuenta? 
-    <a [routerLink]="['/signup']">Registrarse</a>
-  </p>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <p class="center">
+      ¿No tiene una cuenta?
+      <a [routerLink]="['/signup']">Registrarse</a>
+    </p>
+  </ion-toolbar>
+</ion-footer>
