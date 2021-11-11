@@ -38,7 +38,11 @@ const routes: Routes = [
   {
     path: 'manga-create',
     loadChildren: () => import('./manga-create/manga-create.module').then( m => m.MangaCreatePageModule)
+  },  {
+    path: 'manga-info',
+    loadChildren: () => import('./manga-info/manga-info.module').then( m => m.MangaInfoPageModule)
   }
+
 
 
 ];

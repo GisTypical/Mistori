@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'manga/create',
         loadChildren: () => import('./home/manga-create/manga-create.module').then(m => m.MangaCreatePageModule)
+      },
+      {
+        path: 'manga/:mangaID',
+        loadChildren: () => import('./home/manga-info/manga-info.module').then(m => m.MangaInfoPageModule)
       }
     ]
   },

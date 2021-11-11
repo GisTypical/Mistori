@@ -32,24 +32,21 @@ def createManga():
     db.session.add(manga)
     db.session.commit()
 
-    # return {
-    #     'statusCode': 200,
-    #     'name': request.form['name'],
-    #     'author': request.form['author'],
-    #     'date': request.form['date'],
-    #     'status': request.form['status'],
-    #     'description': request.form['description'],
-    #     'cover': request.files['cover'].filename
-    # }
-
-    return '200'
+    return {
+        'statusCode': 200,
+        'name': request.form['name'],
+        'author': request.form['author'],
+        'date': request.form['date'],
+        'status': request.form['status'],
+        'description': request.form['description'],
+        'cover': request.files['cover'].filename
+    }
 
 
 @manga_bp.route('/manga', methods=['GET'])
 @jwt_required()
 def getUploadedManga():
     username = get_jwt_identity()
-    #mangas = db.session.query(Manga.id, Manga.name, Manga.cover).filter(username == Manga.uploaded_by).order_by(Manga.date).all()
     mangas_obj = Manga.query.filter_by(uploaded_by = username).order_by(Manga.date).all()
 
     mangas = []
@@ -65,3 +62,23 @@ def getUploadedManga():
         'status': 200,
         'mangas': mangas
     }
+
+
+@manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
+@jwt_required()
+def getMangaID(manga_id):
+    username = get_jwt_identity()
+    print(manga_id)
+    manga_obj = Manga.query.filter_by(id = manga_id).first()
+
+    manga = {
+        'id': manga_obj.id,
+        'name': manga_obj.name,
+        'author': manga_obj.author,
+        'description': manga_obj.description,
+        'date': manga_obj.date,
+        'status': manga_obj.status,
+        'cover': manga_obj.cover
+    }
+
+    return manga
