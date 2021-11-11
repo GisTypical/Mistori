@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home/account"></ion-back-button>
+      <ion-back-button defaultHref="manga/{{mangaID}}"></ion-back-button>
     </ion-buttons>
     <ion-title>Upload Chapter</ion-title>
   </ion-toolbar>
@@ -13,7 +13,9 @@
       <ion-col>
         <ion-card>
           <ion-card-content>
-            <app-chapter-form></app-chapter-form>
+            <app-chapter-form
+              (newChapter)="submitChapter($event)"
+            ></app-chapter-form>
           </ion-card-content>
         </ion-card>
       </ion-col>

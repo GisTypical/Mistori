@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MangaService } from '../../services/manga.service';
 import { Manga } from '../../shared/Manga';
 import { ActivatedRoute } from '@angular/router';
+import { ChapterService } from 'src/app/services/chapter.service';
 
 @Component({
   selector: 'app-manga-info',
@@ -14,6 +15,7 @@ export class MangaInfoPage implements OnInit {
   name: string;
   author: string;
   status: string;
+  chapters: any;
 
   constructor(
     private mangaService: MangaService,
@@ -33,11 +35,11 @@ export class MangaInfoPage implements OnInit {
 
   ionViewDidEnter() {
     this.mangaService.getMangaID(this.mangaID).subscribe((manga) => {
-      console.log(manga);
       this.cover = manga.cover;
       this.name = manga.name;
       this.author = manga.author;
       this.status = manga.status.toUpperCase();
+      this.chapters = manga.chapters;
     });
   }
 }

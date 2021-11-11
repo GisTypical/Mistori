@@ -16,7 +16,7 @@ export class LoginFormComponent implements OnInit {
 
   isSubmitted = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor() {}
 
   ngOnInit() {}
 
@@ -30,5 +30,6 @@ export class LoginFormComponent implements OnInit {
       password: this.password,
     };
     this.newLoginEvent.emit(user);
+    this.isSubmitted = !this.isSubmitted;
   }
 }

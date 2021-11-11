@@ -3,6 +3,7 @@ import { Manga } from '../shared/Manga';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,9 +21,13 @@ interface Message {
   providedIn: 'root',
 })
 export class MangaService {
+  currentMangaID: Observable<string>;
+  private mangaID = new BehaviorSubject('');
   private apiURL = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.currentMangaID = this.mangaID.asObservable();
+  }
 
   submitManga(formData: FormData): Observable<Message> {
     console.log(formData.get('name'));
@@ -41,5 +46,9 @@ export class MangaService {
 
   getMangaID(mangaID: string): Observable<Manga> {
     return this.http.get<Manga>(`${this.apiURL}/manga/${mangaID}`);
+  }
+
+  setManga(manga: string) {
+    this.mangaID.next(manga);
   }
 }

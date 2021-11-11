@@ -1,5 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChapterService } from 'src/app/services/chapter.service';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'app-chapter-form',
@@ -8,15 +14,14 @@ import { ChapterService } from 'src/app/services/chapter.service';
 })
 export class ChapterFormComponent implements OnInit {
   @ViewChild('chapterForm') form: ElementRef<HTMLFormElement>;
+  @Output() newChapter = new EventEmitter<FormData>();
 
-  constructor(private chapterService: ChapterService) {}
+  constructor() {}
 
   ngOnInit() {}
 
   onSubmit() {
     const formData = new FormData(this.form.nativeElement);
-    // cambiar por el mangaId
-    formData.append('mangaId', '13fc7c1d-a63d-4f8c-91e5-cee835541613');
-    this.chapterService.createChapter(formData).subscribe();
+    this.newChapter.emit(formData);
   }
 }

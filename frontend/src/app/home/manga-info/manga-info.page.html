@@ -33,10 +33,11 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="ion-padding">
       <ion-col>
-        <app-chapter-list [mangaID]="mangaID"></app-chapter-list>
+        <app-chapter-list [chapters]="chapters"></app-chapter-list>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <app-add-chapter [mangaID]="mangaID"></app-add-chapter>
 </ion-content>

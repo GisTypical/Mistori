@@ -24,12 +24,15 @@ export class MangaViewPage implements AfterContentChecked {
 
   pages: any;
   rtl = false;
-  private chapterID = '9e9eae8e-5e2a-4284-be60-3e2b282a13b4';
+  private chapterID: string;
 
   constructor(
     private chapterService: ChapterService,
     private actionSheetController: ActionSheetController
   ) {
+    this.chapterService.currentChapterId.subscribe(
+      (id) => (this.chapterID = id)
+    );
     this.chapterService
       .getPages(this.chapterID)
       .subscribe((data) => (this.pages = data.resources));
