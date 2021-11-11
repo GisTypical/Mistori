@@ -1,7 +1,12 @@
 <form (ngSubmit)="onSubmit()">
   <ion-item>
     <ion-label position="floating">Nombre de usuario</ion-label>
-    <ion-input name="username" id="username" [(ngModel)]="username"></ion-input>
+    <ion-input
+      name="username"
+      id="username"
+      [(ngModel)]="username"
+      required="true"
+    ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Nombre completo</ion-label>
@@ -9,6 +14,7 @@
       name="fullName"
       id="fullName"
       [(ngModel)]="fullName"
+      required=""
     ></ion-input>
   </ion-item>
   <ion-item>
@@ -18,7 +24,11 @@
       name="password"
       id="password"
       [(ngModel)]="password"
+      required="true"
+      pattern="[\w]{4,}"
     ></ion-input>
   </ion-item>
-  <ion-button type="submit" expand="block" [disabled]="isSubmitted">Iniciar Sesión</ion-button>
+  <ion-button type="submit" expand="block" [disabled]="isSubmitted"
+    >Iniciar Sesión</ion-button
+  >
 </form>

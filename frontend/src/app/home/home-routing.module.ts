@@ -38,13 +38,25 @@ const routes: Routes = [
   {
     path: 'manga-create',
     loadChildren: () => import('./manga-create/manga-create.module').then( m => m.MangaCreatePageModule)
-  },  {
+  },
+  {
     path: 'manga-info',
     loadChildren: () => import('./manga-info/manga-info.module').then( m => m.MangaInfoPageModule)
   }
-
-
-
+  {
+    path: 'chapter/create',
+    loadChildren: () =>
+      import('./chapter-create/chapter-create.module').then(
+        (m) => m.ChapterCreatePageModule
+      ),
+  },
+  {
+    path: 'manga-view',
+    loadChildren: () =>
+      import('./manga-view/manga-view.module').then(
+        (m) => m.MangaViewPageModule
+      ),
+  },
 ];
 
 @NgModule({
