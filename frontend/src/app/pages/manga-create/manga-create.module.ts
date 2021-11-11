@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MangaCreatePageRoutingModule } from './manga-create-routing.module';
 
 import { MangaCreatePage } from './manga-create.page';
-import { MangaFormComponent } from './manga-form/manga-form.component'
+import { MangaFormComponent } from './manga-form/manga-form.component';
 
 @NgModule({
   imports: [
@@ -15,8 +15,8 @@ import { MangaFormComponent } from './manga-form/manga-form.component'
     FormsModule,
     IonicModule,
     MangaCreatePageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [MangaCreatePage, MangaFormComponent]
+  declarations: [MangaCreatePage, MangaFormComponent],
 })
 export class MangaCreatePageModule {}
