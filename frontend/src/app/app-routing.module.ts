@@ -4,7 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: 'login',
@@ -21,9 +22,19 @@ const routes: Routes = [
     children: [
       {
         path: 'manga/create',
-        loadChildren: () => import('./home/manga-create/manga-create.module').then(m => m.MangaCreatePageModule)
-      }
-    ]
+        loadChildren: () =>
+          import('./home/manga-create/manga-create.module').then(
+            (m) => m.MangaCreatePageModule
+          ),
+      },
+      {
+        path: 'chapter/create',
+        loadChildren: () =>
+          import('./home/chapter-create/chapter-create.module').then(
+            (m) => m.ChapterCreatePageModule
+          ),
+      },
+    ],
   },
   { path: '**', redirectTo: 'home/library', pathMatch: 'full' },
 ];

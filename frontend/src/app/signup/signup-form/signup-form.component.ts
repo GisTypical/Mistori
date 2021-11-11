@@ -19,7 +19,6 @@ export class SignupFormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(): void {
-    // Estas validaciones son una shit lo sé
     if (!this.username || !this.fullName || !this.password) {
     }
     const user = {
@@ -29,7 +28,6 @@ export class SignupFormComponent implements OnInit {
     };
     this.authService.userSignup(user).subscribe(
       (resp) => {
-        // TODO: Pensando en si llevarlo de una a Home
         this.router.navigate(['/login']);
       },
       (err) => {

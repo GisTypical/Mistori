@@ -32,19 +32,23 @@ const routes: Routes = [
         path: 'account',
         loadChildren: () =>
           import('./account/account.module').then((m) => m.AccountPageModule),
-      }
+      },
     ],
   },
   {
-    path: 'manga-create',
-    loadChildren: () => import('./manga-create/manga-create.module').then( m => m.MangaCreatePageModule)
-  },  {
+    path: 'chapter/create',
+    loadChildren: () =>
+      import('./chapter-create/chapter-create.module').then(
+        (m) => m.ChapterCreatePageModule
+      ),
+  },
+  {
     path: 'manga-view',
-    loadChildren: () => import('./manga-view/manga-view.module').then( m => m.MangaViewPageModule)
-  }
-
-
-
+    loadChildren: () =>
+      import('./manga-view/manga-view.module').then(
+        (m) => m.MangaViewPageModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -22,7 +22,6 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitted = !this.isSubmitted;
-    // Estas validaciones son una shit lo sé
     if (!this.username || !this.password) {
       return;
     }
