@@ -13,6 +13,7 @@ import { SwiperComponent } from 'swiper/angular';
   selector: 'app-manga-view',
   templateUrl: './manga-view.page.html',
   styleUrls: ['./manga-view.page.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MangaViewPage implements AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
