@@ -63,12 +63,17 @@ def getUploadedManga():
 
 
 @manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
-@jwt_required()
 def getMangaID(manga_id):
-    username = get_jwt_identity()
-    print(manga_id)
     manga_obj = Manga.query.filter_by(id = manga_id).first()
 
+    chapters_list = []
+    for chapter in manga_obj.chapters:
+        chapters_list.append({
+            'id': chapter.id,
+            'title': chapter.title,
+            'date': chapter.date
+        })
+        
     manga = {
         'id': manga_obj.id,
         'name': manga_obj.name,
@@ -76,7 +81,8 @@ def getMangaID(manga_id):
         'description': manga_obj.description,
         'date': manga_obj.date,
         'status': manga_obj.status,
-        'cover': manga_obj.cover
+        'cover': manga_obj.cover,
+        'chapters': chapters_list
     }
 
     return manga, 200
