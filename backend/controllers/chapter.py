@@ -1,8 +1,7 @@
-from re import M
 from app import db
+from cloudinary import api, uploader
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
-
 from models.chapter import Chapter
 from models.manga import Manga
 from cloudinary import uploader
