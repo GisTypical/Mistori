@@ -32,15 +32,17 @@ def createManga():
     db.session.add(manga)
     db.session.commit()
 
-    return {
-        status: 200,
-        'name': request.form['name'],
-        'author': request.form['author'],
-        'date': request.form['date'],
-        'status': request.form['status'],
-        'description': request.form['description'],
-        'cover': request.files['cover'].filename
-    }
+    # return {
+    #     'statusCode': 200,
+    #     'name': request.form['name'],
+    #     'author': request.form['author'],
+    #     'date': request.form['date'],
+    #     'status': request.form['status'],
+    #     'description': request.form['description'],
+    #     'cover': request.files['cover'].filename
+    # }
+
+    return '200'
 
 
 @manga_bp.route('/manga', methods=['GET'])
