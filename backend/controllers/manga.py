@@ -47,10 +47,19 @@ def createManga():
 @jwt_required()
 def getUploadedManga():
     username = get_jwt_identity()
-    mangas = db.session.query(Manga.id, Manga.name, Manga.cover).filter(username == Manga.uploaded_by).order_by(Manga.date).all()
+    #mangas = db.session.query(Manga.id, Manga.name, Manga.cover).filter(username == Manga.uploaded_by).order_by(Manga.date).all()
+    mangas_obj = Manga.query.filter_by(uploaded_by = username).order_by(Manga.date).all()
 
-    print(mangas)
+    mangas = []
+
+    for manga in mangas_obj:
+        mangas.append({'id': manga.id, 'name': manga.name, 'cover': manga.cover})
+    
+    for manga in mangas:
+        for key, value in manga.items():
+            print(key, value)
 
     return {
-        'status': 200
+        'status': 200,
+        'mangas': mangas
     }
