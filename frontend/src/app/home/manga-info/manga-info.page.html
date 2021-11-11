@@ -14,13 +14,15 @@
         <ion-card>
           <ion-card-content>
             <ion-item>
-              <ion-avatar slot="start" style="width: 17vmax; height: 17vmax;">
-                <img [src]="cover"/>
+              <ion-avatar slot="start" style="width: 17vmax; height: 17vmax">
+                <img [src]="cover" />
               </ion-avatar>
               <ion-label class="ion-margin" text-wrap>
-                <h2 style="margin-block: 1vmax; font-size: 2.5vmax;">{{ name }}</h2>
+                <h2 style="margin-block: 1vmax; font-size: 2.5vmax">
+                  {{ name }}
+                </h2>
                 <ion-text color="secondary">
-                  <h3 style="margin-block: 0.7vmax;">{{ author }}</h3>
+                  <h3 style="margin-block: 0.7vmax">{{ author }}</h3>
                 </ion-text>
                 <ion-text color="tertiary">
                   <p>{{ status }}</p>
@@ -29,6 +31,11 @@
             </ion-item>
           </ion-card-content>
         </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <app-chapter-list [mangaID]="mangaID"></app-chapter-list>
       </ion-col>
     </ion-row>
   </ion-grid>
