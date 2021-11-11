@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MangaService } from 'src/app/services/manga.service';
 import { Manga } from 'src/app/shared/Manga';
 
@@ -9,13 +10,16 @@ import { Manga } from 'src/app/shared/Manga';
 })
 export class MangaCreatePage implements OnInit {
 
-  constructor(private mangaService: MangaService) { }
+  constructor(private mangaService: MangaService, private router: Router) { }
 
   ngOnInit() {
   }
 
   submitManga(formData: FormData) {
-    this.mangaService.submitManga(formData).subscribe((value) => (console.log(value)))
+    this.mangaService.submitManga(formData).subscribe((value) => {
+      console.log(value)
+      this.router.navigate(['/home/account'])
+    })
   }
 
 }

@@ -32,25 +32,36 @@ def createManga():
     db.session.add(manga)
     db.session.commit()
 
-    return {
-        status: 200,
-        'name': request.form['name'],
-        'author': request.form['author'],
-        'date': request.form['date'],
-        'status': request.form['status'],
-        'description': request.form['description'],
-        'cover': request.files['cover'].filename
-    }
+    # return {
+    #     'statusCode': 200,
+    #     'name': request.form['name'],
+    #     'author': request.form['author'],
+    #     'date': request.form['date'],
+    #     'status': request.form['status'],
+    #     'description': request.form['description'],
+    #     'cover': request.files['cover'].filename
+    # }
+
+    return '200'
 
 
 @manga_bp.route('/manga', methods=['GET'])
 @jwt_required()
 def getUploadedManga():
     username = get_jwt_identity()
-    mangas = db.session.query(Manga.id, Manga.name, Manga.cover).filter(username == Manga.uploaded_by).order_by(Manga.date).all()
+    #mangas = db.session.query(Manga.id, Manga.name, Manga.cover).filter(username == Manga.uploaded_by).order_by(Manga.date).all()
+    mangas_obj = Manga.query.filter_by(uploaded_by = username).order_by(Manga.date).all()
 
-    print(mangas)
+    mangas = []
+
+    for manga in mangas_obj:
+        mangas.append({'id': manga.id, 'name': manga.name, 'cover': manga.cover, 'author': manga.author})
+    
+    for manga in mangas:
+        for key, value in manga.items():
+            print(key, value)
 
     return {
-        'status': 200
+        'status': 200,
+        'mangas': mangas
     }
