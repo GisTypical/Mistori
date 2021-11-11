@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Manga } from 'src/app/shared/Manga';
+import { AlertController } from '@ionic/angular'
 
 @Component({
   selector: 'app-manga-form',
@@ -11,7 +12,7 @@ export class MangaFormComponent implements OnInit {
   @Output() onSubmitManga: EventEmitter<FormData> = new EventEmitter();
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private alertController: AlertController) {
     this.form = this.fb.group({
       name: [''],
       author: [''],
@@ -26,6 +27,16 @@ export class MangaFormComponent implements OnInit {
 
   uploadFile(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
+    if (file.size > 4194304) {
+      this.alertController.create({
+        header: 'File size too large',
+        message: 'Insert a file not larger than 4MB',
+        buttons: ['Ok']
+      }).then(alertEl => {
+        alertEl.present()
+        this.form.get('cover').setValue(null)
+      })
+    }
     this.form.patchValue({
       cover: file,
     });
@@ -42,5 +53,11 @@ export class MangaFormComponent implements OnInit {
     formData.append('cover', this.form.get('cover').value);
 
     this.onSubmitManga.emit(formData);
+    this.form.get('name').setValue('')
+    this.form.get('author').setValue('')
+    this.form.get('description').setValue('')
+    this.form.get('date').setValue(null)
+    this.form.get('status').setValue('')
+    this.form.get('cover').setValue(null)
   }
 }

@@ -5,13 +5,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    'Content-Type': 'multipart/form-data',
-  }),
-};
-
 interface Message {
   status: number;
   mangas: Manga[];
@@ -30,13 +23,6 @@ export class MangaService {
   }
 
   submitManga(formData: FormData): Observable<Message> {
-    console.log(formData.get('name'));
-    console.log(formData.get('author'));
-    console.log(formData.get('description'));
-    console.log(formData.get('date'));
-    console.log(formData.get('cover'));
-    console.log(formData.get('status'));
-
     return this.http.post<Message>(`${this.apiURL}/manga`, formData);
   }
 
@@ -54,5 +40,9 @@ export class MangaService {
 
   setManga(manga: string) {
     this.mangaID.next(manga);
+  }
+
+  getSearchedManga(name: string): Observable<Message> {
+    return this.http.get<Message>(`${this.apiURL}/manga/search/${name}`)
   }
 }
