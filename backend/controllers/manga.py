@@ -53,7 +53,7 @@ def getUploadedManga():
     mangas = []
 
     for manga in mangas_obj:
-        mangas.append({'id': manga.id, 'name': manga.name, 'cover': manga.cover})
+        mangas.append({'id': manga.id, 'name': manga.name, 'cover': manga.cover, 'author': manga.author})
     
     for manga in mangas:
         for key, value in manga.items():
