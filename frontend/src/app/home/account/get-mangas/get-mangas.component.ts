@@ -13,8 +13,16 @@ export class GetMangasComponent implements OnInit {
   constructor(private mangaService: MangaService) { }
 
   ngOnInit() {
-    this.mangaService.getUploadedMangas().subscribe((mangas) => this.mangas = mangas)
-    console.log(this.mangas)
+    //this.mangaService.getUploadedMangas().subscribe((mangas) => this.mangas = mangas.mangas)
+  }
+
+  ionViewWillEnter(){
+    console.log('ionViewWillEnter')
+  }
+
+  ionViewDidEnter(): void {
+    this.mangaService.getUploadedMangas().subscribe((mangas) => this.mangas = mangas.mangas)
+    console.log('ionViewDidEnter')
   }
 
 }

@@ -11,7 +11,8 @@ const httpOptions = {
 }
 
 interface Message {
-  status: number
+  status: number,
+  mangas: Manga[]
 }
 
 @Injectable({
@@ -33,7 +34,7 @@ export class MangaService {
     return this.http.post<Message>(`${this.apiURL}/manga`, formData)
   }
 
-  getUploadedMangas(): Observable<Manga[]> {
-    return this.http.get<Manga[]>(`${this.apiURL}/manga`)
+  getUploadedMangas(): Observable<Message> {
+    return this.http.get<Message>(`${this.apiURL}/manga`)
   }
 }

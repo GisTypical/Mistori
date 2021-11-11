@@ -15,4 +15,8 @@ export class AccountPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ionViewDidEnter() {
+    console.log('Hi')
+  }
 }
