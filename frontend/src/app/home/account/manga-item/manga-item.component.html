@@ -1,6 +1,7 @@
 <ion-item>
-  <ion-avatar>
+  <ion-avatar slot="start">
     <img [src]="mangaItem.cover" />
   </ion-avatar>
-  <ion-label class="ion-margin-start">{{ mangaItem.name }}</ion-label>
+  <ion-label>{{ mangaItem.name }}</ion-label>
+  <ion-note slot="end">{{ mangaItem.author }}</ion-note>
 </ion-item>
