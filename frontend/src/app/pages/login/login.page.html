@@ -3,19 +3,22 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home/account"></ion-back-button>
     </ion-buttons>
-    <ion-title>Iniciar sesión</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <app-login-form (newLoginEvent)="loginUser($event)"></app-login-form>
+  <ion-text color="danger" class="center">
+    <p *ngIf="isError">Incorrect username or password</p>
+  </ion-text>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
     <p class="center">
-      ¿No tiene una cuenta?
-      <a [routerLink]="['/signup']">Registrarse</a>
+      Doesn't have an account?
+      <a [routerLink]="['/signup']">Signup</a>
     </p>
   </ion-toolbar>
 </ion-footer>

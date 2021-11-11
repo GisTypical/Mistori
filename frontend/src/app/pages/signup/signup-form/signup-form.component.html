@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSubmit()">
   <ion-item>
-    <ion-label position="floating">Nombre de usuario</ion-label>
+    <ion-label position="floating">Username</ion-label>
     <ion-input
       name="username"
       id="username"
@@ -9,16 +9,16 @@
     ></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Nombre completo</ion-label>
+    <ion-label position="floating">Full name</ion-label>
     <ion-input
       name="fullName"
       id="fullName"
       [(ngModel)]="fullName"
-      required=""
+      required="true"
     ></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
+    <ion-label position="floating">Password</ion-label>
     <ion-input
       type="password"
       name="password"
@@ -28,7 +28,8 @@
       pattern="[\w]{4,}"
     ></ion-input>
   </ion-item>
-  <ion-button type="submit" expand="block" [disabled]="isSubmitted"
-    >Iniciar Sesión</ion-button
-  >
+  <ion-button type="submit" expand="block">Signup</ion-button>
+  <ion-text color="danger" class="center">
+    <p *ngIf="isError">User already taken.</p>
+  </ion-text>
 </form>
