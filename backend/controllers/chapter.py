@@ -48,6 +48,23 @@ def chapter_pages(pic_id):
     pages = api.resources(type="upload", prefix=chapter.pages)
     return pages, 200
 
+@chapter_bp.route('/chapter/info/<string:manga_id>', methods=['GET'])
+def chapters_info(manga_id):
+    chapters = Chapter.query.filter_by(manga_id=manga_id).all()
+
+    if (not chapters):
+        return {'message': 'chapter not found'}, 400
+
+    chapters_list = []
+    for c in chapters:
+        chapters_list.append({
+            'id': c.id,
+            'title': c.title,
+            'date': c.date
+        })
+
+    return {'chapters': chapters_list}, 200
+
 @chapter_bp.route('/chapter/<string:chapter_id>', methods=['DELETE'])
 @jwt_required()
 def delete_chapter(chapter_id):
