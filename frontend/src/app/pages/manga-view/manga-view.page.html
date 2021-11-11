@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/library"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manga viewer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <swiper class="center" #swiper [config]="config" [dir]="rtl ? 'rtl' : ''">
+    <ng-template swiperSlide *ngFor="let page of pages">
+      <img [src]="page.secure_url" loading="lazy" />
+    </ng-template>
+  </swiper>
+</ion-content>

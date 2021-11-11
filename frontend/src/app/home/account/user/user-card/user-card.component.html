@@ -21,15 +21,15 @@
           <ion-grid fixed class="ion-no-margin">
             <ion-row class="ion-no-margin">
               <ion-col>
-                <ion-text color="primary">
-                  <h2>{{ user.username }}</h2>
-                </ion-text>
+                <ion-card-title color="primary">
+                  <strong>{{ user?.username }}</strong>
+                </ion-card-title>
               </ion-col>
             </ion-row>
             <ion-row class="ion-no-margin">
               <ion-col>
                 <ion-text color="tertiary">
-                  <p>{{ user.fullName }}</p>
+                  <p>{{ user?.fullName }}</p>
                 </ion-text>
               </ion-col>
             </ion-row>

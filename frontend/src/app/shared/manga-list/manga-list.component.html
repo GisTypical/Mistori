@@ -1,0 +1,11 @@
+<ion-list class="ion-margin">
+  <ion-list-header>
+    <ion-label color="success"
+      ><h2 style="font-size: 2.6vmax">Uploaded Mangas</h2></ion-label
+    >
+  </ion-list-header>
+  <app-manga-item
+    *ngFor="let manga of mangas"
+    [mangaItem]="manga"
+  ></app-manga-item>
+</ion-list>

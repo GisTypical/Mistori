@@ -7,14 +7,11 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { MangaListComponent } from '../shared/manga-list/manga-list.component';
+import { MangaItemComponent } from '../shared/manga-item/manga-item.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    HomePageRoutingModule
-  ],
-  declarations: [HomePage]
+  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
+  declarations: [HomePage],
 })
 export class HomePageModule {}

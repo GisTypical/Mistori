@@ -1,0 +1,10 @@
+<ion-list>
+  <ion-item
+    *ngFor="let chapter of chapters"
+    [routerLink]="['/manga-view']"
+    (click)="openView(chapter.id)"
+  >
+    <h2>{{ chapter.title }}</h2>
+    <span>{{ chapter.date }}</span>
+  </ion-item>
+</ion-list>

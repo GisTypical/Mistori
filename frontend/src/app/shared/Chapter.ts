@@ -1,6 +1,5 @@
 export interface Chapter {
+  id: string;
   title: string;
-  date;
-  mangaId;
-  pages;
+  date: Date | string;
 }

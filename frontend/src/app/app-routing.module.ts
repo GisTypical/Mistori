@@ -10,29 +10,56 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginPageModule),
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'signup',
     loadChildren: () =>
-      import('./signup/signup.module').then((m) => m.SignupPageModule),
+      import('./pages/signup/signup.module').then((m) => m.SignupPageModule),
   },
   {
     path: '',
     children: [
       {
         path: 'manga/create',
-        loadChildren: () => import('./home/manga-create/manga-create.module').then(m => m.MangaCreatePageModule)
+        loadChildren: () =>
+          import('./pages/manga-create/manga-create.module').then(
+            (m) => m.MangaCreatePageModule
+          ),
       },
       {
         path: 'manga/:mangaID',
-        loadChildren: () => import('./home/manga-info/manga-info.module').then(m => m.MangaInfoPageModule)
+        loadChildren: () =>
+          import('./pages/manga-info/manga-info.module').then(
+            (m) => m.MangaInfoPageModule
+          ),
+      },
+      {
+        path: 'manga-create',
+        loadChildren: () =>
+          import('./pages/manga-create/manga-create.module').then(
+            (m) => m.MangaCreatePageModule
+          ),
+      },
+      {
+        path: 'manga-info',
+        loadChildren: () =>
+          import('./pages/manga-info/manga-info.module').then(
+            (m) => m.MangaInfoPageModule
+          ),
       },
       {
         path: 'chapter/create',
         loadChildren: () =>
-          import('./home/chapter-create/chapter-create.module').then(
+          import('./pages/chapter-create/chapter-create.module').then(
             (m) => m.ChapterCreatePageModule
+          ),
+      },
+      {
+        path: 'manga-view',
+        loadChildren: () =>
+          import('./pages/manga-view/manga-view.module').then(
+            (m) => m.MangaViewPageModule
           ),
       },
     ],
