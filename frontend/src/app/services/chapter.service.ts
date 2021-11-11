@@ -11,7 +11,15 @@ export class ChapterService {
 
   constructor(private http: HttpClient) {}
 
-  getPages(chapterId): Observable<any> {
+  createChapter(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/chapter`, formData);
+  }
+
+  getPages(chapterId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/chapter/${chapterId}`);
+  }
+
+  deleteChapter(chapterId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/chapter`);
   }
 }
