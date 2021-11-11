@@ -9,12 +9,26 @@ import { Manga } from 'src/app/shared/Manga';
 })
 export class SearchPage implements OnInit {
   mangas: Manga[];
+  searchValue: string
 
   constructor(private mangaService: MangaService) {
+  }
+
+  ngOnInit() {}
+
+  ionViewDidEnter() {
     this.mangaService
       .getAllMangas()
       .subscribe((mangas) => (this.mangas = mangas.mangas));
   }
 
-  ngOnInit() {}
+  onSearchChange() {
+    if (this.searchValue != '') {
+      this.mangaService.getSearchedManga(this.searchValue).subscribe((value) => this.mangas = value.mangas)
+    } else {
+      this.mangaService
+      .getAllMangas()
+      .subscribe((mangas) => (this.mangas = mangas.mangas));
+    }
+  }
 }

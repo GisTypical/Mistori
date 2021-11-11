@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MangaService } from '../../services/manga.service';
-import { Manga } from '../../shared/Manga';
 import { ActivatedRoute } from '@angular/router';
-import { ChapterService } from 'src/app/services/chapter.service';
 
 @Component({
   selector: 'app-manga-info',

@@ -11,7 +11,7 @@
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label position="floating">Title</ion-label>
-    <ion-input type="text" name="title" id="title" required="true"></ion-input>
+    <ion-input type="text" name="title" id="title" required="true" [(ngModel)]="name"></ion-input>
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label>Published Date</ion-label>
@@ -20,6 +20,7 @@
       placeholder="Select Date"
       name="date"
       id="date"
+      [(ngModel)]="date"
     ></ion-datetime>
   </ion-item>
   <ion-button type="submit" fill="block">Upload</ion-button>
