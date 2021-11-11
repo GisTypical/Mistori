@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MangaService } from '../../services/manga.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
+import { MangaService } from '../../services/manga.service';
 
 @Component({
   selector: 'app-manga-info',
@@ -15,10 +16,15 @@ export class MangaInfoPage implements OnInit {
   status: string;
   chapters: any;
 
+  isLoading: boolean;
+
   constructor(
     private mangaService: MangaService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private loadingService: LoadingService
+  ) {
+    this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((paramMap) => {

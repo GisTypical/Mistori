@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingService } from 'src/app/services/loading.service';
 import { MangaService } from 'src/app/services/manga.service';
 import { Manga } from 'src/app/shared/Manga';
 
@@ -11,7 +12,12 @@ export class SearchPage implements OnInit {
   mangas: Manga[];
   searchValue: string
 
-  constructor(private mangaService: MangaService) {
+  isLoading = false;
+  constructor(
+    private mangaService: MangaService,
+    private loadingService: LoadingService
+  ) {
+    this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
   }
 
   ngOnInit() {}

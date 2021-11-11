@@ -14,14 +14,11 @@ export class LoginFormComponent implements OnInit {
   username: string;
   password: string;
 
-  isSubmitted = false;
-
   constructor() {}
 
   ngOnInit() {}
 
   onSubmit() {
-    this.isSubmitted = !this.isSubmitted;
     if (!this.username || !this.password) {
       return;
     }
@@ -30,6 +27,5 @@ export class LoginFormComponent implements OnInit {
       password: this.password,
     };
     this.newLoginEvent.emit(user);
-    this.isSubmitted = !this.isSubmitted;
   }
 }

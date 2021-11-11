@@ -8,7 +8,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <div class="center" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-grid fixed *ngIf="!isLoading">
     <ion-row>
       <ion-col>
         <ion-card>
