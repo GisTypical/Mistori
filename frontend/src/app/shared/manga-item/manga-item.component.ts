@@ -7,10 +7,9 @@ import { Manga } from 'src/app/shared/Manga';
   styleUrls: ['./manga-item.component.scss'],
 })
 export class MangaItemComponent implements OnInit {
-  @Input() mangaItem: Manga
+  @Input() mangaItem: Manga;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

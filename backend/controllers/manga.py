@@ -12,12 +12,14 @@ from models.manga import Manga
 
 manga_bp = Blueprint('manga_bp', __name__)
 
+
 @manga_bp.route('/manga', methods=['POST'])
 @jwt_required()
 def createManga():
     file = request.files['cover']
     if file:
-        upload_result = uploader.upload(file, folder=f'mistori/{request.form["name"]}/cover', public_id='cover')
+        upload_result = uploader.upload(
+            file, folder=f'mistori/{request.form["name"]}/cover', public_id='cover')
 
     name = request.form['name']
     author = request.form['author']
@@ -26,8 +28,9 @@ def createManga():
     status = request.form['status']
     date = request.form['date']
     uploaded_by = get_jwt_identity()
-    
-    manga = Manga(name=name, author=author, description=description, cover=cover, status=status, date=date, uploaded_by=uploaded_by)
+
+    manga = Manga(name=name, author=author, description=description,
+                  cover=cover, status=status, date=date, uploaded_by=uploaded_by)
 
     db.session.add(manga)
     db.session.commit()
@@ -46,13 +49,15 @@ def createManga():
 @jwt_required()
 def getUploadedManga():
     username = get_jwt_identity()
-    mangas_obj = Manga.query.filter_by(uploaded_by = username).order_by(Manga.date).all()
+    mangas_obj = Manga.query.filter_by(
+        uploaded_by=username).order_by(Manga.date).all()
 
     mangas = []
 
     for manga in mangas_obj:
-        mangas.append({'id': manga.id, 'name': manga.name, 'cover': manga.cover, 'author': manga.author})
-    
+        mangas.append({'id': manga.id, 'name': manga.name,
+                      'cover': manga.cover, 'author': manga.author})
+
     for manga in mangas:
         for key, value in manga.items():
             print(key, value)
@@ -64,7 +69,7 @@ def getUploadedManga():
 
 @manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
 def getMangaID(manga_id):
-    manga_obj = Manga.query.filter_by(id = manga_id).first()
+    manga_obj = Manga.query.filter_by(id=manga_id).first()
 
     chapters_list = []
     for chapter in manga_obj.chapters:
@@ -73,7 +78,7 @@ def getMangaID(manga_id):
             'title': chapter.title,
             'date': chapter.date
         })
-        
+
     manga = {
         'id': manga_obj.id,
         'name': manga_obj.name,
@@ -86,3 +91,15 @@ def getMangaID(manga_id):
     }
 
     return manga, 200
+
+
+@manga_bp.route('/manga/all', methods=['GET'])
+def get_all_mangas():
+    manga_obj = Manga.query.all()
+
+    manga_list = []
+    for manga in manga_obj:
+        manga_list.append({'id': manga.id, 'name': manga.name,
+                          'cover': manga.cover, 'author': manga.author})
+
+    return {"mangas": manga_list}, 200

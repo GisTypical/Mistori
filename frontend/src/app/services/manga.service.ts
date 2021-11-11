@@ -48,6 +48,10 @@ export class MangaService {
     return this.http.get<Manga>(`${this.apiURL}/manga/${mangaID}`);
   }
 
+  getAllMangas(): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/manga/all`);
+  }
+
   setManga(manga: string) {
     this.mangaID.next(manga);
   }
