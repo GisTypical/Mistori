@@ -33,14 +33,13 @@ def createManga():
     db.session.commit()
 
     return {
-        'statusCode': 200,
         'name': request.form['name'],
         'author': request.form['author'],
         'date': request.form['date'],
         'status': request.form['status'],
         'description': request.form['description'],
         'cover': request.files['cover'].filename
-    }
+    }, 200
 
 
 @manga_bp.route('/manga', methods=['GET'])
@@ -59,9 +58,8 @@ def getUploadedManga():
             print(key, value)
 
     return {
-        'status': 200,
         'mangas': mangas
-    }
+    }, 200
 
 
 @manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
@@ -81,4 +79,4 @@ def getMangaID(manga_id):
         'cover': manga_obj.cover
     }
 
-    return manga
+    return manga, 200
