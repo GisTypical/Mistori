@@ -1,11 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="tertiary">
     <ion-title>Search</ion-title>
     <ion-buttons slot="end">
       <ion-button disabled="true">
         <ion-icon name="search-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Search Mangas" (ionChange)="onSearchChange()" [(ngModel)]="searchValue" showClearButton="true"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

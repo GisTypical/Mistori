@@ -1,8 +1,5 @@
 # manga.py
 
-import os
-
-from werkzeug.utils import secure_filename
 from app import db
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity
@@ -58,10 +55,6 @@ def getUploadedManga():
         mangas.append({'id': manga.id, 'name': manga.name,
                       'cover': manga.cover, 'author': manga.author})
 
-    for manga in mangas:
-        for key, value in manga.items():
-            print(key, value)
-
     return {
         'mangas': mangas
     }, 200
@@ -103,3 +96,24 @@ def get_all_mangas():
                           'cover': manga.cover, 'author': manga.author})
 
     return {"mangas": manga_list}, 200
+  
+
+@manga_bp.route('/manga/search/<string:searchValue>', methods=['GET'])
+@jwt_required()
+def getMangasSearched(searchValue):
+  mangas_obj = Manga.query.filter(Manga.name.ilike(f'%{searchValue}%')).all()
+
+  mangas = []
+
+  for manga in mangas_obj:
+    mangas.append({
+      'id': manga.id,
+      'name': manga.name,
+      'cover': manga.cover,
+      'author': manga.author
+    })
+
+  return {
+    'status': 200,
+    'mangas': mangas
+  }

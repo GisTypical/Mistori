@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <ion-item>
     <ion-label position="stacked">Manga Cover</ion-label>
-    <ion-input required type="file" formControlName="cover" name="cover" (change)="uploadFile($event)"></ion-input>
+    <ion-input required type="file" formControlName="cover" name="cover" (change)="uploadFile($event)" accept="image/*"></ion-input>
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label position="floating">Name</ion-label>
