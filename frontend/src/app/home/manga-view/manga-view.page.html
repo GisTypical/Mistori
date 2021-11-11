@@ -1,14 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Manga viewer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <swiper #swiper [config]="config" [dir]="rtl ? 'rtl' : ''">
+  <swiper class="center" #swiper [config]="config" [dir]="rtl ? 'rtl' : ''">
     <ng-template swiperSlide *ngFor="let page of pages">
       <img [src]="page.secure_url" loading="lazy" />
     </ng-template>
   </swiper>
-  <ion-button (click)="changeHorizontal()">Cambiar modo de lectura</ion-button>
 </ion-content>
