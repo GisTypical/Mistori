@@ -1,8 +1,10 @@
+from re import M
 from app import db
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
 from models.chapter import Chapter
+from models.manga import Manga
 from cloudinary import uploader
 from cloudinary import api
 
@@ -17,12 +19,17 @@ def create_chapter():
     if not data:
         return {'message': "submitted no data"}, 400
 
+    manga = Manga.query.filter_by(id=data["mangaId"]).first()
+
+    if not manga: 
+        return {'message': 'manga not found'}, 400
+
     for index, page in enumerate(request.files.getlist('pages'), start=1):
         print(index, page.filename)
         uploader.upload_image(
-            page, folder=f'mistori/{data["mangaId"]}/{data["title"]}', public_id=index)
+            page, folder=f'mistori/{manga.name}/{data["title"]}', public_id=index)
 
-    pages = f'mistori/{data["mangaId"]}/{data["title"]}'
+    pages = f'mistori/{manga.name}/{data["title"]}'
 
     chapter = Chapter(
         title=data['title'], date=data['date'], manga_id=data['mangaId'], pages=pages)
