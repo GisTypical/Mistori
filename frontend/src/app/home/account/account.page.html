@@ -13,7 +13,14 @@
   <div class="center" *ngIf="isLogged === 'unknown'">
     <ion-spinner></ion-spinner>
   </div>
-  <app-user *ngIf="isLogged === 'logged'"></app-user>
+  <app-user *ngIf="isLogged === 'logged'">
+  </app-user>
+  <ion-list>
+    <ion-list-header>
+      <ion-label><h2>Uploaded Mangas</h2></ion-label>
+    </ion-list-header>
+    <app-manga-item *ngFor="let manga of mangas" [mangaItem]="manga"></app-manga-item>
+  </ion-list>
   <app-notlogged *ngIf="isLogged === 'notLogged'"></app-notlogged>
   <app-add-manga></app-add-manga>
 </ion-content>
