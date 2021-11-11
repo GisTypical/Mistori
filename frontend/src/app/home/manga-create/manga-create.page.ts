@@ -16,8 +16,10 @@ export class MangaCreatePage implements OnInit {
   }
 
   submitManga(formData: FormData) {
-    this.mangaService.submitManga(formData).subscribe((value) => (console.log(value)))
-    this.router.navigate(['/home/account'])
+    this.mangaService.submitManga(formData).subscribe((value) => {
+      console.log(value)
+      this.router.navigate(['/home/account'])
+    })
   }
 
 }
