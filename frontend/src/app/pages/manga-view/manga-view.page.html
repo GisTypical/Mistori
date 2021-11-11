@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title>Manga viewer</ion-title>
     <ion-buttons slot="end">
+      <ion-button slot="end" (click)="onDelete()"
+        ><ion-icon slot="icon-only" name="trash-outline"></ion-icon
+      ></ion-button>
       <ion-button (click)="presentActionSheet()">
         <ion-icon name="settings-outline"></ion-icon>
       </ion-button>

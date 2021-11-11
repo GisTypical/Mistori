@@ -10,7 +10,7 @@ import { Manga } from 'src/app/shared/Manga';
 })
 export class SearchPage implements OnInit {
   mangas: Manga[];
-  searchValue: string
+  searchValue: string;
 
   isLoading = false;
   constructor(
@@ -30,11 +30,13 @@ export class SearchPage implements OnInit {
 
   onSearchChange() {
     if (this.searchValue != '') {
-      this.mangaService.getSearchedManga(this.searchValue).subscribe((value) => this.mangas = value.mangas)
+      this.mangaService
+        .getSearchedManga(this.searchValue)
+        .subscribe((value) => (this.mangas = value.mangas));
     } else {
       this.mangaService
-      .getAllMangas()
-      .subscribe((mangas) => (this.mangas = mangas.mangas));
+        .getAllMangas()
+        .subscribe((mangas) => (this.mangas = mangas.mangas));
     }
   }
 }

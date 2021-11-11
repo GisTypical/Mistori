@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { Chapter } from 'src/app/shared/Chapter';
 

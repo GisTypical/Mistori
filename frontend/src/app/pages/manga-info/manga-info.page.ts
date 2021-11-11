@@ -16,7 +16,7 @@ export class MangaInfoPage implements OnInit {
   status: string;
   chapters: any;
 
-  isLoading: boolean;
+  isLoading = false;
 
   constructor(
     private mangaService: MangaService,
