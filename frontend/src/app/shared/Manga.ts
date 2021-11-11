@@ -4,6 +4,6 @@ export interface Manga {
   author?: string
   description?: string
   date?: string
-  cover: File
+  cover: string
   status?: string
 }

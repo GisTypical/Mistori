@@ -37,4 +37,8 @@ export class MangaService {
   getUploadedMangas(): Observable<Message> {
     return this.http.get<Message>(`${this.apiURL}/manga`)
   }
+
+  getMangaID(manga_id: string): Observable<Manga> {
+    return this.http.get<Manga>(`${this.apiURL}/manga/${manga_id}`)
+  }
 }
