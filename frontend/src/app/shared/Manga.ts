@@ -1,12 +1,13 @@
 import { Chapter } from './Chapter';
 
 export interface Manga {
-  id?: string;
+  id: string;
   name: string;
-  author?: string;
+  author: string;
   description?: string;
-  date?: string;
-  cover: string;
-  status?: string;
-  chapters?: Chapter;
+  date: string;
+  cover: string | File;
+  status: string;
+  uploadedBy: string;
+  chapters: Chapter[];
 }

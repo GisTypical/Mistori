@@ -1,8 +1,14 @@
-<ion-item [routerLink]="['/manga', mangaItem.id]" class="ion-justify-content-around ion-align-items-center">
+<ion-item
+  [routerLink]="['/manga', mangaItem.id]"
+  class="ion-justify-content-around ion-align-items-center"
+>
   <ion-avatar slot="start" style="width: 10vmax; height: 10vmax">
     <img [src]="mangaItem.cover" />
   </ion-avatar>
-  <ion-label text-wrap class="ion-justify-content-around ion-align-items-center">
+  <ion-label
+    text-wrap
+    class="ion-justify-content-around ion-align-items-center"
+  >
     <h2>{{ mangaItem.name }}</h2>
     <ion-note slot="end">{{ mangaItem.author }}</ion-note>
   </ion-label>

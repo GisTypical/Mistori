@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
+import { Manga } from 'src/app/shared/Manga';
 import { MangaService } from '../../services/manga.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-manga-info',
@@ -9,14 +11,19 @@ import { MangaService } from '../../services/manga.service';
   styleUrls: ['./manga-info.page.scss'],
 })
 export class MangaInfoPage implements OnInit {
-  mangaID: string;
-  cover: string | File;
-  name: string;
-  author: string;
-  status: string;
-  chapters: any;
+  manga: Manga = {
+    id: '',
+    name: '',
+    cover: '',
+    author: '',
+    uploadedBy: '',
+    chapters: [],
+    date: '',
+    status: '',
+  };
 
-  isLoading = false;
+  isLoading = true;
+  username: string;
 
   constructor(
     private mangaService: MangaService,
@@ -24,6 +31,14 @@ export class MangaInfoPage implements OnInit {
     private loadingService: LoadingService
   ) {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const payload: { sub: string } = jwt_decode(
+        localStorage.getItem('accessToken')
+      );
+      this.username = payload.sub;
+    }
+    this.username = '';
   }
 
   ngOnInit() {
@@ -33,17 +48,13 @@ export class MangaInfoPage implements OnInit {
       }
 
       const mangaID = paramMap.get('mangaID');
-      this.mangaID = mangaID;
+      this.manga.id = mangaID;
     });
   }
 
   ionViewDidEnter() {
-    this.mangaService.getMangaID(this.mangaID).subscribe((manga) => {
-      this.cover = manga.cover;
-      this.name = manga.name;
-      this.author = manga.author;
-      this.status = manga.status.toUpperCase();
-      this.chapters = manga.chapters;
+    this.mangaService.getManga(this.manga.id).subscribe((manga) => {
+      this.manga = manga;
     });
   }
 }
