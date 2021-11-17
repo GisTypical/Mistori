@@ -1,11 +1,11 @@
+import time
+
 from app import db
 from cloudinary import api, uploader
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from models.chapter import Chapter
 from models.manga import Manga
-from cloudinary import uploader
-from cloudinary import api
 
 chapter_bp = Blueprint('chapter_bp', __name__)
 
@@ -23,11 +23,6 @@ def create_chapter():
     if not manga: 
         return {'message': 'manga not found'}, 400
 
-    for index, page in enumerate(request.files.getlist('pages'), start=1):
-        print(index, page.filename)
-        uploader.upload_image(
-            page, folder=f'mistori/{manga.name}/{data["title"]}', public_id=index)
-
     pages = f'mistori/{manga.name}/{data["title"]}'
 
     chapter = Chapter(
@@ -35,6 +30,12 @@ def create_chapter():
 
     db.session.add(chapter)
     db.session.commit()
+
+    # Upload images after database commit
+    for index, page in enumerate(request.files.getlist('pages'), start=1):
+        print(index, page.filename)
+        uploader.upload_image(
+            page, folder=f'mistori/{manga.name}/{data["title"]}', public_id=str(time.time()))
 
     return {'message': 'Chapter created'}, 201
 
