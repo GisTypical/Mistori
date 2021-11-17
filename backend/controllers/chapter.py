@@ -47,7 +47,7 @@ def chapter_pages(chapter_id):
     if (not chapter):
         return {'message': 'chapter not found'}, 400
 
-    pages = api.resources(type="upload", prefix=chapter.pages)
+    pages = api.resources(type="upload", prefix=chapter.pages, max_results=100)
     return pages, 200
 
 @chapter_bp.route('/chapter/<string:chapter_id>', methods=['DELETE'])
