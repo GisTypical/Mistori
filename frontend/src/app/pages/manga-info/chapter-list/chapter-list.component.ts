@@ -44,13 +44,27 @@ export class ChapterListComponent implements AfterViewInit {
     this.chapterService.setChapter(chapterid);
   }
 
-  // Alert alert
-  async presentAlert() {
+  // Delete alert
+  async presentAlert(chapter: Chapter) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Delete chapter',
       message: 'Are you sure you want to delete this chapter?',
-      buttons: ['Yes', 'No'],
+      buttons: [
+        {
+          text: 'Yes',
+          role: 'delete',
+          cssClass: 'danger',
+          handler: () => {
+            console.log(`Delete chapter ${chapter.id}`);
+            this.chapterService.deleteChapter(chapter.id);
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+      ],
     });
 
     await alert.present();
@@ -79,10 +93,10 @@ export class ChapterListComponent implements AfterViewInit {
   }
 
   private onLongPress(i: number) {
+    const chapter = this.chapters[i];
     setTimeout(() => {
       if (this.longPressActive !== false) {
-        console.log(this.chapters[i].id);
-        this.presentAlert();
+        this.presentAlert(chapter);
       }
     }, 400);
   }
