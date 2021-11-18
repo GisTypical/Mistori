@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/services/loading.service';
 import { Manga } from 'src/app/shared/Manga';
 import { MangaService } from '../../services/manga.service';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-manga-info',
@@ -33,7 +33,7 @@ export class MangaInfoPage implements OnInit {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
     const token = localStorage.getItem('accessToken');
     if (token) {
-      const payload: { sub: string } = jwt_decode(
+      const payload: { sub: string } = jwtDecode(
         localStorage.getItem('accessToken')
       );
       this.username = payload.sub;
