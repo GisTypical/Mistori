@@ -81,7 +81,7 @@ def getMangaID(manga_id):
         'status': manga_obj.status,
         'cover': manga_obj.cover,
         'chapters': chapters_list,
-        'uploaded_by': manga_obj.uploaded_by
+        'uploadedBy': manga_obj.uploaded_by
     }
 
     return manga, 200
