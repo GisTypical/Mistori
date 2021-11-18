@@ -16,10 +16,10 @@ export class MangaInfoPage implements OnInit {
     name: '',
     cover: '',
     author: '',
-    uploadedBy: '',
     chapters: [],
     date: '',
     status: '',
+    uploadedBy: '',
   };
 
   isLoading = true;
@@ -37,8 +37,9 @@ export class MangaInfoPage implements OnInit {
         localStorage.getItem('accessToken')
       );
       this.username = payload.sub;
+    } else {
+      this.username = '';
     }
-    this.username = '';
   }
 
   ngOnInit() {
