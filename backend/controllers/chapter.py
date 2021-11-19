@@ -42,7 +42,6 @@ def create_chapter():
 
 @chapter_bp.route('/chapter/<string:chapter_id>', methods=['GET'])
 def chapter_pages(chapter_id):
-    print(chapter_id)
     chapter = Chapter.query.filter_by(id=chapter_id).first()
     if (not chapter):
         return {'message': 'chapter not found'}, 400
