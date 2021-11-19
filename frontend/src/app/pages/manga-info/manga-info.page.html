@@ -40,12 +40,12 @@
     </ion-row>
     <ion-row class="ion-padding">
       <ion-col>
-        <app-chapter-list [chapters]="manga.chapters"></app-chapter-list>
+        <app-chapter-list
+          [chapters]="manga.chapters"
+          [isUploader]="isUploader()"
+        ></app-chapter-list>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-add-chapter
-    *ngIf="manga.uploadedBy === username"
-    [mangaID]="manga.id"
-  ></app-add-chapter>
+  <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
 </ion-content>

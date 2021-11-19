@@ -24,9 +24,7 @@ export class ChapterService {
   }
 
   deleteChapter(chapterId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/chapter`, {
-      body: { chapterId },
-    });
+    return this.http.delete<any>(`${this.apiUrl}/chapter/${chapterId}`);
   }
 
   setChapter(chapter: string) {

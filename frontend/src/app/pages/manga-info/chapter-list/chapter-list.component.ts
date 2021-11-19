@@ -24,10 +24,10 @@ import { Chapter } from 'src/app/shared/Chapter';
 export class ChapterListComponent implements AfterViewInit {
   @ViewChildren(IonItem, { read: ElementRef })
   chapterItems: QueryList<ElementRef>;
-
   @Input() chapters: Chapter[];
+  @Input() isUploader: boolean;
 
-  longPressActive: boolean;
+  isLongPressActive: boolean;
 
   constructor(
     private chapterService: ChapterService,
@@ -47,22 +47,21 @@ export class ChapterListComponent implements AfterViewInit {
   // Delete alert
   async presentAlert(chapter: Chapter) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
       header: 'Delete chapter',
       message: 'Are you sure you want to delete this chapter?',
+      cssClass: 'delete-alert',
       buttons: [
-        {
-          text: 'Yes',
-          role: 'delete',
-          cssClass: 'danger',
-          handler: () => {
-            console.log(`Delete chapter ${chapter.id}`);
-            this.chapterService.deleteChapter(chapter.id);
-          },
-        },
         {
           text: 'Cancel',
           role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          role: 'delete',
+          cssClass: 'delete-button',
+          handler: () => {
+            this.chapterService.deleteChapter(chapter.id).subscribe();
+          },
         },
       ],
     });
@@ -79,11 +78,11 @@ export class ChapterListComponent implements AfterViewInit {
           gestureName: 'long-press',
           threshold: 1,
           onStart: () => {
-            this.longPressActive = true;
+            this.isLongPressActive = true;
             this.onLongPress(i);
           },
           onEnd: () => {
-            this.longPressActive = false;
+            this.isLongPressActive = false;
           },
         },
         true
@@ -95,7 +94,7 @@ export class ChapterListComponent implements AfterViewInit {
   private onLongPress(i: number) {
     const chapter = this.chapters[i];
     setTimeout(() => {
-      if (this.longPressActive !== false) {
+      if (this.isLongPressActive && this.isUploader) {
         this.presentAlert(chapter);
       }
     }, 400);

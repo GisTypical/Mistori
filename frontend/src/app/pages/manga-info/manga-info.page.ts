@@ -58,4 +58,8 @@ export class MangaInfoPage implements OnInit {
       this.manga = manga;
     });
   }
+
+  isUploader(): boolean {
+    return this.username === this.manga.uploadedBy;
+  }
 }
