@@ -71,3 +71,23 @@ def getCommentID(comment_id):
     }
 
     return comment, 200
+
+
+@comment_bp.route('/comment/update/<string:comment_id>', methods=['PUT'])
+@jwt_required()
+def updateComment(comment_id):
+    data = request.json
+
+    comment = Comment.query.get(comment_id)
+    comment.text = data['text']
+
+    db.session.commit()
+
+    return {
+        'id': comment.id,
+        'text': comment.text,
+        'date': comment.date,
+        'parent_id': comment.parent_id,
+        'username': comment.username,
+        'chapter_id': comment.chapter_id
+    }, 200
