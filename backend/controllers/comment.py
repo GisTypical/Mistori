@@ -59,7 +59,7 @@ def getComments(chapter_id):
 
 @comment_bp.route('/comment/update/<string:comment_id>', methods=['GET'])
 @jwt_required()
-def getCommentData(comment_id):
+def getCommentID(comment_id):
     comment_obj = Comment.query.filter_by(id=comment_id).first()
 
     comment = {
