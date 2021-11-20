@@ -12,4 +12,5 @@ class Comment(db.Model):
     parent_id = db.Column(UUID(as_uuid=True), db.ForeignKey('comment.id', ondelete='cascade', onupdate='cascade'))
     username = db.Column(db.String, db.ForeignKey('user_account.username', ondelete='cascade', onupdate='cascade'), nullable=False)
     chapter_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chapter.id', ondelete='cascade', onupdate='cascade'), nullable=False)
-    parent = db.relationship('Comment', backref='comment', remote_side=[id], cascade='all, delete, delete-orphan', single_parent=True)
+    # parent = db.relationship('Comment', backref='comment', remote_side=[id], cascade='all, delete, delete-orphan', single_parent=True)
+    parent = db.relationship('Comment', remote_side=[id])

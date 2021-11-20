@@ -56,6 +56,14 @@ def getComments(chapter_id):
     }, 200
 
 
+@comment_bp.route('/comment/children/<string:comment_id>', methods=['GET'])
+@jwt_required()
+def getCommentChildren(comment_id):
+    return {
+        'id': comment_id
+    }
+
+
 @comment_bp.route('/comment/update/<string:comment_id>', methods=['GET'])
 @jwt_required()
 def getCommentID(comment_id):
