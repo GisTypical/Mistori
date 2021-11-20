@@ -17,14 +17,20 @@ def createComment(chapter_id):
     date = data['date']
     username = get_jwt_identity()
 
-    comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id)
+    if 'parent_id' in data:
+        parent_id = data['parent_id']
+        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id, parent_id=parent_id)
+    else:
+        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id)
 
     db.session.add(comment)
     db.session.commit()
 
     return {
-        'chapter_id': chapter_id,
+        'id': comment.id,
         'text': comment.text,
         'date': comment.date,
-        'username': comment.username
+        'username': comment.username,
+        'parent_id': comment.parent_id,
+        'chapter_id': chapter_id
     }, 201
