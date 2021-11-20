@@ -27,4 +27,10 @@ export class AccountPage implements OnInit {
       .getUploadedMangas()
       .subscribe((mangas) => (this.mangas = mangas.mangas));
   }
+
+  logout() {
+    localStorage.setItem('accessToken', '');
+    localStorage.setItem('refreshToken', '');
+    this.authService.setLogged('notLogged');
+  }
 }

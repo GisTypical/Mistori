@@ -4,7 +4,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { SwiperOptions } from 'swiper';
@@ -29,8 +28,7 @@ export class MangaViewPage implements AfterContentChecked {
 
   constructor(
     private chapterService: ChapterService,
-    private actionSheetController: ActionSheetController,
-    private router: Router
+    private actionSheetController: ActionSheetController
   ) {
     this.chapterService.currentChapterId.subscribe(
       (id) => (this.chapterID = id)
@@ -46,12 +44,8 @@ export class MangaViewPage implements AfterContentChecked {
     }
   }
 
-  onDelete() {
-    this.chapterService.deleteChapter(this.chapterID);
-    this.router.navigate(['home/account/']);
-  }
-
-  async presentActionSheet() {
+  // Show action sheet for reading modes
+  async showReadingModes() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Page options',
       buttons: [

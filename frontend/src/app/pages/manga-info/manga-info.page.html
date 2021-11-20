@@ -3,32 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home/account"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ name }}</ion-title>
+    <ion-title *ngIf="isLoading"> Loading... </ion-title>
+    <ion-title *ngIf="!isLoading">{{ manga.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="center" *ngIf="isLoading">
-    <ion-spinner></ion-spinner>
-  </div>
-  <ion-grid fixed *ngIf="!isLoading">
+<div class="center" *ngIf="isLoading">
+  <ion-spinner></ion-spinner>
+</div>
+
+<ion-content *ngIf="!isLoading">
+  <ion-grid fixed>
     <ion-row>
       <ion-col>
         <ion-card>
           <ion-card-content>
             <ion-item>
               <ion-avatar slot="start" style="width: 17vmax; height: 17vmax">
-                <img [src]="cover" />
+                <img [src]="manga.cover" />
               </ion-avatar>
               <ion-label class="ion-margin" text-wrap>
                 <h2 style="margin-block: 1vmax; font-size: 2.5vmax">
-                  {{ name }}
+                  {{ manga.name }}
                 </h2>
                 <ion-text color="secondary">
-                  <h3 style="margin-block: 0.7vmax">{{ author }}</h3>
+                  <h3 style="margin-block: 0.7vmax">{{ manga.author }}</h3>
                 </ion-text>
                 <ion-text color="tertiary">
-                  <p>{{ status }}</p>
+                  <p>{{ manga.status }}</p>
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -38,9 +40,13 @@
     </ion-row>
     <ion-row class="ion-padding">
       <ion-col>
-        <app-chapter-list [chapters]="chapters"></app-chapter-list>
+        <app-chapter-list
+          [chapters]="manga.chapters"
+          [isUploader]="isUploader()"
+          (newChapterDelete)="chapterDelete($event)"
+        ></app-chapter-list>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-add-chapter [mangaID]="mangaID"></app-add-chapter>
+  <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
 </ion-content>

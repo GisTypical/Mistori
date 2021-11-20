@@ -29,7 +29,7 @@ export class SearchPage implements OnInit {
   }
 
   onSearchChange() {
-    if (this.searchValue != '') {
+    if (this.searchValue !== '') {
       this.mangaService
         .getSearchedManga(this.searchValue)
         .subscribe((value) => (this.mangas = value.mangas));

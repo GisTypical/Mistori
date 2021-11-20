@@ -5,9 +5,12 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
-interface Message {
-  status: number;
+interface MangasObject {
   mangas: Manga[];
+}
+
+interface Message {
+  message: string;
 }
 
 @Injectable({
@@ -26,23 +29,23 @@ export class MangaService {
     return this.http.post<Message>(`${this.apiURL}/manga`, formData);
   }
 
-  getUploadedMangas(): Observable<Message> {
-    return this.http.get<Message>(`${this.apiURL}/manga`);
+  getUploadedMangas(): Observable<MangasObject> {
+    return this.http.get<MangasObject>(`${this.apiURL}/manga`);
   }
 
-  getMangaID(mangaID: string): Observable<Manga> {
+  getManga(mangaID: string): Observable<Manga> {
     return this.http.get<Manga>(`${this.apiURL}/manga/${mangaID}`);
   }
 
-  getAllMangas(): Observable<any> {
-    return this.http.get<any>(`${this.apiURL}/manga/all`);
+  getAllMangas(): Observable<MangasObject> {
+    return this.http.get<MangasObject>(`${this.apiURL}/manga/all`);
   }
 
-  setManga(manga: string) {
-    this.mangaID.next(manga);
+  getSearchedManga(name: string): Observable<MangasObject> {
+    return this.http.get<MangasObject>(`${this.apiURL}/manga/search/${name}`);
   }
 
-  getSearchedManga(name: string): Observable<Message> {
-    return this.http.get<Message>(`${this.apiURL}/manga/search/${name}`)
+  setManga(mangaID: string) {
+    this.mangaID.next(mangaID);
   }
 }

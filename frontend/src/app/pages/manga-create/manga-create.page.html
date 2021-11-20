@@ -13,9 +13,18 @@
       <ion-col>
         <ion-card>
           <ion-card-content>
-            <app-manga-form (onSubmitManga)="submitManga($event)"></app-manga-form>
+            <app-manga-form
+              (onSubmitManga)="submitManga($event)"
+            ></app-manga-form>
           </ion-card-content>
         </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="center" *ngIf="isLoading">
+          <ion-spinner></ion-spinner>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

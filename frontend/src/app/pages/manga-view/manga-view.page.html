@@ -1,14 +1,11 @@
 <ion-header>
   <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home/library"></ion-back-button>
+      <ion-back-button defaultHref="home/search"></ion-back-button>
     </ion-buttons>
     <ion-title>Manga viewer</ion-title>
     <ion-buttons slot="end">
-      <ion-button slot="end" (click)="onDelete()"
-        ><ion-icon slot="icon-only" name="trash-outline"></ion-icon
-      ></ion-button>
-      <ion-button (click)="presentActionSheet()">
+      <ion-button (click)="showReadingModes()">
         <ion-icon name="settings-outline"></ion-icon>
       </ion-button>
     </ion-buttons>

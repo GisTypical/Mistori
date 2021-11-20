@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import jwtDecode from 'jwt-decode';
 import { LoadingService } from 'src/app/services/loading.service';
+import { Manga } from 'src/app/shared/Manga';
+import { ChapterService } from '../../services/chapter.service';
 import { MangaService } from '../../services/manga.service';
 
 @Component({
@@ -9,21 +12,36 @@ import { MangaService } from '../../services/manga.service';
   styleUrls: ['./manga-info.page.scss'],
 })
 export class MangaInfoPage implements OnInit {
-  mangaID: string;
-  cover: string | File;
-  name: string;
-  author: string;
-  status: string;
-  chapters: any;
+  manga: Manga = {
+    id: '',
+    name: '',
+    cover: '',
+    author: '',
+    chapters: [],
+    date: '',
+    status: '',
+    uploadedBy: '',
+  };
 
-  isLoading = false;
+  isLoading = true;
+  username: string;
 
   constructor(
     private mangaService: MangaService,
     private activatedRoute: ActivatedRoute,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private chapterService: ChapterService
   ) {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const payload: { sub: string } = jwtDecode(
+        localStorage.getItem('accessToken')
+      );
+      this.username = payload.sub;
+    } else {
+      this.username = '';
+    }
   }
 
   ngOnInit() {
@@ -33,17 +51,26 @@ export class MangaInfoPage implements OnInit {
       }
 
       const mangaID = paramMap.get('mangaID');
-      this.mangaID = mangaID;
+      this.manga.id = mangaID;
     });
   }
 
   ionViewDidEnter() {
-    this.mangaService.getMangaID(this.mangaID).subscribe((manga) => {
-      this.cover = manga.cover;
-      this.name = manga.name;
-      this.author = manga.author;
-      this.status = manga.status.toUpperCase();
-      this.chapters = manga.chapters;
+    this.mangaService.getManga(this.manga.id).subscribe((manga) => {
+      this.manga = manga;
+    });
+  }
+
+  isUploader(): boolean {
+    return this.username === this.manga.uploadedBy;
+  }
+
+  chapterDelete(chapterId: string) {
+    this.chapterService.deleteChapter(chapterId).subscribe(() => {
+      this.manga.chapters = this.manga.chapters.filter(
+        (c) => c.id !== chapterId
+      );
+      console.log(this.manga.chapters, chapterId);
     });
   }
 }

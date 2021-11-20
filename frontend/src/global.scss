@@ -27,3 +27,9 @@
 
 // slides.component.scss
 @import "~swiper/swiper-bundle";
+
+.delete-alert {
+  button.alert-button.delete-button {
+    color: var(--ion-color-danger);
+  }
+}
