@@ -54,7 +54,9 @@ def not_found(e):
 from controllers.user import user_bp
 from controllers.chapter import chapter_bp
 from controllers.manga import manga_bp
+from controllers.comment import comment_bp
 
 app.register_blueprint(user_bp)
 app.register_blueprint(chapter_bp)
 app.register_blueprint(manga_bp)
+app.register_blueprint(comment_bp)
