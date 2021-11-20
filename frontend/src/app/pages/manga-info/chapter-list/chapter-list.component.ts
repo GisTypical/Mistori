@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  Output,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -11,7 +13,6 @@ import {
   Gesture,
   GestureController,
   IonItem,
-  GestureDetail,
 } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { Chapter } from 'src/app/shared/Chapter';
@@ -27,6 +28,7 @@ export class ChapterListComponent implements AfterViewInit {
   @Input() chapters: Chapter[];
   @Input() isUploader: boolean;
 
+  @Output() newChapterDelete: EventEmitter<string> = new EventEmitter();
   isLongPressActive: boolean;
 
   constructor(
@@ -60,7 +62,7 @@ export class ChapterListComponent implements AfterViewInit {
           role: 'delete',
           cssClass: 'delete-button',
           handler: () => {
-            this.chapterService.deleteChapter(chapter.id).subscribe();
+            this.newChapterDelete.emit(chapter.id);
           },
         },
       ],

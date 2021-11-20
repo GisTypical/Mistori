@@ -43,6 +43,7 @@
         <app-chapter-list
           [chapters]="manga.chapters"
           [isUploader]="isUploader()"
+          (newChapterDelete)="chapterDelete($event)"
         ></app-chapter-list>
       </ion-col>
     </ion-row>
