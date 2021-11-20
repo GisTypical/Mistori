@@ -1,5 +1,6 @@
 # comment.py
 
+import datetime
 from app import db
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
@@ -14,7 +15,7 @@ comment_bp = Blueprint('comment_bp', __name__)
 def createComment(chapter_id):
     data = request.json
     text = data['text']
-    date = data['date']
+    date = datetime.datetime.now()
     username = get_jwt_identity()
 
     if 'parent_id' in data:
