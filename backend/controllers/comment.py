@@ -6,7 +6,6 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 from models.comment import Comment
-from cloudinary import uploader
 
 comment_bp = Blueprint('comment_bp', __name__)
 
