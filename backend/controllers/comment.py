@@ -85,24 +85,24 @@ def getComments(chapter_id):
     }, 200
 
 
-@comment_bp.route('/comment/children/<string:comment_id>', methods=['GET'])
-@jwt_required()
-def getCommentChildren(comment_id):
-    comment_obj = Comment.query.filter_by(id=comment_id).first()
+# @comment_bp.route('/comment/children/<string:comment_id>', methods=['GET'])
+# @jwt_required()
+# def getCommentChildren(comment_id):
+#     comment_obj = Comment.query.filter_by(id=comment_id).first()
 
-    children = getChildren(comment_obj.id)
+#     children = getChildren(comment_obj.id)
 
-    comment = {
-        'id': comment_obj.id,
-        'date': comment_obj.date,
-        'text': comment_obj.text,
-        'parent_id': comment_obj.parent_id,
-        'username': comment_obj.username,
-        'chapter_id': comment_obj.chapter_id,
-        'children': children
-    }
+#     comment = {
+#         'id': comment_obj.id,
+#         'date': comment_obj.date,
+#         'text': comment_obj.text,
+#         'parent_id': comment_obj.parent_id,
+#         'username': comment_obj.username,
+#         'chapter_id': comment_obj.chapter_id,
+#         'children': children
+#     }
 
-    return comment, 200
+#     return comment, 200
 
 
 @comment_bp.route('/comment/update/<string:comment_id>', methods=['GET'])
