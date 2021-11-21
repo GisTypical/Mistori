@@ -36,7 +36,7 @@ def createComment(chapter_id):
         'date': comment.date,
         'username': comment.username,
         'parent_id': comment.parent_id,
-        'chapter_id': chapter_id
+        'chapter_id': comment.chapter_id
     }, 201
 
 
@@ -66,25 +66,27 @@ def getChildren(comment_parent):
 def getComments(chapter_id):
     comments_obj = Comment.query.filter_by(
         chapter_id=chapter_id).filter_by(parent_id=None).all()
-
-    comments = []
-    for comment in comments_obj:
-        comments.append({
-            'id': comment.id,
-            'text': comment.text,
-            'date': comment.date,
-            'parent_id': comment.parent_id,
-            'username': comment.username,
-            'chapter_id': comment.chapter_id,
-            'children': getChildren(comment.id)
-        })
     
-    pp = pprint.PrettyPrinter(sort_dicts=False)
-    pp.pprint(comments)
+    if comments_obj:
+        comments = []
+        for comment in comments_obj:
+            comments.append({
+                'id': comment.id,
+                'text': comment.text,
+                'date': comment.date,
+                'parent_id': comment.parent_id,
+                'username': comment.username,
+                'chapter_id': comment.chapter_id,
+                'children': getChildren(comment.id)
+            })
+        
+        pp = pprint.PrettyPrinter(sort_dicts=False)
+        pp.pprint(comments)
 
-    return {
-        'comments': comments
-    }, 200
+        return { 'comments': comments }, 200
+    
+    else:
+        return { 'message': 'No comments on this chapter' }, 400
 
 
 @comment_bp.route('/comment/update/<string:comment_id>', methods=['GET'])
@@ -92,16 +94,20 @@ def getComments(chapter_id):
 def getCommentID(comment_id):
     comment_obj = Comment.query.filter_by(id=comment_id).first()
 
-    comment = {
-        'id': comment_obj.id,
-        'text': comment_obj.text,
-        'date': comment_obj.date,
-        'parent_id': comment_obj.parent_id,
-        'username': comment_obj.username,
-        'chapter_id': comment_obj.chapter_id
-    }
+    if comment_obj:
+        comment = {
+            'id': comment_obj.id,
+            'text': comment_obj.text,
+            'date': comment_obj.date,
+            'parent_id': comment_obj.parent_id,
+            'username': comment_obj.username,
+            'chapter_id': comment_obj.chapter_id
+        }
 
-    return comment, 200
+        return comment, 200
+    
+    else:
+        return { 'message': 'Comment not found' }, 400
 
 
 @comment_bp.route('/comment/<string:comment_id>', methods=['PUT'])
@@ -110,32 +116,42 @@ def updateComment(comment_id):
     data = request.json
 
     comment = Comment.query.get(comment_id)
-    comment.text = data['text']
 
-    db.session.commit()
+    if comment:
+        comment.text = data['text']
 
-    return {
-        'id': comment.id,
-        'text': comment.text,
-        'date': comment.date,
-        'parent_id': comment.parent_id,
-        'username': comment.username,
-        'chapter_id': comment.chapter_id
-    }, 200
+        db.session.commit()
+
+        return {
+            'id': comment.id,
+            'text': comment.text,
+            'date': comment.date,
+            'parent_id': comment.parent_id,
+            'username': comment.username,
+            'chapter_id': comment.chapter_id
+        }, 200
+    
+    else:
+        return { 'message': 'Comment not found' }, 400
 
 
 @comment_bp.route('/comment/<string:comment_id>', methods=['DELETE'])
 @jwt_required()
 def deleteComment(comment_id):
     comment = Comment.query.get(comment_id)
-    db.session.delete(comment)
-    db.session.commit()
+    
+    if comment:
+        db.session.delete(comment)
+        db.session.commit()
 
-    return {
-        'id': comment.id,
-        'text': comment.text,
-        'date': comment.date,
-        'parent_id': comment.parent_id,
-        'username': comment.username,
-        'chapter_id': comment.chapter_id
-    }, 200
+        return {
+            'id': comment.id,
+            'text': comment.text,
+            'date': comment.date,
+            'parent_id': comment.parent_id,
+            'username': comment.username,
+            'chapter_id': comment.chapter_id
+        }, 200
+    
+    else:
+        return { 'message': 'Comment not found' }, 400
