@@ -8,7 +8,8 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 from models.comment import Comment
-from sqlalchemy.orm import aliased
+import pprint
+import json
 
 comment_bp = Blueprint('comment_bp', __name__)
 
@@ -79,6 +80,9 @@ def getComments(chapter_id):
             'chapter_id': comment.chapter_id,
             'children': getChildren(comment.id)
         })
+    
+    pp = pprint.PrettyPrinter(sort_dicts=False)
+    pp.pprint(comments)
 
     return {
         'comments': comments
