@@ -6,6 +6,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from cloudinary import uploader
 from models.manga import Manga
+import datetime
 
 manga_bp = Blueprint('manga_bp', __name__)
 
@@ -52,8 +53,13 @@ def getUploadedManga():
     mangas = []
 
     for manga in mangas_obj:
-        mangas.append({'id': manga.id, 'name': manga.name,
-                      'cover': manga.cover, 'author': manga.author})
+        mangas.append({
+            'id': manga.id,
+            'name': manga.name,
+            'cover': manga.cover,
+            'author': manga.author,
+            'date': manga.date
+        })
 
     return {
         'mangas': mangas
@@ -93,8 +99,13 @@ def get_all_mangas():
 
     manga_list = []
     for manga in manga_obj:
-        manga_list.append({'id': manga.id, 'name': manga.name,
-                          'cover': manga.cover, 'author': manga.author})
+        manga_list.append({
+            'id': manga.id,
+            'name': manga.name,
+            'cover': manga.cover,
+            'author': manga.author,
+            'date': manga.date
+        })
 
     return {"mangas": manga_list}, 200
   
@@ -111,7 +122,8 @@ def getMangasSearched(searchValue):
       'id': manga.id,
       'name': manga.name,
       'cover': manga.cover,
-      'author': manga.author
+      'author': manga.author,
+      'date': manga.date
     })
 
   return {

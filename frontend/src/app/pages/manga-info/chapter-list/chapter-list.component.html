@@ -3,10 +3,11 @@
     *ngFor="let chapter of chapters"
     [routerLink]="['/manga-view']"
     (click)="openView(chapter.id)"
+    class="ion-margin-end"
   >
     <ion-label>
       <h2>{{ chapter.title }}</h2>
+      <ion-note slot="end">{{ chapter.date }}</ion-note>
     </ion-label>
-    <ion-note slot="end">{{ chapter.date }}</ion-note>
   </ion-item>
 </ion-list>

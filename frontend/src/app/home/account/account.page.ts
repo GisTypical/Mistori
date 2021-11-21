@@ -25,7 +25,16 @@ export class AccountPage implements OnInit {
   ionViewDidEnter() {
     this.mangaService
       .getUploadedMangas()
-      .subscribe((mangas) => (this.mangas = mangas.mangas));
+      .subscribe((mangas) => {
+        this.mangas = mangas.mangas
+
+        for (let i = 0; i < this.mangas.length; i++) {
+          const mangaYear = new Date(this.mangas[i].date).getFullYear()
+          const mangaMonth = new Date(this.mangas[i].date).getMonth()
+          const mangaDay = new Date(this.mangas[i].date).getDate()
+          this.mangas[i].date = `${mangaMonth}/${mangaDay}/${mangaYear}`
+        }
+      });
   }
 
   logout() {
