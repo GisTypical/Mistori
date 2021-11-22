@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MangaService } from 'src/app/services/manga.service';
+import { Manga } from 'src/app/shared/Manga';
 
 @Component({
   selector: 'app-library',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./library.page.scss'],
 })
 export class LibraryPage implements OnInit {
+  mangas: Manga[];
+  constructor(private mangaService: MangaService) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  ionViewDidEnter() {
+    this.mangaService.getFollowedMangas().subscribe(({ mangas }) => {
+      console.log(mangas);
+      this.mangas = mangas;
+    });
   }
-
 }

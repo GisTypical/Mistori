@@ -1,16 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Manga } from '../shared/Manga';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { Manga } from '../shared/Manga';
+import { Message } from '../shared/Message';
 
 interface MangasObject {
   mangas: Manga[];
-}
-
-interface Message {
-  message: string;
 }
 
 @Injectable({
@@ -23,6 +20,10 @@ export class MangaService {
 
   constructor(private http: HttpClient) {
     this.currentMangaID = this.mangaID.asObservable();
+  }
+
+  setManga(mangaID: string) {
+    this.mangaID.next(mangaID);
   }
 
   submitManga(formData: FormData): Observable<Message> {
@@ -45,7 +46,11 @@ export class MangaService {
     return this.http.get<MangasObject>(`${this.apiURL}/manga/search/${name}`);
   }
 
-  setManga(mangaID: string) {
-    this.mangaID.next(mangaID);
+  getFollowedMangas(): Observable<MangasObject> {
+    return this.http.get<MangasObject>(`${this.apiURL}/manga/followed`);
+  }
+
+  postFollow(mangaId: string): Observable<Message> {
+    return this.http.post<Message>(`${this.apiURL}/manga/follow`, { mangaId });
   }
 }

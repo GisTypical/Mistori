@@ -145,4 +145,4 @@ def getFollowedMangas():
             'author': followed_mangas.author
         })
 
-    return {'followedMangas': manga_list}, 200
+    return {'mangas': manga_list}, 200
