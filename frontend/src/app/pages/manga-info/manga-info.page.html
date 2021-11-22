@@ -48,5 +48,13 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
 </ion-content>
+
+<!-- Making fabs fixed -->
+<ion-footer>
+  <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
+  <app-follow-button
+    *ngIf="!isUploader()"
+    [mangaID]="manga.id"
+  ></app-follow-button>
+</ion-footer>

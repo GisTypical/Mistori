@@ -34,6 +34,7 @@ export class MangaInfoPage implements OnInit {
   ) {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
     const token = localStorage.getItem('accessToken');
+    // Check if user is the uploader by decoding jwt accessToken
     if (token) {
       const payload: { sub: string } = jwtDecode(
         localStorage.getItem('accessToken')
@@ -61,10 +62,6 @@ export class MangaInfoPage implements OnInit {
     });
   }
 
-  isUploader(): boolean {
-    return this.username === this.manga.uploadedBy;
-  }
-
   chapterDelete(chapterId: string) {
     this.chapterService.deleteChapter(chapterId).subscribe(() => {
       this.manga.chapters = this.manga.chapters.filter(
@@ -72,5 +69,9 @@ export class MangaInfoPage implements OnInit {
       );
       console.log(this.manga.chapters, chapterId);
     });
+  }
+
+  isUploader(): boolean {
+    return this.username === this.manga.uploadedBy;
   }
 }
