@@ -13,6 +13,7 @@ import { LoadingController } from '@ionic/angular'
 export class MangaCreatePage implements OnInit {
   isLoading: boolean;
   loading: HTMLIonLoadingElement;
+  toast: HTMLIonToastElement
 
   constructor(
     private mangaService: MangaService,
@@ -28,37 +29,27 @@ export class MangaCreatePage implements OnInit {
   ngOnInit() {}
 
   submitManga(formData: FormData) {
-    // this.mangaService.submitManga(formData).subscribe(() => {
-    //   this.toastController
-    //     .create({
-    //       color: 'primary',
-    //       duration: 2000,
-    //       message: `"${formData.get('name')}" created succesfully`,
-    //     })
-    //     .then((toastEl) => {
-    //       toastEl.present();
-    //     });
-    // });
     this.presentLoading();
     this.mangaService.submitManga(formData)
     .pipe(finalize(() => this.loading.dismiss()))
     .subscribe(() => {
-      this.toastController
-        .create({
-          color: 'primary',
-          duration: 2000,
-          message: `"${formData.get('name')}" created succesfully`,
-        })
-        .then((toastEl) => {
-          toastEl.present();
-        });
+      this.toastLoading(formData.get('name').toString())
     })
   }
 
   async presentLoading() {
     this.loading = await this.loadingController.create({
-      message: 'Creating manga...',
+      message: 'Uploading manga...',
     });
     return this.loading.present();
+  }
+
+  async toastLoading(name: string) {
+    this.toast = await this.toastController.create({
+      color: 'primary',
+      duration: 2000,
+      message: `"${name}" created succesfully!`
+    })
+    return this.toast.present()
   }
 }

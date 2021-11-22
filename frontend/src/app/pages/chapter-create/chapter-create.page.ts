@@ -15,6 +15,7 @@ export class ChapterCreatePage implements OnInit {
   isLoading = true;
   mangaID: string;
   loading: HTMLIonLoadingElement;
+  toast: HTMLIonToastElement;
 
   constructor(
     private chapterService: ChapterService,
@@ -34,29 +35,10 @@ export class ChapterCreatePage implements OnInit {
   submitChapter(formData: FormData) {
     formData.append('mangaId', this.mangaID);
     this.presentLoading()
-    // this.chapterService.createChapter(formData).subscribe(() => {
-    //   this.toastController
-    //     .create({
-    //       color: 'primary',
-    //       duration: 2000,
-    //       message: `"${formData.get('title')}" created succesfully!`,
-    //     })
-    //     .then((toastEl) => {
-    //       toastEl.present();
-    //     });
-    // });
     this.chapterService.createChapter(formData)
     .pipe(finalize(() => this.loading.dismiss()))
     .subscribe(() => {
-      this.toastController
-        .create({
-          color: 'primary',
-          duration: 2000,
-          message: `"${formData.get('title')}" created succesfully!`,
-        })
-        .then((toastEl) => {
-          toastEl.present();
-        });
+      this.toastLoading(formData.get('title').toString())
     })
   }
 
@@ -65,5 +47,14 @@ export class ChapterCreatePage implements OnInit {
       message: 'Uploading chapter...',
     });
     return this.loading.present();
+  }
+
+  async toastLoading(title: string) {
+    this.toast = await this.toastController.create({
+      color: 'primary',
+      duration: 2000,
+      message: `"${title}" created succesfully!`
+    })
+    return this.toast.present()
   }
 }

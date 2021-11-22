@@ -25,7 +25,7 @@ export class ChapterFormComponent implements OnInit {
   onSubmit() {
     const formData = new FormData(this.form.nativeElement);
     this.newChapter.emit(formData);
-    this.name = '';
-    this.date = '';
+    // this.name = '';
+    // this.date = '';
   }
 }
