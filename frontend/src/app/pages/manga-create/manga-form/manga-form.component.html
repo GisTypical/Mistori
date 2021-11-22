@@ -1,7 +1,14 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <ion-item>
     <ion-label position="stacked">Manga Cover</ion-label>
-    <ion-input required type="file" formControlName="cover" name="cover" (change)="uploadFile($event)" accept="image/*"></ion-input>
+    <ion-input
+      required="true"
+      type="file"
+      formControlName="cover"
+      name="cover"
+      (change)="uploadFile($event)"
+      accept="image/*"
+    ></ion-input>
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label position="floating">Name</ion-label>
@@ -13,18 +20,31 @@
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label>Published Date</ion-label>
-    <ion-datetime display-format="MMM, DD, YYYY" placeholder="Select Date" name="date" formControlName="date"></ion-datetime>
+    <ion-datetime
+      display-format="MMM, DD, YYYY"
+      placeholder="Select Date"
+      name="date"
+      formControlName="date"
+    ></ion-datetime>
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
     <ion-label>Status</ion-label>
-    <ion-select value="status" placeholder="Select Status" name="status" formControlName="status">
+    <ion-select
+      value="status"
+      placeholder="Select Status"
+      name="status"
+      formControlName="status"
+    >
       <ion-select-option value="on-going">On going</ion-select-option>
       <ion-select-option value="completed">Completed</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item class="ion-margin-top ion-margin-bottom">
-  <ion-label position="floating">Description</ion-label>
-    <ion-textarea name="description" formControlName="description"></ion-textarea>
+    <ion-label position="floating">Description</ion-label>
+    <ion-textarea
+      name="description"
+      formControlName="description"
+    ></ion-textarea>
   </ion-item>
   <ion-button type="submit">Upload</ion-button>
 </form>

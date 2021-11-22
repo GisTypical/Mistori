@@ -21,5 +21,5 @@ class User_account(db.Model):
     password = db.Column(db.String, nullable=False)
     admin = db.Column(db.Boolean, nullable=False)
     mangas = db.relationship('Manga', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
+    follows = db.relationship('Manga', secondary=follower, cascade='all, delete', backref=db.backref('user_follow', lazy=True), primaryjoin=follower.c.user_id == id)
     comments = db.relationship('Comment', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
-    follows = db.relationship('Manga', secondary=follower, cascade='all, delete', backref=db.backref('user_follow', lazy=True), primaryjoin=follower.c.manga_id == id)

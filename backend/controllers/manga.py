@@ -6,6 +6,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from cloudinary import uploader
 from models.manga import Manga
+from models.user import User_account
 
 manga_bp = Blueprint('manga_bp', __name__)
 
@@ -41,25 +42,7 @@ def createManga():
         'cover': request.files['cover'].filename
     }, 200
 
-
-@manga_bp.route('/manga', methods=['GET'])
-@jwt_required()
-def getUploadedManga():
-    username = get_jwt_identity()
-    mangas_obj = Manga.query.filter_by(
-        uploaded_by=username).order_by(Manga.date).all()
-
-    mangas = []
-
-    for manga in mangas_obj:
-        mangas.append({'id': manga.id, 'name': manga.name,
-                      'cover': manga.cover, 'author': manga.author})
-
-    return {
-        'mangas': mangas
-    }, 200
-
-
+# Get Manga Info for Page
 @manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
 def getMangaID(manga_id):
     manga_obj = Manga.query.filter_by(id=manga_id).first()
@@ -86,7 +69,25 @@ def getMangaID(manga_id):
 
     return manga, 200
 
+# Get User Uploaded Mangas
+@manga_bp.route('/manga', methods=['GET'])
+@jwt_required()
+def getUploadedManga():
+    username = get_jwt_identity()
+    mangas_obj = Manga.query.filter_by(
+        uploaded_by=username).order_by(Manga.date).all()
 
+    mangas = []
+
+    for manga in mangas_obj:
+        mangas.append({'id': manga.id, 'name': manga.name,
+                      'cover': manga.cover, 'author': manga.author})
+
+    return {
+        'mangas': mangas
+    }, 200
+
+# Get all Mangas for search page
 @manga_bp.route('/manga/all', methods=['GET'])
 def get_all_mangas():
     manga_obj = Manga.query.all()
@@ -97,24 +98,51 @@ def get_all_mangas():
                           'cover': manga.cover, 'author': manga.author})
 
     return {"mangas": manga_list}, 200
-  
 
+# Get all mangas within a search value
 @manga_bp.route('/manga/search/<string:searchValue>', methods=['GET'])
 @jwt_required()
 def getMangasSearched(searchValue):
-  mangas_obj = Manga.query.filter(Manga.name.ilike(f'%{searchValue}%')).all()
+    mangas_obj = Manga.query.filter(Manga.name.ilike(f'%{searchValue}%')).all()
 
-  mangas = []
+    mangas = []
 
-  for manga in mangas_obj:
-    mangas.append({
-      'id': manga.id,
-      'name': manga.name,
-      'cover': manga.cover,
-      'author': manga.author
-    })
+    for manga in mangas_obj:
+        mangas.append({
+            'id': manga.id,
+            'name': manga.name,
+            'cover': manga.cover,
+            'author': manga.author
+        })
 
-  return {
-    'status': 200,
-    'mangas': mangas
-  }
+    return {'mangas': mangas}, 200
+
+# Create user manga follow/subscribe relationship
+@manga_bp.route('/manga/follow', methods=['POST'])
+@jwt_required()
+def followManga():
+    manga_id = request.json['mangaId']
+    user = User_account.query.filter_by(username=get_jwt_identity()).first()
+
+    manga = Manga.query.filter_by(id=manga_id).first()
+    manga.user_follow.append(user)
+
+    db.session.commit()
+    return {"message": f"{get_jwt_identity()} now follows {manga.id}"}, 201
+
+
+@manga_bp.route('/manga/followed', methods=['GET'])
+@jwt_required()
+def getFollowedMangas():
+    user = User_account.query.filter_by(username=get_jwt_identity()).first()
+
+    manga_list = []
+    for followed_mangas in user.follows:
+        manga_list.append({
+            'id': followed_mangas.id,
+            'name': followed_mangas.name,
+            'cover': followed_mangas.cover,
+            'author': followed_mangas.author
+        })
+
+    return {'followedMangas': manga_list}, 200
