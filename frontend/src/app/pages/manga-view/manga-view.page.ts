@@ -24,7 +24,7 @@ export class MangaViewPage implements AfterContentChecked {
 
   pages: any;
   rtl = false;
-  private chapterID: string;
+  chapterID: string;
 
   constructor(
     private chapterService: ChapterService,
