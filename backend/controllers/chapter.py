@@ -25,7 +25,7 @@ def create_chapter():
     pages = f'mistori/{manga.name}/{data["title"]}'
 
     chapter = Chapter(
-        title=data['title'], date=data['date'], manga_id=data['mangaId'], pages=pages)
+        title=data['title'], manga_id=data['mangaId'], pages=pages)
 
     db.session.add(chapter)
     db.session.commit()
