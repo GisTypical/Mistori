@@ -23,7 +23,7 @@ export class MangaInfoPage implements OnInit {
     uploadedBy: '',
   };
 
-  isLoading = true;
+  isLoading: boolean;
   username: string;
 
   constructor(
@@ -46,6 +46,7 @@ export class MangaInfoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.activatedRoute.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('mangaID')) {
         return;
