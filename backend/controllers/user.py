@@ -1,11 +1,9 @@
 import bcrypt
-from flask_jwt_extended.utils import create_refresh_token
 from app import db
 from flask import Blueprint, request
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-
+from flask_jwt_extended import (create_access_token, get_jwt_identity,
+                                jwt_required)
+from flask_jwt_extended.utils import create_refresh_token
 from models.user import User_account
 
 user_bp = Blueprint('user_bp', __name__)
