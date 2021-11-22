@@ -1,7 +1,5 @@
 <ion-header>
   <ion-toolbar color="tertiary">
-    <!-- <ion-title *ngIf="isLoading"> Loading... </ion-title>
-    <ion-title *ngIf="!isLoading">Account</ion-title> -->
     <ion-title>Account</ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="isLogged === 'logged'" (click)="logout()">
@@ -21,3 +19,6 @@
   <app-user *ngIf="isLogged === 'logged'" [mangas]="mangas"></app-user>
   <app-notlogged *ngIf="isLogged === 'notLogged'"></app-notlogged>
 </ion-content>
+<ion-footer>
+  <app-add-manga *ngIf="isLogged === 'logged'"></app-add-manga>
+</ion-footer>
