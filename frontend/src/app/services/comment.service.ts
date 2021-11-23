@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Comment } from '../shared/Comment'
 
 interface CommentObject {
-  comments: Comment[]
+  comments?: Comment[],
+  message?: string
 }
 
 @Injectable({
@@ -18,5 +19,9 @@ export class CommentService {
 
   submitComment(comment: Comment, chapterID: string): Observable<Comment> {
     return this.http.post<Comment>(`${this.apiUrl}/comment/${chapterID}`, comment)
+  }
+
+  getComments(chapterID: string): Observable<CommentObject> {
+    return this.http.get<CommentObject>(`${this.apiUrl}/comment/${chapterID}`)
   }
 }

@@ -25,6 +25,23 @@ export class CommentsPage implements OnInit {
     });
   }
 
+  ionViewDidEnter() {
+    this.commentService.getComments(this.chapterID).subscribe(data => {
+      for (let i = 0; i < data.comments.length; i++) {
+        const commentYear = new Date(data.comments[i].date).getFullYear()
+      const commentMonth = new Date(data.comments[i].date).getMonth()
+      const commentDay = new Date(data.comments[i].date).getDate()
+      const commentHour = new Date(data.comments[i].date).getHours()
+      const commentMinute = new Date(data.comments[i].date).getMinutes()
+      const commentSecond = new Date(data.comments[i].date).getSeconds()
+
+      data.comments[i].date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}:${commentSecond}`
+      }
+
+      this.comments = data.comments
+    })
+  }
+
   submitComment(comment: Comment) {
     this.commentService.submitComment(comment, this.chapterID).subscribe(comment => {
       const commentYear = new Date(comment.date).getFullYear()
