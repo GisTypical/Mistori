@@ -10,4 +10,5 @@ export interface Manga {
   status: string;
   uploadedBy: string;
   chapters: Chapter[];
+  isFollower: boolean;
 }

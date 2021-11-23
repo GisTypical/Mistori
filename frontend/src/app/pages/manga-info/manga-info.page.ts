@@ -21,10 +21,11 @@ export class MangaInfoPage implements OnInit {
     date: '',
     status: '',
     uploadedBy: '',
+    isFollower: false,
   };
 
-  isLoading: boolean;
   username: string;
+  isLoading: boolean;
 
   constructor(
     private mangaService: MangaService,

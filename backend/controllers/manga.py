@@ -44,30 +44,42 @@ def createManga():
 
 # Get Manga Info for Page
 @manga_bp.route('/manga/<string:manga_id>', methods=['GET'])
+@jwt_required(optional=True)
 def getMangaID(manga_id):
-    manga_obj = Manga.query.filter_by(id=manga_id).first()
-
+    manga_db = Manga.query.filter_by(id=manga_id).first()
     chapters_list = []
-    for chapter in manga_obj.chapters:
+    for chapter in manga_db.chapters:
         chapters_list.append({
             'id': chapter.id,
             'title': chapter.title,
             'date': chapter.date
         })
-
+    
+    username = get_jwt_identity()
+    if(username): 
+        is_follower = isFollower(manga_db, username)
+        
     manga = {
-        'id': manga_obj.id,
-        'name': manga_obj.name,
-        'author': manga_obj.author,
-        'description': manga_obj.description,
-        'date': manga_obj.date,
-        'status': manga_obj.status,
-        'cover': manga_obj.cover,
+        'id': manga_db.id,
+        'name': manga_db.name,
+        'author': manga_db.author,
+        'description': manga_db.description,
+        'date': manga_db.date,
+        'status': manga_db.status,
+        'cover': manga_db.cover,
         'chapters': chapters_list,
-        'uploadedBy': manga_obj.uploaded_by
+        'uploadedBy': manga_db.uploaded_by,
+        'isFollower': is_follower
     }
 
     return manga, 200
+
+def isFollower(manga_db, username):
+    for user in manga_db.user_follow:
+        if user.username == username: 
+            return True
+
+    return False
 
 # Get User Uploaded Mangas
 @manga_bp.route('/manga', methods=['GET'])

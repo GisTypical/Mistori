@@ -8,12 +8,17 @@ import { MangaService } from 'src/app/services/manga.service';
 })
 export class FollowButtonComponent implements OnInit {
   @Input() mangaID: string;
+  @Input() isFollower: boolean;
 
   constructor(private mangaService: MangaService) {}
 
   ngOnInit() {}
 
   onFollowChapter() {
+    this.mangaService.postFollow(this.mangaID).subscribe();
+  }
+
+  onUnfollowChapter() {
     this.mangaService.postFollow(this.mangaID).subscribe();
   }
 }

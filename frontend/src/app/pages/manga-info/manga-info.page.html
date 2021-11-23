@@ -50,10 +50,11 @@
 </ion-content>
 
 <!-- Making fabs fixed -->
-<ion-footer>
+<ion-footer *ngIf="!isLoading">
   <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
   <app-follow-button
     *ngIf="!isUploader() && username"
     [mangaID]="manga.id"
+    [isFollower]="manga.isFollower"
   ></app-follow-button>
 </ion-footer>

@@ -15,7 +15,6 @@ export class LibraryPage implements OnInit {
 
   ionViewDidEnter() {
     this.mangaService.getFollowedMangas().subscribe(({ mangas }) => {
-      console.log(mangas);
       this.mangas = mangas;
     });
   }
