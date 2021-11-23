@@ -43,6 +43,7 @@ def createComment(chapter_id):
 # FUNCTION getChildren()
 def getChildren(comment_parent):
     comment_children = Comment.query.filter_by(parent_id=comment_parent).all()
+    parent = Comment.query.filter_by(id=comment_parent).first()
 
     children = []
 
@@ -55,6 +56,10 @@ def getChildren(comment_parent):
             'parent_id': comment.parent_id,
             'username': comment.username,
             'chapter_id': comment.chapter_id,
+            'parent': {
+                'username': parent.username,
+                'text': parent.text
+            },
             'children': getChildren(comment_parent)
         })
 
