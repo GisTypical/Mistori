@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title>Manga viewer</ion-title>
     <ion-buttons slot="end">
+      <ion-button [routerLink]="['/comment', chapterID]">
+        <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="showReadingModes()">
         <ion-icon name="settings-outline"></ion-icon>
       </ion-button>

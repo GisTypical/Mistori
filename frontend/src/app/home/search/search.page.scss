@@ -1,1 +1,8 @@
 @import "../home.page.scss";
+
+ion-searchbar {
+  --box-shadow: none;
+  --background: rgb(236, 236, 236);
+  --border-radius: 10px;
+  --placeholder-color: black;
+}
