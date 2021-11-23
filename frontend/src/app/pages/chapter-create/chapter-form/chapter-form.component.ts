@@ -16,7 +16,6 @@ export class ChapterFormComponent implements OnInit {
   @ViewChild('chapterForm') form: ElementRef<HTMLFormElement>;
   @Output() newChapter = new EventEmitter<FormData>();
   name: string;
-  date: string;
 
   constructor() {}
 
@@ -25,7 +24,6 @@ export class ChapterFormComponent implements OnInit {
   onSubmit() {
     const formData = new FormData(this.form.nativeElement);
     this.newChapter.emit(formData);
-    // this.name = '';
-    // this.date = '';
+    this.name = '';
   }
 }
