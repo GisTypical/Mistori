@@ -22,6 +22,9 @@ export class ChapterFormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
+    if (this.name) {
+      return;
+    }
     const formData = new FormData(this.form.nativeElement);
     this.newChapter.emit(formData);
     this.name = '';
