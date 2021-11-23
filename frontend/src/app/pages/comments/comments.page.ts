@@ -25,17 +25,33 @@ export class CommentsPage implements OnInit {
     });
   }
 
+  formatDate(children: Comment[]){
+    for (let j = 0; j < children.length; j++) {
+      const childrenYear = new Date(children[j].date).getFullYear()
+      const childrenMonth = new Date(children[j].date).getMonth()
+      const childrenDay = new Date(children[j].date).getDate()
+      const childrenHour = new Date(children[j].date).getHours()
+      const childrenMinute = new Date(children[j].date).getMinutes()
+
+      children[j].date = `${childrenMonth}/${childrenDay}/${childrenYear} - ${childrenHour}:${childrenMinute}`
+
+      this.formatDate(children[j].children)
+    }
+
+  }
+
   ionViewDidEnter() {
     this.commentService.getComments(this.chapterID).subscribe(data => {
       for (let i = 0; i < data.comments.length; i++) {
         const commentYear = new Date(data.comments[i].date).getFullYear()
-      const commentMonth = new Date(data.comments[i].date).getMonth()
-      const commentDay = new Date(data.comments[i].date).getDate()
-      const commentHour = new Date(data.comments[i].date).getHours()
-      const commentMinute = new Date(data.comments[i].date).getMinutes()
-      const commentSecond = new Date(data.comments[i].date).getSeconds()
+        const commentMonth = new Date(data.comments[i].date).getMonth()
+        const commentDay = new Date(data.comments[i].date).getDate()
+        const commentHour = new Date(data.comments[i].date).getHours()
+        const commentMinute = new Date(data.comments[i].date).getMinutes()
 
-      data.comments[i].date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}:${commentSecond}`
+        this.formatDate(data.comments[i].children)
+
+        data.comments[i].date = `${commentMonth}/${commentDay}/${commentYear} - ${commentHour}:${commentMinute}`
       }
 
       this.comments = data.comments

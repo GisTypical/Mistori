@@ -1,0 +1,51 @@
+
+<ion-item-group style="margin-left: 3vmax;" class="ion-margin-vertical">
+  <ion-item-divider class="ion-no-margin" color="light" style="border-radius: 10px 10px 0px 0px;">
+    <ion-label class="ion-no-margin">
+      <ion-text>
+        <p>
+          <span style="color: grey; font-weight: bold; font-size: 1.6vmax;" class="ion-margin-end">{{ commentItem.parent.username }}</span>
+          <span style="color: grey; font-size: 1.4vmax;">{{ commentItem.parent.text }}</span>
+        </p>
+      </ion-text>
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item color="light" style="border-radius: 0px 0px 10px 10px;">
+    <ion-icon slot="start" name="person-circle-outline" style="width: 4vmax; height: 4vmax;" class="ion-no-margin ion-margin-end">
+    </ion-icon>
+    <ion-label text-wrap>
+      <ion-text>
+        <p><span style="font-weight: bold; font-size: 2vmax;" class="ion-margin-end">{{ commentItem.username }}</span><span style="color: grey; font-size: 1.5vmax;">{{ commentItem.date }}</span></p>
+      </ion-text>
+      <ion-text class="ion-margin-top">
+        <p style="font-size: 1.8;">{{ commentItem.text }}</p>
+      </ion-text>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button color="secondary" (click)="onClick()">
+        <ion-icon name="arrow-undo-circle" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+
+  <form *ngIf="showResponseForm">
+    <ion-grid fixed>
+      <ion-row class="ion-justify-content-around ion-align-items-center">
+        <ion-col size="10">
+          <ion-item>
+            <ion-label position="floating" color="medium">Comment here</ion-label>
+            <ion-input required type="text" name="text"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="2" class="ion-justify-content-around ion-align-items-center">
+          <ion-button color="primary" type="submit" block shape="round" size="small">
+            <ion-icon slot="icon-only" name="send" style="width: 2vmax; height: 2vmax;"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-item-group>
+
+<app-comment-response *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>

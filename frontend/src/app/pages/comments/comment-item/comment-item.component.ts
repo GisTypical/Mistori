@@ -8,8 +8,13 @@ import { Comment } from 'src/app/shared/Comment';
 })
 export class CommentItemComponent implements OnInit {
   @Input() commentItem: Comment
+  showResponseForm: boolean = false
 
   constructor() { }
+
+  onClick() {
+    this.showResponseForm = !this.showResponseForm
+  }
 
   ngOnInit() {}
 
