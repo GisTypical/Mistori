@@ -7,11 +7,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <app-login-form (newLoginEvent)="loginUser($event)"></app-login-form>
-  <ion-text color="danger" class="center">
-    <p *ngIf="isError">Incorrect username or password</p>
-  </ion-text>
+<ion-content fullscreen>
+  <ion-grid style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <ion-row style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+      <ion-col style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <ion-card style="width: 100%; border-radius: 10px;">
+          <ion-card-content>
+            <app-login-form (newLoginEvent)="loginUser($event)"></app-login-form>
+            <ion-text color="danger" class="center ion-margin-top">
+              <p *ngIf="isError">Incorrect username or password</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-footer>

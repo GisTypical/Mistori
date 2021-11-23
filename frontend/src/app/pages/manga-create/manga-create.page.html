@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col>
-        <ion-card>
+  <ion-grid fixed style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <ion-row style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+      <ion-col style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+        <ion-card style="border-radius: 10px; height: 100%; display: flex; justify-content: space-around; align-items: center; flex-flow: row wrap;">
           <ion-card-content>
             <app-manga-form
               (onSubmitManga)="submitManga($event)"

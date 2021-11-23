@@ -1,5 +1,5 @@
 <form (submit)="onSubmit()" #chapterForm>
-  <ion-item>
+  <ion-item style="margin-bottom: 6vmax;">
     <ion-label position="stacked">Chapter pages</ion-label>
     <ion-input
       required
@@ -9,7 +9,7 @@
       id="pages"
     ></ion-input>
   </ion-item>
-  <ion-item class="ion-margin-top ion-margin-bottom">
+  <ion-item style="margin-block: 6vmax;">
     <ion-label position="floating">Title</ion-label>
     <ion-input
       type="text"
@@ -19,7 +19,7 @@
       [(ngModel)]="name"
     ></ion-input>
   </ion-item>
-  <ion-item class="ion-margin-top ion-margin-bottom">
+  <ion-item style="margin-block: 6vmax;">
     <ion-label>Published Date</ion-label>
     <ion-datetime
       display-format="MMM, DD, YYYY"
@@ -29,5 +29,8 @@
       [(ngModel)]="date"
     ></ion-datetime>
   </ion-item>
-  <ion-button type="submit" fill="solid" expand="block">Upload</ion-button>
+  <ion-button type="submit" fill="solid" expand="block" shape="round" style="margin-top: 6vmax;">
+    <ion-icon slot="start" name="arrow-up-circle"></ion-icon>
+    Upload
+  </ion-button>
 </form>
