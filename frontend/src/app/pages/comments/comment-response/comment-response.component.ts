@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Comment } from 'src/app/shared/Comment';
 
 @Component({
@@ -8,7 +8,9 @@ import { Comment } from 'src/app/shared/Comment';
 })
 export class CommentResponseComponent implements OnInit {
   @Input() commentItem: Comment
+  @Output() onSubmitResponse: EventEmitter<Comment> = new EventEmitter()
   showResponseForm: boolean = false
+  text: string
 
   onClick() {
     this.showResponseForm = !this.showResponseForm
@@ -17,5 +19,24 @@ export class CommentResponseComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  onSubmit() {
+    const response = {
+      'username': this.commentItem.username,
+      'text': this.text,
+      'date': this.commentItem.date,
+      'parent': {
+        'username': this.commentItem.username,
+        'text': this.commentItem.text
+      }
+    }
+
+    console.log(response)
+
+    this.commentItem.children.push(response)
+
+    this.text = ''
+    this.showResponseForm = false
+  }
 
 }
