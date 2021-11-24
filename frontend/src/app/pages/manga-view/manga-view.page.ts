@@ -1,9 +1,4 @@
-import {
-  AfterContentChecked,
-  Component,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -21,7 +16,7 @@ interface Page {
   styleUrls: ['./manga-view.page.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MangaViewPage implements AfterContentChecked {
+export class MangaViewPage {
   @ViewChild('swiper') swiper: SwiperComponent;
   config: SwiperOptions = {
     direction: 'horizontal',
@@ -64,21 +59,15 @@ export class MangaViewPage implements AfterContentChecked {
   ionViewDidEnter() {
     if (this.swiper) {
       this.swiper.updateSwiper({});
-      this.storage.getItem('lastSlide').then((lastSlide: string) => {
+      this.storage.getItem(this.chapterID).then((lastSlide: string) => {
         this.swiper.swiperRef.slideTo(Number(lastSlide));
       });
     }
   }
 
-  ngAfterContentChecked() {
-    // if (this.swiper) {
-    //   this.swiper.updateSwiper({});
-    // }
-  }
-
   onExit() {
     const activeSlide = this.swiper.swiperRef.activeIndex;
-    this.storage.setItem('lastSlide', activeSlide.toString());
+    this.storage.setItem(this.chapterID, activeSlide.toString());
   }
 
   // Show action sheet for reading modes
@@ -139,6 +128,6 @@ export class MangaViewPage implements AfterContentChecked {
   private readVertical() {
     this.swiper.swiperRef.rtlTranslate = false;
     this.swiper.swiperRef.changeDirection('vertical');
-    this.storage.setItem('readMode', 'vertical');
+    this.storage.setItem(this.chapterID, 'vertical');
   }
 }
