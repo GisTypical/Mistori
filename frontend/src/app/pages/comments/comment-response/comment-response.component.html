@@ -31,4 +31,4 @@
   <app-comment-form [showForm]="showResponseForm" [margin_left]="'1vmax'" (onSubmitComment)="onSubmit($event)" ></app-comment-form>
 </ion-item-group>
 
-<app-comment-response (onSubmitResponse)="submitResponse($event)" *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>
+<app-comment-response (onSubmitResponse)="submitResponse()" *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>

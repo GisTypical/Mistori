@@ -81,12 +81,12 @@ export class CommentsPage implements OnInit {
       const commentMinute = new Date(comment.date).getMinutes()
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
-      this.submitResponse(comment)
+      this.submitResponse()
     })
 
   }
 
-  submitResponse(response: Comment) {
+  submitResponse() {
     this.commentService.getComments(this.chapterID).subscribe(data => {
       for (let i = 0; i < data.comments.length; i++) {
         const commentYear = new Date(data.comments[i].date).getFullYear()

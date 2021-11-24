@@ -11,7 +11,7 @@ import { PopoverComponent } from '../popover/popover.component';
 })
 export class CommentResponseComponent implements OnInit {
   @Input() commentItem: Comment
-  @Output() onSubmitResponse: EventEmitter<Comment> = new EventEmitter()
+  @Output() onSubmitResponse = new EventEmitter()
   showResponseForm: boolean = false
   text: string
 
@@ -35,14 +35,14 @@ export class CommentResponseComponent implements OnInit {
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
 
-      this.onSubmitResponse.emit(comment)
+      this.onSubmitResponse.emit()
     })
     this.text = ''
     this.showResponseForm = false
   }
 
-  submitResponse(response: Comment) {
-    this.onSubmitResponse.emit(response)
+  submitResponse() {
+    this.onSubmitResponse.emit()
   }
 
 
