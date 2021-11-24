@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { parseDate } from 'src/app/utils/parseDate';
 import { MangaService } from '../../services/manga.service';
 import { Manga } from '../../shared/Manga';
-import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-account',
@@ -11,39 +12,33 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class AccountPage implements OnInit {
   isLogged: string;
-  isLoading: boolean = true
   mangas: Manga[] = [];
 
   constructor(
     private authService: AuthService,
-    private mangaService: MangaService,
-    private loadingService: LoadingService,
+    private mangaService: MangaService
   ) {
     this.authService.isLogged.subscribe((s) => (this.isLogged = s));
-    //this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
-
+    this.mangaService.getMangaEvent.subscribe(() => {
+      this.refreshUserMangas();
+    });
   }
 
-  ngOnInit() {}
-
-  ionViewDidEnter() {
-    this.mangaService
-      .getUploadedMangas()
-      .subscribe((mangas) => {
-        this.mangas = mangas.mangas
-
-        for (let i = 0; i < this.mangas.length; i++) {
-          const mangaYear = new Date(this.mangas[i].date).getFullYear()
-          const mangaMonth = new Date(this.mangas[i].date).getMonth()
-          const mangaDay = new Date(this.mangas[i].date).getDate()
-          this.mangas[i].date = `${mangaMonth}/${mangaDay}/${mangaYear}`
-        }
-      });
+  ngOnInit() {
+    this.refreshUserMangas();
   }
 
   logout() {
     localStorage.setItem('accessToken', '');
     localStorage.setItem('refreshToken', '');
     this.authService.setLogged('notLogged');
+  }
+
+  private refreshUserMangas() {
+    this.mangaService.getUploadedMangas().subscribe((mangas) => {
+      this.mangas = mangas.mangas;
+
+      parseDate(this.mangas);
+    });
   }
 }

@@ -28,14 +28,14 @@
                 <ion-text color="tertiary">
                   <h3 style="margin-block: 0.7vmax">{{ manga.author }}</h3>
                 </ion-text>
-                <ion-text color="success" *ngIf="manga.status == 'Completed'">
+                <ion-text color="success" *ngIf="manga.status === 'Completed'">
                   <p>{{ manga.status }}</p>
                 </ion-text>
-                <ion-text color="warning" *ngIf="manga.status == 'On going'">
+                <ion-text color="warning" *ngIf="manga.status === 'On going'">
                   <p>{{ manga.status }}</p>
                 </ion-text>
                 <ion-text *ngIf="!isUploader()">
-                  <p style="color: grey;">By: {{ manga.uploadedBy }}</p>
+                  <p style="color: grey">By: {{ manga.uploadedBy }}</p>
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -46,6 +46,7 @@
     <ion-row class="ion-padding">
       <ion-col>
         <app-chapter-list
+          *ngIf="manga?.chapters.length"
           [chapters]="manga.chapters"
           [isUploader]="isUploader()"
           (newChapterDelete)="chapterDelete($event)"

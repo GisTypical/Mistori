@@ -22,7 +22,7 @@ export class ChapterFormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    if (this.name) {
+    if (!this.name) {
       return;
     }
     const formData = new FormData(this.form.nativeElement);
