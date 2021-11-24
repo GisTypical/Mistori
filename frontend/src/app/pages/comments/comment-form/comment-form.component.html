@@ -8,7 +8,7 @@
         </ion-item>
       </ion-col>
       <ion-col size="2.5" class="ion-justify-content-around ion-align-items-center">
-        <ion-button color="primary" type="submit" block shape="round">
+        <ion-button color="primary" type="submit" block shape="round" [disabled]="onInput()">
           <ion-icon slot="icon-only" name="send" style="width: 2.5vmax; height: 2.5vmax;"></ion-icon>
         </ion-button>
       </ion-col>

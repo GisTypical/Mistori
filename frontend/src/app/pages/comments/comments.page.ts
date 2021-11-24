@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 
@@ -12,7 +12,7 @@ export class CommentsPage implements OnInit {
   chapterID: string
   comments: Comment[] = []
 
-  constructor(private activatedRoute: ActivatedRoute, private commentService: CommentService) { }
+  constructor(private activatedRoute: ActivatedRoute, private commentService: CommentService, private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((paramMap) => {
@@ -67,9 +67,27 @@ export class CommentsPage implements OnInit {
       const commentMinute = new Date(comment.date).getMinutes()
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
-
-      this.comments.push(comment)
+      this.submitResponse(comment)
     })
+  }
+
+  submitResponse(response: Comment) {
+    this.commentService.getComments(this.chapterID).subscribe(data => {
+      for (let i = 0; i < data.comments.length; i++) {
+        const commentYear = new Date(data.comments[i].date).getFullYear()
+        const commentMonth = new Date(data.comments[i].date).getMonth()
+        const commentDay = new Date(data.comments[i].date).getDate()
+        const commentHour = new Date(data.comments[i].date).getHours()
+        const commentMinute = new Date(data.comments[i].date).getMinutes()
+
+        this.formatDate(data.comments[i].children)
+
+        data.comments[i].date = `${commentMonth}/${commentDay}/${commentYear} - ${commentHour}:${commentMinute}`
+      }
+
+      this.comments = data.comments
+    })
+
   }
 
 }

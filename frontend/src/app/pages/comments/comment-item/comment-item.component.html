@@ -5,15 +5,15 @@
     <ion-label text-wrap>
       <ion-text>
         <p><span style="font-weight: bold; font-size: 2.2vmax;" class="ion-margin-end">{{ commentItem.username
-            }}</span><span style="color: grey; font-size: 1.8vmax;">{{ commentItem.date }}</span></p>
+            }}</span><span style="color: grey; font-size: 1.7vmax;">{{ commentItem.date }}</span></p>
       </ion-text>
       <ion-text class="ion-margin-top">
         <p>{{ commentItem.text }}</p>
       </ion-text>
     </ion-label>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="onClick()">
-        <ion-icon name="arrow-undo-circle" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
+      <ion-button color="{{ showResponseForm ? 'danger': 'primary' }}" (click)="onClick()">
+        <ion-icon name="{{ showResponseForm ? 'close-circle' : 'arrow-undo-circle'}}" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
@@ -28,7 +28,7 @@
           </ion-item>
         </ion-col>
         <ion-col size="2" class="ion-justify-content-around ion-align-items-center">
-          <ion-button color="primary" type="submit" block shape="round" size="small">
+          <ion-button color="primary" type="submit" block shape="round" size="small" [disabled]="onInput()">
             <ion-icon slot="icon-only" name="send" style="width: 2vmax; height: 2vmax;"></ion-icon>
           </ion-button>
         </ion-col>
@@ -37,4 +37,4 @@
   </form>
 </ion-item-group>
 
-<app-comment-response *ngFor="let comment of commentItem.children" [commentItem]="comment" class="ion-margin-top"></app-comment-response>
+<app-comment-response (onSubmitResponse)="submitResponse($event)" *ngFor="let comment of commentItem.children" [commentItem]="comment" class="ion-margin-top"></app-comment-response>

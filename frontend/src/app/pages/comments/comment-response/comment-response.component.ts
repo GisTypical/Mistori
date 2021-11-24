@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 
@@ -37,11 +38,20 @@ export class CommentResponseComponent implements OnInit {
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
 
-      this.commentItem.children.push(comment)
+      this.onSubmitResponse.emit(comment)
     })
 
     this.text = ''
     this.showResponseForm = false
+  }
+
+  submitResponse(response: Comment) {
+    this.onSubmitResponse.emit(response)
+  }
+
+  onInput() {
+    const validation = (this.text == undefined || this.text == '') ? true : false
+    return validation
   }
 
 }

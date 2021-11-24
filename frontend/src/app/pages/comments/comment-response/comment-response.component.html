@@ -1,4 +1,3 @@
-
 <ion-item-group style="margin-left: 3vmax;" class="ion-margin-vertical">
   <ion-item-divider class="ion-no-margin" color="light" style="border-radius: 10px 10px 0px 0px;">
     <ion-label class="ion-no-margin">
@@ -23,8 +22,8 @@
       </ion-text>
     </ion-label>
     <ion-buttons slot="end">
-      <ion-button color="secondary" (click)="onClick()">
-        <ion-icon name="arrow-undo-circle" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
+      <ion-button color="{{ showResponseForm ? 'danger' : 'secondary'}}" (click)="onClick()">
+        <ion-icon name="{{ showResponseForm ? 'close-circle' : 'arrow-undo-circle'}}" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
@@ -39,7 +38,7 @@
           </ion-item>
         </ion-col>
         <ion-col size="2" class="ion-justify-content-around ion-align-items-center">
-          <ion-button color="primary" type="submit" block shape="round" size="small">
+          <ion-button color="primary" type="submit" block shape="round" size="small" [disabled]="onInput()">
             <ion-icon slot="icon-only" name="send" style="width: 2vmax; height: 2vmax;"></ion-icon>
           </ion-button>
         </ion-col>
@@ -48,4 +47,4 @@
   </form>
 </ion-item-group>
 
-<app-comment-response *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>
+<app-comment-response (onSubmitResponse)="submitResponse($event)" *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>

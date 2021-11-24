@@ -9,6 +9,7 @@ import { Comment } from 'src/app/shared/Comment';
 })
 export class CommentItemComponent implements OnInit {
   @Input() commentItem: Comment
+  @Output() onSubmitResponse: EventEmitter<Comment> = new EventEmitter()
   showResponseForm: boolean = false
   text: string
 
@@ -35,12 +36,20 @@ export class CommentItemComponent implements OnInit {
       const commentMinute = new Date(comment.date).getMinutes()
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
-
-      this.commentItem.children.push(comment)
+      this.onSubmitResponse.emit(comment)
     })
 
     this.text = ''
     this.showResponseForm = false
+  }
+
+  submitResponse(response: Comment) {
+    this.onSubmitResponse.emit(response)
+  }
+
+  onInput() {
+    const validation = (this.text == undefined || this.text == '') ? true : false
+    return validation
   }
 
 }
