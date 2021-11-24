@@ -28,7 +28,7 @@
     </ion-buttons>
   </ion-item>
 
-  <form *ngIf="showResponseForm" (ngSubmit)="onSubmit()">
+  <!-- <form *ngIf="showResponseForm" (ngSubmit)="onSubmit($event)">
     <ion-grid fixed>
       <ion-row class="ion-justify-content-around ion-align-items-center">
         <ion-col size="10">
@@ -44,7 +44,8 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </form>
+  </form> -->
+  <app-comment-form [showForm]="showResponseForm" [margin_left]="'1vmax'" (onSubmitComment)="onSubmit($event)" ></app-comment-form>
 </ion-item-group>
 
 <app-comment-response (onSubmitResponse)="submitResponse($event)" *ngFor="let comment of commentItem.children" [commentItem]="comment"></app-comment-response>

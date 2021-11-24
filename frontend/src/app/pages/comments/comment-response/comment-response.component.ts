@@ -23,14 +23,32 @@ export class CommentResponseComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSubmit() {
-    const response = {
-      'text': this.text,
-      'parent_id': this.commentItem.id
-    }
+  // onSubmit() {
+  //   const response = {
+  //     'text': this.text,
+  //     'parent_id': this.commentItem.id
+  //   }
 
+  //   this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
+  //     console.log(comment)
+  //     const commentYear = new Date(comment.date).getFullYear()
+  //     const commentMonth = new Date(comment.date).getMonth()
+  //     const commentDay = new Date(comment.date).getDate()
+  //     const commentHour = new Date(comment.date).getHours()
+  //     const commentMinute = new Date(comment.date).getMinutes()
+
+  //     comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
+
+  //     this.onSubmitResponse.emit(comment)
+  //   })
+
+  //   this.text = ''
+  //   this.showResponseForm = false
+  // }
+
+  onSubmit(text: string) {
+    const response = { 'text': text, 'parent_id': this.commentItem.id }
     this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
-      console.log(comment)
       const commentYear = new Date(comment.date).getFullYear()
       const commentMonth = new Date(comment.date).getMonth()
       const commentDay = new Date(comment.date).getDate()
@@ -41,7 +59,6 @@ export class CommentResponseComponent implements OnInit {
 
       this.onSubmitResponse.emit(comment)
     })
-
     this.text = ''
     this.showResponseForm = false
   }
@@ -50,10 +67,11 @@ export class CommentResponseComponent implements OnInit {
     this.onSubmitResponse.emit(response)
   }
 
+
   onInput() {
-    const validation = (this.text == undefined || this.text == '') ? true : false
-    return validation
+    return this.text == undefined || this.text == ''
   }
+
 
   async presentPopover(ev: any) {
     const popOver = await this.popoverController.create({
