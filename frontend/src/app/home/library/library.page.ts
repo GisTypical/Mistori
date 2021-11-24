@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MangaService } from 'src/app/services/manga.service';
+import { FollowsService } from 'src/app/services/follows.service';
 import { Manga } from 'src/app/shared/Manga';
 
 @Component({
@@ -9,12 +9,18 @@ import { Manga } from 'src/app/shared/Manga';
 })
 export class LibraryPage implements OnInit {
   mangas: Manga[];
-  constructor(private mangaService: MangaService) {}
+  constructor(private followsService: FollowsService) {
+    this.followsService.getFollowEvent.subscribe(() => {
+      this.refreshFollowingMangas();
+    });
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.refreshFollowingMangas();
+  }
 
-  ionViewDidEnter() {
-    this.mangaService.getFollowedMangas().subscribe(({ mangas }) => {
+  private refreshFollowingMangas() {
+    this.followsService.getFollowedMangas().subscribe(({ mangas }) => {
       this.mangas = mangas;
     });
   }

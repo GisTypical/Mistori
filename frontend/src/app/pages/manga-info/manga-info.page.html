@@ -56,5 +56,6 @@
     *ngIf="!isUploader() && username"
     [mangaID]="manga.id"
     [isFollower]="manga.isFollower"
+    (newFollowButton)="onFollowButton()"
   ></app-follow-button>
 </ion-footer>

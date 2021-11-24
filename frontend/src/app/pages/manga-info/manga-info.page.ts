@@ -59,7 +59,7 @@ export class MangaInfoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.mangaService.getManga(this.manga.id).subscribe((manga) => {
+    this.mangaService.getMangaInfo(this.manga.id).subscribe((manga) => {
       this.manga = manga;
     });
   }
@@ -75,5 +75,9 @@ export class MangaInfoPage implements OnInit {
 
   isUploader(): boolean {
     return this.username === this.manga.uploadedBy;
+  }
+
+  onFollowButton() {
+    this.manga.isFollower = !this.manga.isFollower;
   }
 }

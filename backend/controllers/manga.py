@@ -128,11 +128,13 @@ def getMangasSearched(searchValue):
         })
 
     return {'mangas': mangas}, 200
+    
 
+## Follows
 # Create user manga follow/subscribe relationship
 @manga_bp.route('/manga/follow', methods=['POST'])
 @jwt_required()
-def followManga():
+def follow_manga():
     manga_id = request.json['mangaId']
     user = User_account.query.filter_by(username=get_jwt_identity()).first()
 
@@ -142,10 +144,20 @@ def followManga():
     db.session.commit()
     return {"message": f"{get_jwt_identity()} now follows {manga.id}"}, 201
 
+# Create user manga follow/subscribe relationship
+@manga_bp.route('/manga/follow/<string:manga_id>', methods=['DELETE'])
+@jwt_required()
+def unfollow_manga(manga_id):
+    user = User_account.query.filter_by(username=get_jwt_identity()).first()
+    manga = Manga.query.filter_by(id=manga_id).first()
+    manga.user_follow.remove(user)
+    db.session.commit()
+    return {"message": f"{get_jwt_identity()} unfollowed {manga_id}"}, 200
+
 
 @manga_bp.route('/manga/followed', methods=['GET'])
 @jwt_required()
-def getFollowedMangas():
+def get_followed_mangas():
     user = User_account.query.filter_by(username=get_jwt_identity()).first()
 
     manga_list = []

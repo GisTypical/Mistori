@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MangaService } from 'src/app/services/manga.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FollowsService } from 'src/app/services/follows.service';
 
 @Component({
   selector: 'app-follow-button',
@@ -9,16 +9,22 @@ import { MangaService } from 'src/app/services/manga.service';
 export class FollowButtonComponent implements OnInit {
   @Input() mangaID: string;
   @Input() isFollower: boolean;
+  @Output() newFollowButton: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private mangaService: MangaService) {}
+  constructor(private followsService: FollowsService) {}
 
   ngOnInit() {}
 
-  onFollowChapter() {
-    this.mangaService.postFollow(this.mangaID).subscribe();
-  }
-
-  onUnfollowChapter() {
-    this.mangaService.postFollow(this.mangaID).subscribe();
+  onFollowButton() {
+    if (!this.isFollower) {
+      this.followsService.postFollow(this.mangaID).subscribe(() => {
+        this.followsService.sendFollowEvent();
+      });
+    } else {
+      this.followsService.deleteFollow(this.mangaID).subscribe(() => {
+        this.followsService.sendFollowEvent();
+      });
+    }
+    this.newFollowButton.emit();
   }
 }

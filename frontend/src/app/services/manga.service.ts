@@ -3,18 +3,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
-import { Manga } from '../shared/Manga';
+import { Manga, MangasObject } from '../shared/Manga';
 import { Message } from '../shared/Message';
-
-interface MangasObject {
-  mangas: Manga[];
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class MangaService {
   currentMangaID: Observable<string>;
+
   private mangaID = new BehaviorSubject('');
   private apiURL = environment.apiUrl;
 
@@ -34,7 +31,7 @@ export class MangaService {
     return this.http.get<MangasObject>(`${this.apiURL}/manga`);
   }
 
-  getManga(mangaID: string): Observable<Manga> {
+  getMangaInfo(mangaID: string): Observable<Manga> {
     return this.http.get<Manga>(`${this.apiURL}/manga/${mangaID}`);
   }
 
@@ -44,13 +41,5 @@ export class MangaService {
 
   getSearchedManga(name: string): Observable<MangasObject> {
     return this.http.get<MangasObject>(`${this.apiURL}/manga/search/${name}`);
-  }
-
-  getFollowedMangas(): Observable<MangasObject> {
-    return this.http.get<MangasObject>(`${this.apiURL}/manga/followed`);
-  }
-
-  postFollow(mangaId: string): Observable<Message> {
-    return this.http.post<Message>(`${this.apiURL}/manga/follow`, { mangaId });
   }
 }
