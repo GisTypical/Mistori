@@ -6,8 +6,14 @@ import {
 } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
+
+interface Page {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  secure_url: string;
+}
 
 @Component({
   selector: 'app-manga-view',
@@ -22,13 +28,15 @@ export class MangaViewPage implements AfterContentChecked {
     lazy: true,
   };
 
-  pages: any;
+  pages: Page[];
   rtl = false;
   chapterID: string;
 
+  private slide: number;
   constructor(
     private chapterService: ChapterService,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private storage: StorageService
   ) {
     this.chapterService.currentChapterId.subscribe(
       (id) => (this.chapterID = id)
@@ -36,12 +44,41 @@ export class MangaViewPage implements AfterContentChecked {
     this.chapterService
       .getPages(this.chapterID)
       .subscribe((data) => (this.pages = data.resources));
+
+    this.storage.getItem('readMode').then((readMode: string) => {
+      if (!readMode || readMode === 'leftToRight') {
+        this.readLeftToRight();
+        return;
+      }
+      if (readMode === 'rightToLeft') {
+        this.readRightToLeft();
+        return;
+      }
+      if (readMode === 'vertical') {
+        this.readVertical();
+        return;
+      }
+    });
+  }
+
+  ionViewDidEnter() {
+    if (this.swiper) {
+      this.swiper.updateSwiper({});
+      this.storage.getItem('lastSlide').then((lastSlide: string) => {
+        this.swiper.swiperRef.slideTo(Number(lastSlide));
+      });
+    }
   }
 
   ngAfterContentChecked() {
-    if (this.swiper) {
-      this.swiper.updateSwiper({});
-    }
+    // if (this.swiper) {
+    //   this.swiper.updateSwiper({});
+    // }
+  }
+
+  onExit() {
+    const activeSlide = this.swiper.swiperRef.activeIndex;
+    this.storage.setItem('lastSlide', activeSlide.toString());
   }
 
   // Show action sheet for reading modes
@@ -53,22 +90,14 @@ export class MangaViewPage implements AfterContentChecked {
           text: `Left to right swipe`,
           icon: 'arrow-forward-circle-outline',
           handler: () => {
-            this.swiper.swiperRef.changeDirection('horizontal');
-            // Set rtl attribute to false
-            this.rtl = false;
-            // The swiper needs to know where to slide
-            this.swiper.swiperRef.rtlTranslate = false;
+            this.readLeftToRight();
           },
         },
         {
           text: `Right-to-left swipe`,
           icon: 'arrow-back-circle-outline',
           handler: () => {
-            this.swiper.swiperRef.changeDirection('horizontal');
-            // Set rtl attribute to true
-            this.rtl = true;
-            // The swiper needs to know where to slide
-            this.swiper.swiperRef.rtlTranslate = true;
+            this.readRightToLeft();
           },
         },
         {
@@ -76,8 +105,7 @@ export class MangaViewPage implements AfterContentChecked {
           icon: 'arrow-down-circle-outline',
           handler: () => {
             // Disable rtl in vertical
-            this.swiper.swiperRef.rtlTranslate = false;
-            this.swiper.swiperRef.changeDirection('vertical');
+            this.readVertical();
           },
         },
         {
@@ -88,5 +116,29 @@ export class MangaViewPage implements AfterContentChecked {
       ],
     });
     await actionSheet.present();
+  }
+
+  private readLeftToRight() {
+    this.swiper.swiperRef.changeDirection('horizontal');
+    // Set rtl attribute to false
+    this.rtl = false;
+    // The swiper needs to know where to slide
+    this.swiper.swiperRef.rtlTranslate = false;
+    this.storage.setItem('readMode', 'leftToRight');
+  }
+
+  private readRightToLeft() {
+    this.swiper.swiperRef.changeDirection('horizontal');
+    // Set rtl attribute to true
+    this.rtl = true;
+    // The swiper needs to know where to slide
+    this.swiper.swiperRef.rtlTranslate = true;
+    this.storage.setItem('readMode', 'rightToLeft');
+  }
+
+  private readVertical() {
+    this.swiper.swiperRef.rtlTranslate = false;
+    this.swiper.swiperRef.changeDirection('vertical');
+    this.storage.setItem('readMode', 'vertical');
   }
 }

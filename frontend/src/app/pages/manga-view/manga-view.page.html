@@ -1,11 +1,14 @@
 <ion-header>
   <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home/search"></ion-back-button>
+      <ion-back-button
+        defaultHref="home/search"
+        (click)="onExit()"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>Manga viewer</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/comment', chapterID]">
+      <ion-button [routerLink]="['/comment', chapterID]" (click)="onExit()">
         <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="showReadingModes()">
