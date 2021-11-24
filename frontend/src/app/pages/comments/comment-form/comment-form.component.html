@@ -1,15 +1,15 @@
 <form (ngSubmit)="onSubmit()">
   <ion-grid fixed>
     <ion-row class="ion-justify-content-around ion-align-items-center">
-      <ion-col size="9.5">
+      <ion-col size="10">
         <ion-item>
           <ion-label position="floating" color="medium">Comment here</ion-label>
           <ion-input required type="text" name="text" [(ngModel)]="text"></ion-input>
         </ion-item>
       </ion-col>
-      <ion-col size="2.5" class="ion-justify-content-around ion-align-items-center">
-        <ion-button color="primary" type="submit" block shape="round" [disabled]="onInput()">
-          <ion-icon slot="icon-only" name="send" style="width: 2.5vmax; height: 2.5vmax;"></ion-icon>
+      <ion-col size="2" class="ion-justify-content-around ion-align-items-center">
+        <ion-button color="primary" type="submit" block shape="round" size="small" [disabled]="onInput()">
+          <ion-icon slot="icon-only" name="send" style="width: 2vmax; height: 2vmax;"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>

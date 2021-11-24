@@ -58,7 +58,21 @@ export class CommentsPage implements OnInit {
     })
   }
 
-  submitComment(comment: Comment) {
+  // submitComment(comment: Comment) {
+  //   this.commentService.submitComment(comment, this.chapterID).subscribe(comment => {
+  //     const commentYear = new Date(comment.date).getFullYear()
+  //     const commentMonth = new Date(comment.date).getMonth()
+  //     const commentDay = new Date(comment.date).getDate()
+  //     const commentHour = new Date(comment.date).getHours()
+  //     const commentMinute = new Date(comment.date).getMinutes()
+
+  //     comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
+  //     this.submitResponse(comment)
+  //   })
+  // }
+
+  submitComment(text: string) {
+    const comment = { 'text': text }
     this.commentService.submitComment(comment, this.chapterID).subscribe(comment => {
       const commentYear = new Date(comment.date).getFullYear()
       const commentMonth = new Date(comment.date).getMonth()
@@ -69,6 +83,7 @@ export class CommentsPage implements OnInit {
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
       this.submitResponse(comment)
     })
+
   }
 
   submitResponse(response: Comment) {
