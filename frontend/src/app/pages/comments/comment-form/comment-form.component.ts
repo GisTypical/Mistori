@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Comment } from 'src/app/shared/Comment';
 
 @Component({
@@ -7,8 +7,9 @@ import { Comment } from 'src/app/shared/Comment';
   styleUrls: ['./comment-form.component.scss'],
 })
 export class CommentFormComponent implements OnInit {
-  // @Output() onSubmitComment: EventEmitter<Comment> = new EventEmitter();
   @Output() onSubmitComment: EventEmitter<string> = new EventEmitter()
+  @Input() showForm: boolean
+  @Input() margin_left: string
   text: string
 
   constructor() {}
@@ -16,10 +17,6 @@ export class CommentFormComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    // const comment = {
-    //   text: this.text
-    // }
-
     this.onSubmitComment.emit(this.text)
     this.text = ''
   }
