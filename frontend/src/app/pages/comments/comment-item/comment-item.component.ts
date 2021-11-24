@@ -40,13 +40,6 @@ export class CommentItemComponent implements OnInit {
   onSubmit(text: string) {
     const response = { 'text': text, 'parent_id': this.commentItem.id }
     this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
-      const commentYear = new Date(comment.date).getFullYear()
-      const commentMonth = new Date(comment.date).getMonth()
-      const commentDay = new Date(comment.date).getDate()
-      const commentHour = new Date(comment.date).getHours()
-      const commentMinute = new Date(comment.date).getMinutes()
-
-      comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
       this.onSubmitResponse.emit()
     })
     this.text = ''
@@ -54,8 +47,11 @@ export class CommentItemComponent implements OnInit {
   }
 
   onUpdate(text: string) {
+    const comment = { 'text': text }
+    this.commentService.updateComment(comment, this.commentItem.id).subscribe(comment => {
+      this.onSubmitResponse.emit()
+    })
     this.showUpdateForm = !this.showUpdateForm
-    console.log(text)
   }
 
   submitResponse() {
@@ -69,7 +65,7 @@ export class CommentItemComponent implements OnInit {
       event: ev,
       translucent: true,
       componentProps: {
-        'edit': {
+        'update': {
           'id': this.commentItem.id,
           'text': this.commentItem.text
         },

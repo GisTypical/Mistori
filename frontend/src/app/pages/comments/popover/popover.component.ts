@@ -7,15 +7,15 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./popover.component.scss'],
 })
 export class PopoverComponent implements OnInit {
-  edit: {'id': string, 'text': string}
+  update: {'id': string, 'text': string}
   delete: string
 
   constructor(private popOverController: PopoverController) { }
 
   ngOnInit() {}
 
-  onEdit() {
-    this.ClosePopover(this.edit)
+  onUpdate() {
+    this.ClosePopover(this.update)
   }
 
   onDelete() {

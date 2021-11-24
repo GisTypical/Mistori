@@ -57,7 +57,7 @@ def createComment(chapter_id):
 
 # FUNCTION getChildren()
 def getChildren(comment_parent):
-    comment_children = Comment.query.filter_by(parent_id=comment_parent).all()
+    comment_children = Comment.query.filter_by(parent_id=comment_parent).order_by(Comment.date.asc()).all()
     parent = Comment.query.filter_by(id=comment_parent).first()
 
     children = []
@@ -85,7 +85,7 @@ def getChildren(comment_parent):
 @jwt_required()
 def getComments(chapter_id):
     comments_obj = Comment.query.filter_by(
-        chapter_id=chapter_id).filter_by(parent_id=None).all()
+        chapter_id=chapter_id).filter_by(parent_id=None).order_by(Comment.date.desc()).all()
     
     if comments_obj:
         comments = []

@@ -24,4 +24,8 @@ export class CommentService {
   getComments(chapterID: string): Observable<CommentObject> {
     return this.http.get<CommentObject>(`${this.apiUrl}/comment/${chapterID}`)
   }
+
+  updateComment(comment: Comment, commentID: string): Observable<Comment> {
+    return this.http.put<Comment>(`${this.apiUrl}/comment/${commentID}`, comment)
+  }
 }
