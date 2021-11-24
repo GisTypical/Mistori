@@ -1,4 +1,4 @@
-<ion-item-group style="margin-left: 3vmax;" class="ion-margin-vertical" (click)="presentPopover($event)">
+<ion-item-group style="margin-left: 3vmax;" class="ion-margin-vertical">
   <ion-item-divider class="ion-no-margin" color="light" style="border-radius: 10px 10px 0px 0px;">
     <ion-label class="ion-no-margin">
       <ion-text>
@@ -13,7 +13,7 @@
   <ion-item color="light" style="border-radius: 0px 0px 10px 10px;">
     <ion-icon slot="start" name="person-circle-outline" style="width: 4vmax; height: 4vmax;" class="ion-no-margin ion-margin-end">
     </ion-icon>
-    <ion-label text-wrap>
+    <ion-label text-wrap (click)="presentPopover($event)">
       <ion-text>
         <p><span style="font-weight: bold; font-size: 2vmax;" class="ion-margin-end">{{ commentItem.username }}</span><span style="color: grey; font-size: 1.5vmax;">{{ commentItem.date }}</span></p>
       </ion-text>
