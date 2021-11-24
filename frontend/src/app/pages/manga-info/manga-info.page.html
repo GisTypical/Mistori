@@ -35,7 +35,7 @@
                   <p>{{ manga.status }}</p>
                 </ion-text>
                 <ion-text *ngIf="!isUploader()">
-                  <p style="color: grey">By: {{ manga.uploadedBy }}</p>
+                  <p style="color: grey">By {{ manga.uploadedBy }}</p>
                 </ion-text>
               </ion-label>
             </ion-item>

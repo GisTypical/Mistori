@@ -99,9 +99,6 @@ def getComments(chapter_id):
                 'chapter_id': comment.chapter_id,
                 'children': getChildren(comment.id)
             })
-        
-        pp = pprint.PrettyPrinter(sort_dicts=False)
-        pp.pprint(comments)
 
         return { 'comments': comments }, 200
     
