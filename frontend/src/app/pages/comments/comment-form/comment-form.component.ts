@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Comment } from 'src/app/shared/Comment';
 
 @Component({
   selector: 'app-comment-form',
@@ -10,7 +9,7 @@ export class CommentFormComponent implements OnInit {
   @Output() onSubmitComment: EventEmitter<string> = new EventEmitter()
   @Input() showForm: boolean
   @Input() margin_left: string
-  text: string
+  @Input() text: string
 
   constructor() {}
 
