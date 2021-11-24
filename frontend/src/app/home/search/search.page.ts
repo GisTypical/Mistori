@@ -25,18 +25,45 @@ export class SearchPage implements OnInit {
   ionViewDidEnter() {
     this.mangaService
       .getAllMangas()
-      .subscribe((mangas) => (this.mangas = mangas.mangas));
+      .subscribe((mangas) => {
+        this.mangas = mangas.mangas
+
+        for (let i = 0; i < this.mangas.length; i++) {
+          const mangaYear = new Date(this.mangas[i].date).getFullYear()
+          const mangaMonth = new Date(this.mangas[i].date).getMonth()
+          const mangaDay = new Date(this.mangas[i].date).getDate()
+          this.mangas[i].date = `${mangaMonth}/${mangaDay}/${mangaYear}`
+        }
+      });
   }
 
   onSearchChange() {
     if (this.searchValue !== '') {
       this.mangaService
         .getSearchedManga(this.searchValue)
-        .subscribe((value) => (this.mangas = value.mangas));
+        .subscribe((value) => {
+          this.mangas = value.mangas
+
+          for (let i = 0; i < this.mangas.length; i++) {
+            const mangaYear = new Date(this.mangas[i].date).getFullYear()
+            const mangaMonth = new Date(this.mangas[i].date).getMonth()
+            const mangaDay = new Date(this.mangas[i].date).getDate()
+            this.mangas[i].date = `${mangaMonth}/${mangaDay}/${mangaYear}`
+          }
+        });
     } else {
       this.mangaService
         .getAllMangas()
-        .subscribe((mangas) => (this.mangas = mangas.mangas));
+        .subscribe((mangas) => {
+          this.mangas = mangas.mangas
+
+          for (let i = 0; i < this.mangas.length; i++) {
+            const mangaYear = new Date(this.mangas[i].date).getFullYear()
+            const mangaMonth = new Date(this.mangas[i].date).getMonth()
+            const mangaDay = new Date(this.mangas[i].date).getDate()
+            this.mangas[i].date = `${mangaMonth}/${mangaDay}/${mangaYear}`
+          }
+        });
     }
   }
 }

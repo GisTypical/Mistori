@@ -1,0 +1,16 @@
+<ion-item class="ion-margin-end">
+  <ion-icon slot="start" name="person-circle" style="width: 7vmax; height: 7vmax;" class="ion-no-margin ion-margin-end"></ion-icon>
+  <ion-label text-wrap>
+    <ion-text>
+      <p><span style="font-weight: bold; font-size: 2.2vmax;" class="ion-margin-end">{{ commentItem.username }}</span><span style="color: grey; font-size: 1.8vmax;">{{ commentItem.date }}</span></p>
+    </ion-text>
+    <ion-text class="ion-margin-top">
+      <p>{{ commentItem.text }}</p>
+    </ion-text>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button color="primary">
+      <ion-icon name="arrow-undo-circle" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>

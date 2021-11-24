@@ -16,7 +16,7 @@ app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
 app.secret_key = os.environ['SECRET_KEY']
 app.config.from_object(DevelopmentConfig)
-app.config['MAX_CONTENT_LENGTH'] = 20*1000*1000 # 20MB
+app.config['MAX_CONTENT_LENGTH'] = 100*1000*1000 # 20MB
 
 # SqlAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

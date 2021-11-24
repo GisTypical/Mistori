@@ -1,1 +1,6 @@
 @import "../../app.component.scss";
+
+ion-item {
+  --border-style: none;
+  --border-width: 0px;
+}

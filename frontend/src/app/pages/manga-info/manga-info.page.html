@@ -25,11 +25,17 @@
                 <h2 style="margin-block: 1vmax; font-size: 2.5vmax">
                   {{ manga.name }}
                 </h2>
-                <ion-text color="secondary">
+                <ion-text color="tertiary">
                   <h3 style="margin-block: 0.7vmax">{{ manga.author }}</h3>
                 </ion-text>
-                <ion-text color="tertiary">
+                <ion-text color="success" *ngIf="manga.status == 'Completed'">
                   <p>{{ manga.status }}</p>
+                </ion-text>
+                <ion-text color="warning" *ngIf="manga.status == 'On going'">
+                  <p>{{ manga.status }}</p>
+                </ion-text>
+                <ion-text *ngIf="!isUploader()">
+                  <p style="color: grey;">By: {{ manga.uploadedBy }}</p>
                 </ion-text>
               </ion-label>
             </ion-item>

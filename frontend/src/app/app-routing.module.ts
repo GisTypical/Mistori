@@ -62,9 +62,18 @@ const routes: Routes = [
             (m) => m.MangaViewPageModule
           ),
       },
+      {
+        path: 'comment/:chapterID',
+        loadChildren: () => import('./pages/comments/comments.module').then((m) => m.CommentsPageModule)
+      }
     ],
   },
   { path: '**', redirectTo: 'home/library', pathMatch: 'full' },
+  {
+    path: 'comments',
+    loadChildren: () => import('./pages/comments/comments.module').then( m => m.CommentsPageModule)
+  },
+
 ];
 
 @NgModule({
