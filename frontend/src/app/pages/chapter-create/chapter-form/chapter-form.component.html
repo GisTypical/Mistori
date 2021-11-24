@@ -2,7 +2,7 @@
   <ion-item style="margin-bottom: 6vmax;">
     <ion-label position="stacked">Chapter pages</ion-label>
     <ion-input
-      required
+      required="true"
       type="file"
       multiple="true"
       name="pages"
@@ -12,10 +12,10 @@
   <ion-item style="margin-block: 6vmax;">
     <ion-label position="floating">Title</ion-label>
     <ion-input
+      required="true"
       type="text"
       name="title"
       id="title"
-      required="true"
       [(ngModel)]="name"
     ></ion-input>
   </ion-item>

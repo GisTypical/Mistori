@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FollowsService } from 'src/app/services/follows.service';
+import { Manga } from 'src/app/shared/Manga';
 
 @Component({
   selector: 'app-library',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./library.page.scss'],
 })
 export class LibraryPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  mangas: Manga[];
+  constructor(private followsService: FollowsService) {
+    this.followsService.getFollowEvent.subscribe(() => {
+      this.refreshFollowingMangas();
+    });
   }
 
+  ngOnInit() {
+    this.refreshFollowingMangas();
+  }
+
+  private refreshFollowingMangas() {
+    this.followsService.getFollowedMangas().subscribe(({ mangas }) => {
+      this.mangas = mangas;
+    });
+  }
 }

@@ -8,7 +8,12 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar placeholder="Search Mangas" (ionChange)="onSearchChange()" [(ngModel)]="searchValue" showClearButton="true"></ion-searchbar>
+    <ion-searchbar
+      placeholder="Search Mangas"
+      (ionChange)="onSearchChange()"
+      [(ngModel)]="searchValue"
+      showClearButton="true"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -16,5 +21,6 @@
   <div class="center" *ngIf="isLoading">
     <ion-spinner></ion-spinner>
   </div>
-  <app-manga-list *ngIf="!isLoading" [mangas]="mangas"> </app-manga-list>
+  <app-manga-list *ngIf="!isLoading && mangas?.length" [mangas]="mangas">
+  </app-manga-list>
 </ion-content>

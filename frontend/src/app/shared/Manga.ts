@@ -10,4 +10,9 @@ export interface Manga {
   status: string;
   uploadedBy: string;
   chapters: Chapter[];
+  isFollower: boolean;
+}
+
+export interface MangasObject {
+  mangas: Manga[];
 }

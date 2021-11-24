@@ -1,15 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { Message } from '../shared/Message';
 import { User } from '../shared/User';
-
-interface Message {
-  message?: string;
-  accessToken: string;
-  refreshToken: string;
-}
 
 @Injectable({
   providedIn: 'root',

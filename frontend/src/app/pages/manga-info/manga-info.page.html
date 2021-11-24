@@ -8,12 +8,11 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="center" *ngIf="isLoading">
-  <ion-spinner></ion-spinner>
-</div>
-
-<ion-content *ngIf="!isLoading">
-  <ion-grid fixed>
+<ion-content>
+  <div class="center" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-grid *ngIf="!isLoading" fixed>
     <ion-row>
       <ion-col>
         <ion-card>
@@ -54,8 +53,15 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter> -->
 </ion-content>
-<ion-footer>
+
+<!-- Making fabs fixed -->
+<ion-footer *ngIf="!isLoading">
   <app-add-chapter *ngIf="isUploader()" [mangaID]="manga.id"></app-add-chapter>
+  <app-follow-button
+    *ngIf="!isUploader() && username"
+    [mangaID]="manga.id"
+    [isFollower]="manga.isFollower"
+    (newFollowButton)="onFollowButton()"
+  ></app-follow-button>
 </ion-footer>

@@ -21,10 +21,11 @@ export class MangaInfoPage implements OnInit {
     date: '',
     status: '',
     uploadedBy: '',
+    isFollower: false,
   };
 
-  isLoading = true;
   username: string;
+  isLoading: boolean;
 
   constructor(
     private mangaService: MangaService,
@@ -34,6 +35,7 @@ export class MangaInfoPage implements OnInit {
   ) {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
     const token = localStorage.getItem('accessToken');
+    // Check if user is the uploader by decoding jwt accessToken
     if (token) {
       const payload: { sub: string } = jwtDecode(
         localStorage.getItem('accessToken')
@@ -45,6 +47,7 @@ export class MangaInfoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.activatedRoute.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('mangaID')) {
         return;
@@ -56,7 +59,7 @@ export class MangaInfoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.mangaService.getManga(this.manga.id).subscribe((manga) => {
+    this.mangaService.getMangaInfo(this.manga.id).subscribe((manga) => {
       this.manga = manga;
 
       for (let i = 0; i < this.manga.chapters.length; i++) {
@@ -69,10 +72,6 @@ export class MangaInfoPage implements OnInit {
     });
   }
 
-  isUploader(): boolean {
-    return this.username === this.manga.uploadedBy;
-  }
-
   chapterDelete(chapterId: string) {
     this.chapterService.deleteChapter(chapterId).subscribe(() => {
       this.manga.chapters = this.manga.chapters.filter(
@@ -80,5 +79,13 @@ export class MangaInfoPage implements OnInit {
       );
       console.log(this.manga.chapters, chapterId);
     });
+  }
+
+  isUploader(): boolean {
+    return this.username === this.manga.uploadedBy;
+  }
+
+  onFollowButton() {
+    this.manga.isFollower = !this.manga.isFollower;
   }
 }
