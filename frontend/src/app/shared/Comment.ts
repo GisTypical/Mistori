@@ -5,4 +5,9 @@ export interface Comment {
   parent_id?: string
   username?: string
   chapter_id?: string
+  children?: Comment[]
+  parent?: {
+    username?: string
+    text?: string
+  }
 }

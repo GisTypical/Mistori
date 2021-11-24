@@ -1,25 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 
 @Component({
-  selector: 'app-comment-item',
-  templateUrl: './comment-item.component.html',
-  styleUrls: ['./comment-item.component.scss'],
+  selector: 'app-comment-response',
+  templateUrl: './comment-response.component.html',
+  styleUrls: ['./comment-response.component.scss'],
 })
-export class CommentItemComponent implements OnInit {
+export class CommentResponseComponent implements OnInit {
   @Input() commentItem: Comment
   @Output() onSubmitResponse: EventEmitter<Comment> = new EventEmitter()
   showResponseForm: boolean = false
   text: string
 
-  constructor(private commentService: CommentService) { }
-
-  ngOnInit() {}
-
   onClick() {
     this.showResponseForm = !this.showResponseForm
   }
+
+  constructor(private commentService: CommentService) {}
+
+  ngOnInit() {}
 
   onSubmit() {
     const response = {
@@ -36,6 +37,7 @@ export class CommentItemComponent implements OnInit {
       const commentMinute = new Date(comment.date).getMinutes()
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
+
       this.onSubmitResponse.emit(comment)
     })
 

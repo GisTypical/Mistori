@@ -22,7 +22,11 @@ export class CommentFormComponent implements OnInit {
 
     this.onSubmitComment.emit(comment)
     this.text = ''
+  }
 
+  onInput() {
+    const validation = (this.text == undefined || this.text == '') ? true : false
+    return validation
   }
 
 }
