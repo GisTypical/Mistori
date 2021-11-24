@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 
 @Component({
@@ -16,24 +17,28 @@ export class CommentResponseComponent implements OnInit {
     this.showResponseForm = !this.showResponseForm
   }
 
-  constructor() {}
+  constructor(private commentService: CommentService) {}
 
   ngOnInit() {}
 
   onSubmit() {
     const response = {
-      'username': this.commentItem.username,
       'text': this.text,
-      'date': this.commentItem.date,
-      'parent': {
-        'username': this.commentItem.username,
-        'text': this.commentItem.text
-      }
+      'parent_id': this.commentItem.id
     }
 
-    console.log(response)
+    this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
+      console.log(comment)
+      const commentYear = new Date(comment.date).getFullYear()
+      const commentMonth = new Date(comment.date).getMonth()
+      const commentDay = new Date(comment.date).getDate()
+      const commentHour = new Date(comment.date).getHours()
+      const commentMinute = new Date(comment.date).getMinutes()
 
-    this.commentItem.children.push(response)
+      comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
+
+      this.commentItem.children.push(comment)
+    })
 
     this.text = ''
     this.showResponseForm = false

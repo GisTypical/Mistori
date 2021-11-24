@@ -21,23 +21,38 @@ def createComment(chapter_id):
 
     if 'parent_id' in data:
         parent_id = data['parent_id']
-        comment = Comment(text=text, date=date, username=username,
-                          chapter_id=chapter_id, parent_id=parent_id)
+        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id, parent_id=parent_id)
+        parent = Comment.query.filter_by(id=parent_id).first()
+
+        db.session.add(comment)
+        db.session.commit()
+
+        return {
+            'id': comment.id,
+            'text': comment.text,
+            'date': comment.date,
+            'username': comment.username,
+            'parent_id': comment.parent_id,
+            'chapter_id': comment.chapter_id,
+            'parent': {
+                'username': parent.username,
+                'text': parent.text
+            }
+        }, 201
     else:
-        comment = Comment(text=text, date=date,
-                          username=username, chapter_id=chapter_id)
+        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id)
 
-    db.session.add(comment)
-    db.session.commit()
+        db.session.add(comment)
+        db.session.commit()
 
-    return {
-        'id': comment.id,
-        'text': comment.text,
-        'date': comment.date,
-        'username': comment.username,
-        'parent_id': comment.parent_id,
-        'chapter_id': comment.chapter_id
-    }, 201
+        return {
+            'id': comment.id,
+            'text': comment.text,
+            'date': comment.date,
+            'username': comment.username,
+            'parent_id': comment.parent_id,
+            'chapter_id': comment.chapter_id
+        }, 201
 
 
 # FUNCTION getChildren()

@@ -65,9 +65,8 @@ export class CommentsPage implements OnInit {
       const commentDay = new Date(comment.date).getDate()
       const commentHour = new Date(comment.date).getHours()
       const commentMinute = new Date(comment.date).getMinutes()
-      const commentSecond = new Date(comment.date).getSeconds()
 
-      comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}:${commentSecond}`
+      comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
 
       this.comments.push(comment)
     })
