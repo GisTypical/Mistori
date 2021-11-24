@@ -62,12 +62,12 @@ export class MangaInfoPage implements OnInit {
     this.mangaService.getMangaInfo(this.manga.id).subscribe((manga) => {
       this.manga = manga;
 
-      for (let i = 0; i < this.manga.chapters.length; i++) {
-        const chapterYear = new Date(this.manga.chapters[i].date).getFullYear()
-        const chapterMonth = new Date(this.manga.chapters[i].date).getMonth()
-        const chapterDay = new Date(this.manga.chapters[i].date).getDate()
+      for (const chapters of this.manga.chapters) {
+        const chapterYear = new Date(chapters.date).getFullYear();
+        const chapterMonth = new Date(chapters.date).getMonth();
+        const chapterDay = new Date(chapters.date).getDate();
 
-        this.manga.chapters[i].date = `${chapterMonth}/${chapterDay}/${chapterYear}`
+        chapters.date = `${chapterMonth}/${chapterDay}/${chapterYear}`;
       }
     });
   }

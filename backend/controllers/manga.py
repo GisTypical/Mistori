@@ -173,12 +173,13 @@ def get_followed_mangas():
     user = User_account.query.filter_by(username=get_jwt_identity()).first()
 
     manga_list = []
-    for followed_mangas in user.follows:
+    for followed_manga in user.follows:
         manga_list.append({
-            'id': followed_mangas.id,
-            'name': followed_mangas.name,
-            'cover': followed_mangas.cover,
-            'author': followed_mangas.author
+            'id': followed_manga.id,
+            'name': followed_manga.name,
+            'cover': followed_manga.cover,
+            'author': followed_manga.author,
+            'date': followed_manga.date
         })
 
     return {'mangas': manga_list}, 200
