@@ -23,25 +23,6 @@ export class CommentItemComponent implements OnInit {
     this.showResponseForm = !this.showResponseForm
   }
 
-  // onSubmit() {
-  //   const response = {
-  //     'text': this.text,
-  //     'parent_id': this.commentItem.id
-  //   }
-  //   this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
-  //     console.log(comment)
-  //     const commentYear = new Date(comment.date).getFullYear()
-  //     const commentMonth = new Date(comment.date).getMonth()
-  //     const commentDay = new Date(comment.date).getDate()
-  //     const commentHour = new Date(comment.date).getHours()
-  //     const commentMinute = new Date(comment.date).getMinutes()
-
-  //     comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
-  //     this.onSubmitResponse.emit(comment)
-  //   })
-  //   this.text = ''
-  //   this.showResponseForm = false
-  // }
 
   onSubmit(text: string) {
     const response = { 'text': text, 'parent_id': this.commentItem.id }
