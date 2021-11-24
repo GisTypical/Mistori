@@ -12,3 +12,7 @@ export interface Manga {
   chapters: Chapter[];
   isFollower: boolean;
 }
+
+export interface MangasObject {
+  mangas: Manga[];
+}
