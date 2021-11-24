@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-comment-item',
@@ -13,7 +14,7 @@ export class CommentItemComponent implements OnInit {
   showResponseForm: boolean = false
   text: string
 
-  constructor(private commentService: CommentService) { }
+  constructor(private commentService: CommentService, private popoverController: PopoverController) { }
 
   ngOnInit() {}
 
@@ -26,7 +27,6 @@ export class CommentItemComponent implements OnInit {
       'text': this.text,
       'parent_id': this.commentItem.id
     }
-
     this.commentService.submitComment(response, this.commentItem.chapter_id).subscribe(comment => {
       console.log(comment)
       const commentYear = new Date(comment.date).getFullYear()
@@ -38,14 +38,15 @@ export class CommentItemComponent implements OnInit {
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
       this.onSubmitResponse.emit(comment)
     })
-
     this.text = ''
     this.showResponseForm = false
   }
 
+
   submitResponse(response: Comment) {
     this.onSubmitResponse.emit(response)
   }
+
 
   onInput() {
     const validation = (this.text == undefined || this.text == '') ? true : false
