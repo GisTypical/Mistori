@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
+import { PopoverController } from '@ionic/angular';
+import { PopoverComponent } from '../popover/popover.component';
 
 @Component({
   selector: 'app-comment-response',
@@ -18,7 +19,7 @@ export class CommentResponseComponent implements OnInit {
     this.showResponseForm = !this.showResponseForm
   }
 
-  constructor(private commentService: CommentService) {}
+  constructor(private commentService: CommentService, private popoverController: PopoverController) {}
 
   ngOnInit() {}
 
@@ -52,6 +53,16 @@ export class CommentResponseComponent implements OnInit {
   onInput() {
     const validation = (this.text == undefined || this.text == '') ? true : false
     return validation
+  }
+
+  async presentPopover(ev: any) {
+    const popOver = await this.popoverController.create({
+      component: PopoverComponent,
+      event: ev,
+      translucent: true
+    })
+
+    return await popOver.present()
   }
 
 }

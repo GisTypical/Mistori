@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 import { PopoverController } from '@ionic/angular';
+import { PopoverComponent } from '../popover/popover.component';
 
 @Component({
   selector: 'app-comment-item',
@@ -51,6 +52,16 @@ export class CommentItemComponent implements OnInit {
   onInput() {
     const validation = (this.text == undefined || this.text == '') ? true : false
     return validation
+  }
+
+  async presentPopover(ev: any) {
+    const popOver = await this.popoverController.create({
+      component: PopoverComponent,
+      event: ev,
+      translucent: true
+    })
+
+    return await popOver.present()
   }
 
 }
