@@ -2,7 +2,7 @@
   <ion-item class="ion-margin-end">
     <ion-icon slot="start" name="person-circle" style="width: 7vmax; height: 7vmax;" class="ion-no-margin ion-margin-end">
     </ion-icon>
-    <ion-label text-wrap (click)="presentPopover($event)">
+    <ion-label text-wrap (click)="loggedUser()? presentPopover($event): false">
       <ion-text>
         <p><span style="font-weight: bold; font-size: 2.2vmax;" class="ion-margin-end">{{ commentItem.username
             }}</span><span style="color: grey; font-size: 1.7vmax;">{{ commentItem.date }}</span></p>

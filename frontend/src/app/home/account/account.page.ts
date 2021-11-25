@@ -18,7 +18,9 @@ export class AccountPage implements OnInit {
     private authService: AuthService,
     private mangaService: MangaService
   ) {
-    this.authService.isLogged.subscribe((s) => (this.isLogged = s));
+    this.authService.isLogged.subscribe((s) => {
+      this.isLogged = s
+    });
     this.mangaService.getMangaEvent.subscribe(() => {
       this.refreshUserMangas();
     });

@@ -4,6 +4,7 @@ import { Comment } from 'src/app/shared/Comment';
 import { PopoverController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular'
 import { PopoverComponent } from '../popover/popover.component';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-comment-item',
@@ -17,10 +18,25 @@ export class CommentItemComponent implements OnInit {
   showUpdateForm: boolean = false
   text: string
   alert: HTMLIonAlertElement
+  username: string
 
-  constructor(private commentService: CommentService,private popoverController: PopoverController,private alertController: AlertController) { }
+  constructor(
+    private commentService: CommentService,
+    private popoverController: PopoverController,
+    private alertController: AlertController,
+    ) {
+      const token = localStorage.getItem('accessToken');
+
+      if (token) {
+        const payload: { sub: string } = jwtDecode(localStorage.getItem('accessToken'));
+        this.username = payload.sub;
+      } else {
+        this.username = ''
+      }
+    }
 
   ngOnInit() {}
+
 
   // FORM VALIDATIONS
   onClick() {
@@ -35,6 +51,10 @@ export class CommentItemComponent implements OnInit {
 
   onInput() {
     return this.text == undefined || this.text == ''
+  }
+
+  loggedUser() {
+    return this.username === this.commentItem.username
   }
 
 
@@ -92,6 +112,7 @@ export class CommentItemComponent implements OnInit {
   }
 
 
+  // ALERT
   async presentAlert(commentID: string) {
     this.alert = await this.alertController.create({
       header: 'Delete comment',
