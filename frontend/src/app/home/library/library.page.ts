@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FollowsService } from 'src/app/services/follows.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { Manga } from 'src/app/shared/Manga';
 import { parseDate } from 'src/app/utils/parseDate';
 
@@ -10,9 +11,16 @@ import { parseDate } from 'src/app/utils/parseDate';
 })
 export class LibraryPage implements OnInit {
   mangas: Manga[];
-  constructor(private followsService: FollowsService) {
+  isLoading: boolean;
+  constructor(
+    private followsService: FollowsService,
+    private loadingService: LoadingService
+  ) {
     this.followsService.getFollowEvent.subscribe(() => {
       this.refreshFollowingMangas();
+    });
+    this.loadingService.currentLoading.subscribe((loading) => {
+      this.isLoading = loading;
     });
   }
 
