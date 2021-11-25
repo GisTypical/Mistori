@@ -5,6 +5,11 @@
     </ion-buttons>
     <ion-title *ngIf="isLoading"> Loading... </ion-title>
     <ion-title *ngIf="!isLoading">{{ manga.name }}</ion-title>
+    <ion-buttons *ngIf="isUploader()" slot="end">
+      <ion-button (click)="mangaDelete()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
