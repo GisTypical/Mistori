@@ -54,6 +54,7 @@ def getMangaID(manga_id):
         })
     
     username = get_jwt_identity()
+    is_follower = False
     if(username): 
         is_follower = isFollower(manga_db, username)
         
@@ -100,6 +101,24 @@ def getUploadedManga():
 
     return {
         'mangas': mangas
+    }, 200
+
+@manga_bp.route('/manga/<string:manga_id>', methods=['DELETE'])
+@jwt_required()
+def delete_manga(manga_id):
+    manga_obj = Manga.query.filter_by(id=manga_id).first()
+
+    if (not manga_obj):
+        return {'message': 'No manga found'}, 400
+
+    if (manga_obj.uploaded_by != get_jwt_identity()): 
+        return {'message': 'Not uploader'}, 403
+
+    db.session.delete(manga_obj)
+    db.session.commit()
+
+    return {
+        'message': "manga deleted"
     }, 200
 
 # Get all Mangas for search page

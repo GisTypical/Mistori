@@ -1,7 +1,12 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { Share } from '@capacitor/share';
 import { ActionSheetController } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { MangaService } from 'src/app/services/manga.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { Chapter } from 'src/app/shared/Chapter';
+import { Manga } from 'src/app/shared/Manga';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 
@@ -24,21 +29,31 @@ export class MangaViewPage {
   };
 
   pages: Page[];
+  manga: Manga;
+  chapter: Chapter;
+
   rtl = false;
   chapterID: string;
+  lastSlide: number;
 
-  private slide: number;
   constructor(
     private chapterService: ChapterService,
+    private mangaService: MangaService,
     private actionSheetController: ActionSheetController,
     private storage: StorageService
   ) {
     this.chapterService.currentChapterId.subscribe(
       (id) => (this.chapterID = id)
     );
-    this.chapterService
-      .getPages(this.chapterID)
-      .subscribe((data) => (this.pages = data.resources));
+    this.chapterService.getPages(this.chapterID).subscribe((data) => {
+      this.pages = data.resources;
+      this.mangaService.getMangaInfo(data.mangaId).subscribe((manga) => {
+        this.manga = manga;
+        this.chapter = manga.chapters.find(
+          (chapter) => chapter.id === this.chapterID
+        );
+      });
+    });
 
     this.storage.getItem('readMode').then((readMode: string) => {
       if (!readMode || readMode === 'leftToRight') {
@@ -60,7 +75,8 @@ export class MangaViewPage {
     if (this.swiper) {
       this.swiper.updateSwiper({});
       this.storage.getItem(this.chapterID).then((lastSlide: string) => {
-        this.swiper.swiperRef.slideTo(Number(lastSlide));
+        this.lastSlide = Number(lastSlide);
+        this.swiper.swiperRef.slideTo(Number(lastSlide), 0, false);
       });
     }
   }
@@ -68,6 +84,17 @@ export class MangaViewPage {
   onExit() {
     const activeSlide = this.swiper.swiperRef.activeIndex;
     this.storage.setItem(this.chapterID, activeSlide.toString());
+  }
+
+  async share() {
+    console.log(this.manga.name, this.chapter.title);
+    if (Capacitor.getPlatform() !== 'web') {
+      await Share.share({
+        title: 'See my progress on Mistori!',
+        text: `See my progress on Mistori!\n\nI\'m on page ${this.lastSlide} of ${this.manga.name} / ${this.chapter.title}`,
+        dialogTitle: 'Share with your friends',
+      });
+    }
   }
 
   // Show action sheet for reading modes

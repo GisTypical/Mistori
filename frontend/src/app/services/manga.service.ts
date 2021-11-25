@@ -49,4 +49,8 @@ export class MangaService {
   getSearchedManga(name: string): Observable<MangasObject> {
     return this.http.get<MangasObject>(`${this.apiURL}/manga/search/${name}`);
   }
+
+  deleteManga(id: string): Observable<Message> {
+    return this.http.delete<Message>(`${this.apiURL}/manga/${id}`);
+  }
 }

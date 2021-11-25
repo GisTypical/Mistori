@@ -11,6 +11,9 @@
       <ion-button [routerLink]="['/comment', chapterID]" (click)="onExit()">
         <ion-icon slot="start" name="chatbubble-ellipses-outline"></ion-icon>
       </ion-button>
+      <ion-button (click)="share()">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="showReadingModes()">
         <ion-icon name="settings-outline"></ion-icon>
       </ion-button>

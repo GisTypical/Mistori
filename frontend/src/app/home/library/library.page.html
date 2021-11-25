@@ -10,5 +10,13 @@
 </ion-header>
 
 <ion-content>
-  <app-manga-list *ngIf="mangas?.length" [mangas]="mangas"></app-manga-list>
+  <div class="center" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <div *ngIf="!isLoading">
+    <app-manga-list *ngIf="mangas?.length" [mangas]="mangas"></app-manga-list>
+  </div>
+  <div class="center" *ngIf="!mangas?.length && !isLoading">
+    <ion-text>Nothing to show here ☹️</ion-text>
+  </div>
 </ion-content>

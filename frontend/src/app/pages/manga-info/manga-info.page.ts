@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { LoadingService } from 'src/app/services/loading.service';
 import { Manga } from 'src/app/shared/Manga';
@@ -31,7 +31,8 @@ export class MangaInfoPage implements OnInit {
     private mangaService: MangaService,
     private activatedRoute: ActivatedRoute,
     private loadingService: LoadingService,
-    private chapterService: ChapterService
+    private chapterService: ChapterService,
+    private router: Router
   ) {
     this.loadingService.currentLoading.subscribe((b) => (this.isLoading = b));
     const token = localStorage.getItem('accessToken');
@@ -78,6 +79,13 @@ export class MangaInfoPage implements OnInit {
         (c) => c.id !== chapterId
       );
       console.log(this.manga.chapters, chapterId);
+    });
+  }
+
+  mangaDelete() {
+    this.mangaService.deleteManga(this.manga.id).subscribe(() => {
+      this.mangaService.sendMangaAddEvent();
+      this.router.navigate(['/home/account']);
     });
   }
 
