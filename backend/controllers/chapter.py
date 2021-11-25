@@ -1,3 +1,4 @@
+import os
 import time
 
 from app import db
@@ -6,6 +7,9 @@ from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from models.chapter import Chapter
 from models.manga import Manga
+from pyfcm import FCMNotification
+
+push_service = FCMNotification(api_key=os.environ['FCM_API_KEY'])
 
 chapter_bp = Blueprint('chapter_bp', __name__)
 
@@ -36,8 +40,20 @@ def create_chapter():
         uploader.upload_image(
             page, folder=f'mistori/{manga.name}/{data["title"]}', public_id=str(time.time()))
 
+    fcm_tokens = [];
+    for user in manga.user_follow:
+        if user.fcm_token:
+                fcm_tokens.append(user.fcm_token)
+                print(user.fcm_token)
+
+    push(manga, chapter, fcm_tokens)
+
     return {'message': 'Chapter created'}, 201
 
+def push(manga, chapter, fcm_tokens):
+    message_title = manga.name
+    message_body = f'{chapter.title} has been uploaded!'
+    push_service.notify_multiple_devices(registration_ids=fcm_tokens, message_title=message_title, message_body=message_body)
 
 @chapter_bp.route('/chapter/<string:chapter_id>', methods=['GET'])
 def chapter_pages(chapter_id):
