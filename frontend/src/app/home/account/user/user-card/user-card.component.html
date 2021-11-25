@@ -1,9 +1,9 @@
-<ion-card>
+<ion-card class="ion-text-right ion-no-padding">
   <ion-card-content>
-    <ion-grid fixed>
+    <ion-grid fixed class="ion-no-padding">
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <ion-col
-          size="6"
+          size="7"
           class="
             ion-no-margin
             ion-no-padding
@@ -12,7 +12,7 @@
           "
         >
         </ion-col>
-        <ion-col size="6" class="ion-no-margin ion-no-padding">
+        <ion-col size="5" class="ion-no-margin ion-no-padding">
           <ion-grid fixed class="ion-no-margin">
             <ion-row class="ion-no-margin">
               <ion-col>
@@ -23,9 +23,7 @@
             </ion-row>
             <ion-row class="ion-no-margin">
               <ion-col>
-                <ion-text color="tertiary">
-                  <p>{{ user?.fullName }}</p>
-                </ion-text>
+                <ion-card-subtitle color="tertiary">{{ user?.fullName }}</ion-card-subtitle>
               </ion-col>
             </ion-row>
           </ion-grid>
