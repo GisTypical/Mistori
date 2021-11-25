@@ -87,6 +87,7 @@ export class MangaViewPage {
   }
 
   async share() {
+    console.log(this.manga.name, this.chapter.title);
     if (Capacitor.getPlatform() !== 'web') {
       await Share.share({
         title: 'See my progress on Mistori!',
