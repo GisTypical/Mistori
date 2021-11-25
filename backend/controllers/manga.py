@@ -54,6 +54,7 @@ def getMangaID(manga_id):
         })
     
     username = get_jwt_identity()
+    is_follower = False
     if(username): 
         is_follower = isFollower(manga_db, username)
         
