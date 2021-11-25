@@ -60,7 +60,7 @@ export class MangaViewPage {
     if (this.swiper) {
       this.swiper.updateSwiper({});
       this.storage.getItem(this.chapterID).then((lastSlide: string) => {
-        this.swiper.swiperRef.slideTo(Number(lastSlide));
+        this.swiper.swiperRef.slideTo(Number(lastSlide), 0, false);
       });
     }
   }
