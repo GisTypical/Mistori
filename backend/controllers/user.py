@@ -39,6 +39,7 @@ def user_login():
 
     # Add FCM Token
     db_user.fcm_token = data['fcmToken']
+    print(db_user.fcm_token)
     db.session.commit()
 
     # Login successful
