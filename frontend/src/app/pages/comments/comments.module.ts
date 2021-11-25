@@ -11,6 +11,7 @@ import { CommentFormComponent } from './comment-form/comment-form.component'
 import { CommentItemComponent } from './comment-item/comment-item.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { CommentResponseComponent } from './comment-response/comment-response.component';
+import { PopoverComponent } from './popover/popover.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { CommentResponseComponent } from './comment-response/comment-response.co
     CommentFormComponent,
     CommentItemComponent,
     CommentListComponent,
-    CommentResponseComponent
+    CommentResponseComponent,
+    PopoverComponent
   ]
 })
 export class CommentsPageModule {}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 
@@ -12,7 +13,9 @@ export class CommentsPage implements OnInit {
   chapterID: string
   comments: Comment[] = []
 
-  constructor(private activatedRoute: ActivatedRoute, private commentService: CommentService, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute,
+    private commentService: CommentService,
+    ) {}
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((paramMap) => {
@@ -58,7 +61,8 @@ export class CommentsPage implements OnInit {
     })
   }
 
-  submitComment(comment: Comment) {
+  submitComment(text: string) {
+    const comment = { 'text': text }
     this.commentService.submitComment(comment, this.chapterID).subscribe(comment => {
       const commentYear = new Date(comment.date).getFullYear()
       const commentMonth = new Date(comment.date).getMonth()
@@ -67,11 +71,12 @@ export class CommentsPage implements OnInit {
       const commentMinute = new Date(comment.date).getMinutes()
 
       comment.date = `${commentMonth}/${commentDay}/${commentYear}-${commentHour}:${commentMinute}`
-      this.submitResponse(comment)
+      this.submitResponse()
     })
+
   }
 
-  submitResponse(response: Comment) {
+  submitResponse() {
     this.commentService.getComments(this.chapterID).subscribe(data => {
       for (let i = 0; i < data.comments.length; i++) {
         const commentYear = new Date(data.comments[i].date).getFullYear()

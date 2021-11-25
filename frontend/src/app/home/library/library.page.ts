@@ -16,7 +16,9 @@ export class LibraryPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter() {
     this.refreshFollowingMangas();
   }
 

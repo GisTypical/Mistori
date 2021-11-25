@@ -8,14 +8,14 @@ import { Comment } from '../../../shared/Comment'
 })
 export class CommentListComponent implements OnInit {
   @Input() comments: Comment[]
-  @Output() onSubmitResponse: EventEmitter<Comment> = new EventEmitter()
+  @Output() onSubmitResponse = new EventEmitter()
 
   constructor() { }
 
   ngOnInit() {}
 
-  submitResponse(response: Comment) {
-    this.onSubmitResponse.emit(response)
+  submitResponse() {
+    this.onSubmitResponse.emit()
   }
 
 }

@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <app-comment-list [comments]="comments" (onSubmitResponse)="submitResponse($event)"></app-comment-list>
+  <app-comment-list [comments]="comments" (onSubmitResponse)="submitResponse()"></app-comment-list>
 </ion-content>
 
-<ion-footer>
-  <app-comment-form (onSubmitComment)="submitComment($event)"></app-comment-form>
+<ion-footer style="margin-left: 1vmax;">
+  <app-comment-form (onSubmitComment)="submitComment($event)" [showForm]="true"></app-comment-form>
 </ion-footer>

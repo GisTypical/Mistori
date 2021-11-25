@@ -21,7 +21,8 @@ def createComment(chapter_id):
 
     if 'parent_id' in data:
         parent_id = data['parent_id']
-        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id, parent_id=parent_id)
+        comment = Comment(text=text, date=date, username=username,
+                          chapter_id=chapter_id, parent_id=parent_id)
         parent = Comment.query.filter_by(id=parent_id).first()
 
         db.session.add(comment)
@@ -40,7 +41,8 @@ def createComment(chapter_id):
             }
         }, 201
     else:
-        comment = Comment(text=text, date=date, username=username, chapter_id=chapter_id)
+        comment = Comment(text=text, date=date,
+                          username=username, chapter_id=chapter_id)
 
         db.session.add(comment)
         db.session.commit()
@@ -57,7 +59,8 @@ def createComment(chapter_id):
 
 # FUNCTION getChildren()
 def getChildren(comment_parent):
-    comment_children = Comment.query.filter_by(parent_id=comment_parent).all()
+    comment_children = Comment.query.filter_by(
+        parent_id=comment_parent).order_by(Comment.date.asc()).all()
     parent = Comment.query.filter_by(id=comment_parent).first()
 
     children = []
@@ -85,28 +88,21 @@ def getChildren(comment_parent):
 @jwt_required()
 def getComments(chapter_id):
     comments_obj = Comment.query.filter_by(
-        chapter_id=chapter_id).filter_by(parent_id=None).all()
-    
-    if comments_obj:
-        comments = []
-        for comment in comments_obj:
-            comments.append({
-                'id': comment.id,
-                'text': comment.text,
-                'date': comment.date,
-                'parent_id': comment.parent_id,
-                'username': comment.username,
-                'chapter_id': comment.chapter_id,
-                'children': getChildren(comment.id)
-            })
-        
-        pp = pprint.PrettyPrinter(sort_dicts=False)
-        pp.pprint(comments)
+        chapter_id=chapter_id).filter_by(parent_id=None).order_by(Comment.date.desc()).all()
 
-        return { 'comments': comments }, 200
-    
-    else:
-        return { 'message': 'No comments on this chapter' }, 400
+    comments = []
+    for comment in comments_obj:
+        comments.append({
+            'id': comment.id,
+            'text': comment.text,
+            'date': comment.date,
+            'parent_id': comment.parent_id,
+            'username': comment.username,
+            'chapter_id': comment.chapter_id,
+            'children': getChildren(comment.id)
+        })
+
+    return { 'comments': comments }, 200
 
 
 @comment_bp.route('/comment/update/<string:comment_id>', methods=['GET'])
@@ -125,9 +121,9 @@ def getCommentID(comment_id):
         }
 
         return comment, 200
-    
+
     else:
-        return { 'message': 'Comment not found' }, 400
+        return {'message': 'Comment not found'}, 400
 
 
 @comment_bp.route('/comment/<string:comment_id>', methods=['PUT'])
@@ -150,16 +146,16 @@ def updateComment(comment_id):
             'username': comment.username,
             'chapter_id': comment.chapter_id
         }, 200
-    
+
     else:
-        return { 'message': 'Comment not found' }, 400
+        return {'message': 'Comment not found'}, 400
 
 
 @comment_bp.route('/comment/<string:comment_id>', methods=['DELETE'])
 @jwt_required()
 def deleteComment(comment_id):
     comment = Comment.query.get(comment_id)
-    
+
     if comment:
         db.session.delete(comment)
         db.session.commit()
@@ -172,6 +168,6 @@ def deleteComment(comment_id):
             'username': comment.username,
             'chapter_id': comment.chapter_id
         }, 200
-    
+
     else:
-        return { 'message': 'Comment not found' }, 400
+        return {'message': 'Comment not found'}, 400

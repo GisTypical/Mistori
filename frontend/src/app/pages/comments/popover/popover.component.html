@@ -1,0 +1,17 @@
+<ion-list>
+  <ion-list-header>
+    <ion-label>Comment Options</ion-label>
+  </ion-list-header>
+  <ion-item button (click)="onUpdate()">
+    <ion-label>
+      <ion-icon slot="start" name="create" color="primary"></ion-icon>
+      Update
+    </ion-label>
+  </ion-item>
+  <ion-item button (click)="onDelete()">
+    <ion-label>
+      <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+      Delete
+    </ion-label>
+  </ion-item>
+</ion-list>

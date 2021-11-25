@@ -2,7 +2,7 @@
   <ion-item class="ion-margin-end">
     <ion-icon slot="start" name="person-circle" style="width: 7vmax; height: 7vmax;" class="ion-no-margin ion-margin-end">
     </ion-icon>
-    <ion-label text-wrap>
+    <ion-label text-wrap (click)="loggedUser()? presentPopover($event): false">
       <ion-text>
         <p><span style="font-weight: bold; font-size: 2.2vmax;" class="ion-margin-end">{{ commentItem.username
             }}</span><span style="color: grey; font-size: 1.7vmax;">{{ commentItem.date }}</span></p>
@@ -12,40 +12,17 @@
       </ion-text>
     </ion-label>
     <ion-buttons slot="end">
-      <ion-button color="{{ showResponseForm ? 'danger': 'primary' }}" (click)="onClick()">
+      <ion-button color="{{ showResponseForm ? 'danger': 'primary' }}" (click)="onClick()" *ngIf="!showUpdateForm">
         <ion-icon name="{{ showResponseForm ? 'close-circle' : 'arrow-undo-circle'}}" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
       </ion-button>
-    </ion-buttons>
-  </ion-item>
-
-  <ion-item style="margin-inline: 1vmax; margin-right: 2vmax;">
-    <ion-buttons slot="end">
-      <ion-button shape="round" color="primary" class="ion-no-margin">
-        <ion-icon slot="icon-only" name="create"></ion-icon>
-      </ion-button>
-      <ion-button shape="round" color="danger" class="ion-no-margin">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      <ion-button color="warning" *ngIf="showUpdateForm" (click)="onClose()">
+        <ion-icon name="close-circle" style="width: 3.5vmax; height: 3.5vmax;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
 
-  <form *ngIf="showResponseForm" class="ion-margin-start" (ngSubmit)="onSubmit()">
-    <ion-grid fixed>
-      <ion-row class="ion-justify-content-around ion-align-items-center">
-        <ion-col size="10">
-          <ion-item>
-            <ion-label position="floating" color="medium">Comment here</ion-label>
-            <ion-input required type="text" name="text" [(ngModel)]="text"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="2" class="ion-justify-content-around ion-align-items-center">
-          <ion-button color="primary" type="submit" block shape="round" size="small" [disabled]="onInput()">
-            <ion-icon slot="icon-only" name="send" style="width: 2vmax; height: 2vmax;"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+  <app-comment-form [margin_left]="'2vmax'"(onSubmitComment)="onSubmit($event)" [showForm]="showResponseForm"></app-comment-form>
+  <app-comment-form [margin_left]="'2vmax'" (onSubmitComment)="onUpdate($event)" [showForm]="showUpdateForm" [text]="text"></app-comment-form>
 </ion-item-group>
 
-<app-comment-response (onSubmitResponse)="submitResponse($event)" *ngFor="let comment of commentItem.children" [commentItem]="comment" class="ion-margin-top"></app-comment-response>
+<app-comment-response (onSubmitResponse)="submitResponse()" *ngFor="let comment of commentItem.children" [commentItem]="comment" class="ion-margin-top"></app-comment-response>
