@@ -1,13 +1,10 @@
-# manga.py
-
 from app import db
-from flask import Blueprint, request
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
 from cloudinary import uploader
+from flask import Blueprint, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from models.manga import Manga
 from models.user import User_account
-import datetime
+
 
 manga_bp = Blueprint('manga_bp', __name__)
 
@@ -166,7 +163,7 @@ def unfollow_manga(manga_id):
     db.session.commit()
     return {"message": f"{get_jwt_identity()} unfollowed {manga_id}"}, 200
 
-
+# Get user mangas
 @manga_bp.route('/manga/followed', methods=['GET'])
 @jwt_required()
 def get_followed_mangas():

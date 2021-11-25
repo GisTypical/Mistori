@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { LoadingService } from '../services/loading.service';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,10 @@ import { LoadingService } from '../services/loading.service';
 export class HomePage implements OnInit {
   isLoading: boolean;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private fcmService: FcmService
+  ) {}
 
   ngOnInit() {
     this.authService.refreshToken().subscribe(
@@ -23,5 +25,6 @@ export class HomePage implements OnInit {
         this.authService.setLogged('notLogged');
       }
     );
+    this.fcmService.initFCM();
   }
 }
