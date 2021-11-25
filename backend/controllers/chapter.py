@@ -43,8 +43,7 @@ def create_chapter():
     fcm_tokens = [];
     for user in manga.user_follow:
         if user.fcm_token:
-                fcm_tokens.append(user.fcm_token)
-                print(user.fcm_token)
+            fcm_tokens.append(user.fcm_token)
 
     push(manga, chapter, fcm_tokens)
 
