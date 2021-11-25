@@ -52,7 +52,10 @@ def create_chapter():
 def push(manga, chapter, fcm_tokens):
     message_title = manga.name
     message_body = f'{chapter.title} has been uploaded!'
-    push_service.notify_multiple_devices(registration_ids=fcm_tokens, message_title=message_title, message_body=message_body)
+    data_message = {
+        'mangaId': str(manga.id)
+    }
+    push_service.notify_multiple_devices(registration_ids=fcm_tokens, message_title=message_title, message_body=message_body, data_message=data_message)
 
 @chapter_bp.route('/chapter/<string:chapter_id>', methods=['GET'])
 def chapter_pages(chapter_id):

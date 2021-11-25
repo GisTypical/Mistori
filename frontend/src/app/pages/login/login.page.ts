@@ -15,12 +15,18 @@ export class LoginPage implements OnInit {
   isError = false;
 
   private loading: HTMLIonLoadingElement;
+  private fcmToken: string;
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingController: LoadingController,
     private fcmService: FcmService
-  ) {}
+  ) {
+    this.fcmService.currentFcmToken.subscribe((token: string) => {
+      this.fcmToken = token;
+    });
+  }
 
   ngOnInit() {}
 
@@ -28,9 +34,7 @@ export class LoginPage implements OnInit {
     this.isError = false;
     this.presentLoading();
 
-    this.fcmService.currentFcmToken.subscribe((token: string) => {
-      user.fcmToken = token;
-    });
+    user.fcmToken = this.fcmToken;
 
     this.authService
       .userLogin(user)

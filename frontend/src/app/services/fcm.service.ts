@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import {
   ActionPerformed,
-  PushNotificationSchema,
   PushNotifications,
+  PushNotificationSchema,
   Token,
 } from '@capacitor/push-notifications';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -15,7 +16,7 @@ export class FcmService {
   currentFcmToken: Observable<string>;
   private fcmToken = new BehaviorSubject(null);
 
-  constructor() {
+  constructor(private router: Router) {
     this.currentFcmToken = this.fcmToken.asObservable();
   }
 
@@ -59,6 +60,10 @@ export class FcmService {
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         console.log('Push action performed: ' + JSON.stringify(notification));
+        const { mangaId } = notification.notification.data;
+        if (mangaId) {
+          this.router.navigateByUrl(`/manga/${mangaId}`);
+        }
       }
     );
   }
