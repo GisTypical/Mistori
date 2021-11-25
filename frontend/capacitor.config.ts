@@ -5,6 +5,12 @@ const config: CapacitorConfig = {
   appName: 'Mistori',
   webDir: 'www',
   bundledWebRuntime: false,
+  plugins: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
+  },
 };
 
 export default config;

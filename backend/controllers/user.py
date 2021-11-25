@@ -37,6 +37,10 @@ def user_login():
     if not db_user or not bcrypt.checkpw(data['password'].encode(), db_user.password.encode()):
         return {'message': 'Wrong credentials'}, 401
 
+    # Add FCM Token
+    db_user.fcm_token = data['fcmToken']
+    db.session.commit()
+
     # Login successful
     accessToken = create_access_token(identity=db_user.username)
     refreshToken = create_refresh_token(identity=db_user.username)

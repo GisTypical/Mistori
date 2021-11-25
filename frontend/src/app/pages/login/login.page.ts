@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
+import { FcmService } from 'src/app/services/fcm.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../shared/User';
 
@@ -12,12 +13,13 @@ import { User } from '../../shared/User';
 })
 export class LoginPage implements OnInit {
   isError = false;
-  private loading: HTMLIonLoadingElement;
 
+  private loading: HTMLIonLoadingElement;
   constructor(
     private authService: AuthService,
     private router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private fcmService: FcmService
   ) {}
 
   ngOnInit() {}
@@ -25,6 +27,11 @@ export class LoginPage implements OnInit {
   loginUser(user: User) {
     this.isError = false;
     this.presentLoading();
+
+    this.fcmService.currentFcmToken.subscribe((token: string) => {
+      user.fcmToken = token;
+    });
+
     this.authService
       .userLogin(user)
       .pipe(

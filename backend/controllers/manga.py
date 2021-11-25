@@ -1,13 +1,14 @@
-# manga.py
+import os
 
 from app import db
-from flask import Blueprint, request
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
 from cloudinary import uploader
+from flask import Blueprint, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from models.manga import Manga
 from models.user import User_account
-import datetime
+from pyfcm import FCMNotification
+
+push_service = FCMNotification(api_key=os.environ['FCM_API_KEY'])
 
 manga_bp = Blueprint('manga_bp', __name__)
 
@@ -183,3 +184,11 @@ def get_followed_mangas():
         })
 
     return {'mangas': manga_list}, 200
+
+@manga_bp.route('/push', methods=['POST'])
+def push():
+    registration_id = "cgzGhgk_Rh6XJmxZUmT0X_:APA91bGaf5IZryq1EMLyn7-AHEfpS-AH1uRNZYLDozd5wKYC-53Ry2IyTlBAtXAru49ZjqUfIAMzWKZdAG_pa7olJeewzS2GAPtzEqgg-Z_NQw80XFUbhzhVN97kOSTIOFpjxdxyrAPX"
+    message_title = "Mensaje desde Mistori"
+    message_body = "Tenemos una nueva notificación para ti, ¿como le va?"
+    result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title, message_body=message_body)
+    return {'result': result}, 200
