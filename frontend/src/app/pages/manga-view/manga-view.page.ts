@@ -1,4 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { Share } from '@capacitor/share';
 import { ActionSheetController } from '@ionic/angular';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -26,8 +28,8 @@ export class MangaViewPage {
   pages: Page[];
   rtl = false;
   chapterID: string;
+  lastSlide: number;
 
-  private slide: number;
   constructor(
     private chapterService: ChapterService,
     private actionSheetController: ActionSheetController,
@@ -60,6 +62,7 @@ export class MangaViewPage {
     if (this.swiper) {
       this.swiper.updateSwiper({});
       this.storage.getItem(this.chapterID).then((lastSlide: string) => {
+        this.lastSlide = Number(lastSlide);
         this.swiper.swiperRef.slideTo(Number(lastSlide), 0, false);
       });
     }
@@ -68,6 +71,16 @@ export class MangaViewPage {
   onExit() {
     const activeSlide = this.swiper.swiperRef.activeIndex;
     this.storage.setItem(this.chapterID, activeSlide.toString());
+  }
+
+  async share() {
+    if (Capacitor.getPlatform() !== 'web') {
+      await Share.share({
+        title: 'See my progress on Mistori!',
+        text: `I\'m on page ${this.lastSlide}`,
+        dialogTitle: 'Share with your friends',
+      });
+    }
   }
 
   // Show action sheet for reading modes
