@@ -28,4 +28,8 @@ export class CommentService {
   updateComment(comment: Comment, commentID: string): Observable<Comment> {
     return this.http.put<Comment>(`${this.apiUrl}/comment/${commentID}`, comment)
   }
+
+  deleteComment(commentID: string): Observable<Comment> {
+    return this.http.delete<Comment>(`${this.apiUrl}/comment/${commentID}`)
+  }
 }

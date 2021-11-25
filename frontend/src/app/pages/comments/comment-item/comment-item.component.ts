@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/shared/Comment';
 import { PopoverController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular'
 import { PopoverComponent } from '../popover/popover.component';
 
 @Component({
@@ -15,8 +16,9 @@ export class CommentItemComponent implements OnInit {
   showResponseForm: boolean = false
   showUpdateForm: boolean = false
   text: string
+  alert: HTMLIonAlertElement
 
-  constructor(private commentService: CommentService, private popoverController: PopoverController) { }
+  constructor(private commentService: CommentService,private popoverController: PopoverController,private alertController: AlertController) { }
 
   ngOnInit() {}
 
@@ -74,12 +76,46 @@ export class CommentItemComponent implements OnInit {
     })
 
     popOver.onDidDismiss().then(({data}) => {
-      console.log(data)
-      this.showUpdateForm = true
-      this.text = data.text
+      if (data != undefined) {
+        if (typeof data === 'object') {
+          this.showUpdateForm = !this.showUpdateForm
+          this.text = data.text
+        }
+        else if (typeof data === 'string') {
+          console.log(data)
+          this.presentAlert(data)
+        }
+      }
     })
 
     return await popOver.present()
+  }
+
+
+  async presentAlert(commentID: string) {
+    this.alert = await this.alertController.create({
+      header: 'Delete comment',
+      message: 'Are you sure you want to delete the comment?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          role: 'delete',
+          cssClass: 'delete-button',
+          handler: () => {
+            this.commentService.deleteComment(commentID).subscribe(comment => {
+              console.log(comment)
+              this.onSubmitResponse.emit()
+            })
+          }
+        }
+      ]
+    })
+
+    return await this.alert.present()
   }
 
 }
